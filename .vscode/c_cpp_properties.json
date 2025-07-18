@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Windows11",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "G:/msys2/ucrt64/include",
+                "G:/msys2/ucrt64/lib/gcc/x86_64-w64-mingw32/15.1.0/include"
+                
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "G:/msys2/mingw64/bin/gcc.exe",
+            "intelliSenseMode": "windows-gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "cStandard": "c17"
+        }
+    ],
+    "version": 4
+}
