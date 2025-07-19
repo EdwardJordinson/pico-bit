@@ -4,6 +4,9 @@
 #include <Engine/Engine_ControlLoop.h>
 #include <stdio.h>
 
+//NOTES:
+//Extern variables look handy for sharing important stuff like window and renderer || May need a global/constants header file later...
+//Multi threading will be needed for Update and Draw
 
 int main(void)
 {

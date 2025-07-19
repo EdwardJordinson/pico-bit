@@ -18,12 +18,13 @@ Engine_Window *InitialiseWindow(int windowWidth, int windowHeight)
     }
 
     Engine_Window *engineWindow = malloc(sizeof(Engine_Window));
-    
-    //Create window
+    engineWindow->width = windowWidth;
+    engineWindow->height = windowHeight;
+
     engineWindow->window = SDL_CreateWindow( 
         "PICO-BIT Engine Window", 
-        windowWidth, 
-        windowHeight, 
+        engineWindow->width, 
+        engineWindow->height, 
         SDL_WINDOW_OPENGL
         );
 

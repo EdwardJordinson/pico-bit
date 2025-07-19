@@ -4,7 +4,7 @@
 //Forward declares
 typedef struct Engine_Window Engine_Window;
 typedef struct Engine_ControlLoop Engine_ControlLoop;
-
+//
 
 Engine_Window *InitialiseWindow(int windowWidth, int windowHeight);
 
