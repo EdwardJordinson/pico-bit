@@ -13,8 +13,10 @@ TARGET := bin
 EXEC := $(TARGET)/main
 
 SRC_MAIN := $(wildcard $(SOURCE)/main.c)
-SRC_ENGINE := $(wildcard $(SOURCE)/Engine/Engine_Initialise.c)
-SRCS := $(SRC_MAIN) $(SRC_ENGINE)
+SRC_ENGINE_INIT := $(wildcard $(SOURCE)/Engine/Engine_Initialise.c)
+SRC_ENGINE_SHUT := $(wildcard $(SOURCE)/Engine/Engine_Shutdown.c)
+SRC_ENGINE_LOOP := $(wildcard $(SOURCE)/Engine/Engine_ControlLoop.c)
+SRCS := $(SRC_MAIN) $(SRC_ENGINE_INIT) $(SRC_ENGINE_SHUT) $(SRC_ENGINE_LOOP)
 #SRCS := $(shell find $(SOURCE) -name '*.c')
 OBJS := $(patsubst %.c, $(BUILDER)/%.o, $(SRCS:$(SOURCE)/%=%))
 
