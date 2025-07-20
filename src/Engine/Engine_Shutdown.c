@@ -1,15 +1,13 @@
 #include <Engine/Engine_Shutdown.h>
-#include <Engine/Engine_Window.h>
-#include <SDL3/SDL_video.h>
-#include <SDL3/SDL_render.h>
+#include <Engine/Engine_Globals.h>
 #include <SDL3/SDL_init.h>
 
 
-void Shutdown(Engine_Window *engineWindow)
+void Shutdown()
 {
-    SDL_DestroyTexture(engineWindow->texture);
-    SDL_DestroyRenderer(engineWindow->renderer);
-    SDL_DestroyWindow(engineWindow->window);
+    SDL_DestroyTexture(EngineWindow->texture);
+    SDL_DestroyRenderer(EngineWindow->renderer);
+    SDL_DestroyWindow(EngineWindow->window);
 
     SDL_Quit();
 };

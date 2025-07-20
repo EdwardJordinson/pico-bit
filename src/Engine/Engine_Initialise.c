@@ -1,14 +1,11 @@
 #include <Engine/Engine_Initialise.h>
-#include <Engine/Engine_Window.h>
-#include <Engine/Engine_ControlLoop.h>
-#include <SDL3/SDL_video.h>
-#include <SDL3/SDL_render.h>
+#include <Engine/Engine_Globals.h>
 #include <SDL3/SDL_init.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 
-Engine_Window *InitialiseWindow(int windowWidth, int windowHeight)
+void InitialiseWindow(int windowWidth, int windowHeight)
 {
     printf("Window Initialise...");
 
@@ -17,49 +14,44 @@ Engine_Window *InitialiseWindow(int windowWidth, int windowHeight)
         printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
     }
 
-    Engine_Window *engineWindow = malloc(sizeof(Engine_Window));
-    engineWindow->width = windowWidth;
-    engineWindow->height = windowHeight;
+    EngineWindow = malloc(sizeof(Engine_Window));
+    EngineWindow->width = windowWidth;
+    EngineWindow->height = windowHeight;
 
-    engineWindow->window = SDL_CreateWindow( 
+    EngineWindow->window = SDL_CreateWindow( 
         "PICO-BIT Engine Window", 
-        engineWindow->width, 
-        engineWindow->height, 
+        EngineWindow->width, 
+        EngineWindow->height, 
         SDL_WINDOW_OPENGL
         );
 
-    if(engineWindow->window == NULL)
+    if(EngineWindow->window == NULL)
     {
         printf("Window could not be created. SDL_Error: %s\n", SDL_GetError());
     }
     else
     {
-        engineWindow->surface = SDL_GetWindowSurface(engineWindow->window);
-        SDL_FillSurfaceRect(engineWindow->surface, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(engineWindow->surface->format), SDL_GetSurfacePalette(engineWindow->surface), 0x00, 0x00, 0x00));
-        SDL_UpdateWindowSurface(engineWindow->window);
+        EngineWindow->surface = SDL_GetWindowSurface(EngineWindow->window);
+        SDL_FillSurfaceRect(EngineWindow->surface, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(EngineWindow->surface->format), SDL_GetSurfacePalette(EngineWindow->surface), 0x00, 0x00, 0x00));
+        SDL_UpdateWindowSurface(EngineWindow->window);
 
-        engineWindow->renderer = SDL_CreateRenderer(engineWindow->window, NULL);
+        EngineWindow->renderer = SDL_CreateRenderer(EngineWindow->window, NULL);
         
-        engineWindow->texture = SDL_CreateTextureFromSurface(engineWindow->renderer, engineWindow->surface);
-        SDL_DestroySurface(engineWindow->surface);
+        EngineWindow->texture = SDL_CreateTextureFromSurface(EngineWindow->renderer, EngineWindow->surface);
+        SDL_DestroySurface(EngineWindow->surface);
     }
 
     printf("done.\n");
-
-    return engineWindow;
 };
 
-Engine_ControlLoop *InitialiseControlLoop(Engine_Window *engineWindow)
+void InitialiseLoop()
 {
     printf("Control Loop Initialise...");
 
-    Engine_ControlLoop *engineControlLoop = malloc(sizeof(Engine_ControlLoop));
+    EngineLoop = malloc(sizeof(Engine_Loop));
 
-    engineControlLoop->running = false;
-    engineControlLoop->delta = 0.0;
-    engineControlLoop->window = engineWindow;
+    EngineLoop->running = false;
+    EngineLoop->delta = 0.0;
 
     printf("done.\n");
-
-    return engineControlLoop;
 };
