@@ -13,6 +13,8 @@ void UpdateLoop();
 
 void DrawLoop();
 
+void DrawEntities();
+
 void CreateTarget(int posX, int posY);
 
 void PrintConsole(bool* firstFrame, int frameRate, uint32_t frameDelta);

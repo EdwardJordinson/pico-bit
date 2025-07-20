@@ -1,6 +1,5 @@
 #include <Engine/Engine_Loop.h>
 #include <Engine/Engine_Globals.h>
-#include <Game/Game_Box.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
@@ -20,7 +19,7 @@ void RunLoop()
     int frameCount = 0;
     float frameRate = 0.0f;
 
-    bool firstFrame = true;
+    //bool firstFrame = true;
 
     SDL_Event event;
 
@@ -39,7 +38,7 @@ void RunLoop()
             {
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
-                    CreateTarget(240, 360);
+                    //CreateTarget(240, 360);
                     
                 }
             }
@@ -75,25 +74,17 @@ void DrawLoop()
 { 
     SDL_SetRenderDrawColor(EngineWindow->renderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(EngineWindow->renderer);
-    if (RenderTargets[0] != NULL)
-    {
-        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff); 
-        SDL_RenderFillRect(EngineWindow->renderer, RenderTargets[0]->renderBody);
-    }
+    DrawEntities();
     SDL_RenderPresent(EngineWindow->renderer);
 };
 
-void CreateTarget(int posX, int posY)
+void DrawEntities()
 {
-    RenderTargets[0] = malloc(sizeof(Render_Target));
-    RenderTargets[0]->position.x = posX;
-    RenderTargets[0]->position.y = posY;
-
-    RenderTargets[0]->renderBody = malloc(sizeof(SDL_FRect));
-    RenderTargets[0]->renderBody->h = EngineWindow->height/4;
-    RenderTargets[0]->renderBody->w = EngineWindow->width/4;
-    RenderTargets[0]->renderBody->x = posX;
-    RenderTargets[0]->renderBody->y = posY;
+    if (Entities[0] != NULL)
+    {
+        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff); 
+        SDL_RenderFillRect(EngineWindow->renderer, LoadedRects[Entities[0]->ID]);
+    }
 
 };
 

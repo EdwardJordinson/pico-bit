@@ -30,17 +30,25 @@ typedef struct
 {
     int x, y;
 
-} Window_Position;
+} Vector2;
 
 typedef struct
 {
-    Window_Position position;
-    SDL_FRect* renderBody;
+    Vector2 Position;
+    Vector2 Shape[4];
+    int ID;
 
-} Render_Target;
+} Engine_Entity;
+
+typedef struct
+{
+
+} Engine;
+
 
 extern Engine_Window* EngineWindow;
 extern Engine_Loop* EngineLoop;
-extern Render_Target* RenderTargets[1];
+extern SDL_FRect* LoadedRects[2];
+extern Engine_Entity* Entities[1];
 
 #endif // Engine_Globals_H
