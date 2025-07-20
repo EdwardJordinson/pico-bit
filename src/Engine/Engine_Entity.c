@@ -3,8 +3,6 @@
 #include <stdlib.h>
 
 
-
-
 int InitEntity()
 {
     Engine_Entity* newEntity = malloc(sizeof(Engine_Entity));
@@ -25,6 +23,8 @@ int InitEntity()
 
     newEntity->ID = 0;
 
+    Entities[0] = newEntity;
+
     return 0;
 };
 
@@ -33,10 +33,11 @@ void AddEntity(int xPosition, int yPosition)
     int entityID = InitEntity();
     Entities[entityID]->Position.x = xPosition;
     Entities[entityID]->Position.y = yPosition;
-    
+
 };
 
 void UpdateEntity(int entityID, int xPosition, int yPosition)
 {
-
+    Entities[entityID]->Position.x = xPosition;
+    Entities[entityID]->Position.y = yPosition;
 };

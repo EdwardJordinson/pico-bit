@@ -1,5 +1,6 @@
 #include <Engine/Engine_Loop.h>
 #include <Engine/Engine_Globals.h>
+#include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
@@ -38,8 +39,16 @@ void RunLoop()
             {
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
-                    //CreateTarget(240, 360);
-                    
+                    float xMouse, yMouse;
+                    SDL_GetMouseState(&xMouse, &yMouse);
+                    if (Entities[0] == NULL)
+                    {
+                        AddEntity(xMouse, yMouse);
+                    }
+                    else
+                    {
+                        UpdateEntity(0, xMouse, yMouse);
+                    }
                 }
             }
 
@@ -82,7 +91,9 @@ void DrawEntities()
 {
     if (Entities[0] != NULL)
     {
-        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff); 
+        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff);
+        LoadedRects[Entities[0]->ID]->x = Entities[0]->Position.x;
+        LoadedRects[Entities[0]->ID]->y = Entities[0]->Position.y;
         SDL_RenderFillRect(EngineWindow->renderer, LoadedRects[Entities[0]->ID]);
     }
 

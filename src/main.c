@@ -35,8 +35,6 @@ int main(void)
 
     RunLoop();
 
-    free(LoadedRects[0]);
-
     Shutdown();
 
     printf("Engine Shutdown.\n");
