@@ -31,14 +31,7 @@ void InitialiseWindow(int windowWidth, int windowHeight)
     }
     else
     {
-        EngineWindow->surface = SDL_GetWindowSurface(EngineWindow->window);
-        SDL_FillSurfaceRect(EngineWindow->surface, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(EngineWindow->surface->format), SDL_GetSurfacePalette(EngineWindow->surface), 0x00, 0x00, 0x00));
-        SDL_UpdateWindowSurface(EngineWindow->window);
-
         EngineWindow->renderer = SDL_CreateRenderer(EngineWindow->window, NULL);
-        
-        EngineWindow->texture = SDL_CreateTextureFromSurface(EngineWindow->renderer, EngineWindow->surface);
-        SDL_DestroySurface(EngineWindow->surface);
     }
 
     printf("done.\n");

@@ -11,6 +11,7 @@
 
 Engine_Window *EngineWindow;
 Engine_Loop *EngineLoop;
+Render_Target* RenderTargets[1];
 
 
 int main(void)
@@ -19,6 +20,8 @@ int main(void)
 
     InitialiseWindow(640, 480);
     InitialiseLoop();
+
+    RenderTargets[0] = NULL;
 
     RunLoop();
 

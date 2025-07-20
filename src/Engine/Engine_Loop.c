@@ -1,7 +1,10 @@
 #include <Engine/Engine_Loop.h>
 #include <Engine/Engine_Globals.h>
+#include <Game/Game_Box.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
+#include <inttypes.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 
@@ -9,13 +12,17 @@ void RunLoop()
 {
     EngineLoop->running = true;
 
-    const int fps = 60;
-    const int delayTime = 1000 / fps;
+    const int targetFPS = 60;
+    const int delayTime = 1000 / targetFPS;
 
+    Uint32 loopTimer = SDL_GetTicks();
     Uint32 startTime;
-    SDL_Event event;
+    int frameCount = 0;
+    float frameRate = 0.0f;
 
-    //int frameCount = 0;
+    bool firstFrame = true;
+
+    SDL_Event event;
 
     while (EngineLoop->running == true)
     {
@@ -27,18 +34,35 @@ void RunLoop()
             {
                 EngineLoop->running = false;
             }
+            
+            if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
+            {
+                if (event.button.button == SDL_BUTTON_LEFT)
+                {
+                    CreateTarget(240, 360);
+                    
+                }
+            }
+
         }
+
+        frameRate = frameCount/((SDL_GetTicks() - loopTimer)/1000.f);
+        if (frameRate > 2000000)
+        {
+            frameRate = 0;
+        }
+
+        //PrintConsole(&firstFrame, frameRate, EngineLoop->delta);
+
         UpdateLoop();
         DrawLoop();
+        ++frameCount;
 
         EngineLoop->delta = SDL_GetTicks() - startTime;
-        
-        if (delayTime > EngineLoop->delta)
+        if ((uint32_t)delayTime > EngineLoop->delta)
         {
             SDL_Delay(delayTime - EngineLoop->delta);
         }
-        
-        //printf("Frame Count: %d\n", frameCount++);
     }
 };
 
@@ -48,8 +72,40 @@ void UpdateLoop()
 };
 
 void DrawLoop()
-{
+{ 
+    SDL_SetRenderDrawColor(EngineWindow->renderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(EngineWindow->renderer);
-    SDL_RenderTexture(EngineWindow->renderer, EngineWindow->texture, NULL, NULL);
+    if (RenderTargets[0] != NULL)
+    {
+        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff); 
+        SDL_RenderFillRect(EngineWindow->renderer, RenderTargets[0]->renderBody);
+    }
     SDL_RenderPresent(EngineWindow->renderer);
+};
+
+void CreateTarget(int posX, int posY)
+{
+    RenderTargets[0] = malloc(sizeof(Render_Target));
+    RenderTargets[0]->position.x = posX;
+    RenderTargets[0]->position.y = posY;
+
+    RenderTargets[0]->renderBody = malloc(sizeof(SDL_FRect));
+    RenderTargets[0]->renderBody->h = EngineWindow->height/4;
+    RenderTargets[0]->renderBody->w = EngineWindow->width/4;
+    RenderTargets[0]->renderBody->x = posX;
+    RenderTargets[0]->renderBody->y = posY;
+
+};
+
+void PrintConsole(bool* firstFrame, int frameRate, Uint32 frameDelta)
+{
+    if (*firstFrame == true)
+    {
+        printf("\n\n\n");
+        *firstFrame = false;
+    }
+    printf("\033[2A");
+    printf("\r\033[2KFrame Rate : %d\n", frameRate);
+    printf("\r\033[2KFrame Delta  : %" PRIu32 "\n",frameDelta);
+    fflush(stdout);
 };

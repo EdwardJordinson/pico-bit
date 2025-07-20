@@ -5,7 +5,6 @@
 
 void Shutdown()
 {
-    SDL_DestroyTexture(EngineWindow->texture);
     SDL_DestroyRenderer(EngineWindow->renderer);
     SDL_DestroyWindow(EngineWindow->window);
 
