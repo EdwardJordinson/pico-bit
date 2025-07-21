@@ -5,8 +5,8 @@
 
 void Shutdown()
 {
-    SDL_DestroyRenderer(EngineWindow->renderer);
-    SDL_DestroyWindow(EngineWindow->window);
+    SDL_DestroyRenderer(Engine->Window->SDLRenderer);
+    SDL_DestroyWindow(Engine->Window->SDLWindow);
 
     SDL_Quit();
 };

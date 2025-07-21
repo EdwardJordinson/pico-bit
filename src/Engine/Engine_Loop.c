@@ -1,6 +1,7 @@
 #include <Engine/Engine_Loop.h>
 #include <Engine/Engine_Globals.h>
-#include <Engine/Engine_Entity.h>
+#include <Engine/Engine_Update.h>
+#include <Engine/Engine_Draw.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
@@ -8,9 +9,9 @@
 #include <stdio.h>
 
 
-void RunLoop()
+void RunLoop(Engine_Loop** engineLoop)
 {
-    EngineLoop->running = true;
+    (*engineLoop)->running = true;
 
     const int targetFPS = 60;
     const int delayTime = 1000 / targetFPS;
@@ -24,7 +25,7 @@ void RunLoop()
 
     SDL_Event event;
 
-    while (EngineLoop->running == true)
+    while ((*engineLoop)->running == true)
     {
         startTime = SDL_GetTicks();
 
@@ -32,7 +33,7 @@ void RunLoop()
         {
             if (event.type == SDL_EVENT_QUIT)
             {
-                EngineLoop->running = false;
+                (*engineLoop)->running = false;
             }
             
             if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
@@ -41,6 +42,7 @@ void RunLoop()
                 {
                     float xMouse, yMouse;
                     SDL_GetMouseState(&xMouse, &yMouse);
+                    /*
                     if (Entities[0] == NULL)
                     {
                         AddEntity(xMouse, yMouse);
@@ -49,9 +51,9 @@ void RunLoop()
                     {
                         UpdateEntity(0, xMouse, yMouse);
                     }
+                    */
                 }
             }
-
         }
 
         frameRate = frameCount/((SDL_GetTicks() - loopTimer)/1000.f);
@@ -62,41 +64,16 @@ void RunLoop()
 
         //PrintConsole(&firstFrame, frameRate, EngineLoop->delta);
 
-        UpdateLoop();
-        DrawLoop();
+        UpdateCall((*engineLoop)->UpdateLoop);
+        DrawCall((*engineLoop)->DrawLoop, (*engineLoop)->UpdateLoop);
         ++frameCount;
 
-        EngineLoop->delta = SDL_GetTicks() - startTime;
-        if ((uint32_t)delayTime > EngineLoop->delta)
+        (*engineLoop)->delta = SDL_GetTicks() - startTime;
+        if ((uint32_t)delayTime > (*engineLoop)->delta)
         {
-            SDL_Delay(delayTime - EngineLoop->delta);
+            SDL_Delay(delayTime - (*engineLoop)->delta);
         }
     }
-};
-
-void UpdateLoop()
-{
-
-};
-
-void DrawLoop()
-{ 
-    SDL_SetRenderDrawColor(EngineWindow->renderer, 0x80, 0x80, 0x80, 0x80);
-    SDL_RenderClear(EngineWindow->renderer);
-    DrawEntities();
-    SDL_RenderPresent(EngineWindow->renderer);
-};
-
-void DrawEntities()
-{
-    if (Entities[0] != NULL)
-    {
-        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff);
-        LoadedRects[Entities[0]->ID]->x = Entities[0]->Position.x;
-        LoadedRects[Entities[0]->ID]->y = Entities[0]->Position.y;
-        SDL_RenderFillRect(EngineWindow->renderer, LoadedRects[Entities[0]->ID]);
-    }
-
 };
 
 void PrintConsole(bool* firstFrame, int frameRate, Uint32 frameDelta)

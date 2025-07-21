@@ -5,7 +5,19 @@
 #include <stdlib.h>
 
 
-void InitialiseWindow(int windowWidth, int windowHeight)
+void InitialiseEngine(Engine_Globals** engineGlobals)
+{
+    *engineGlobals = malloc(sizeof(Engine_Globals));
+
+    (*engineGlobals)->Window = malloc(sizeof(Engine_Window));
+    
+    (*engineGlobals)->Loop = malloc(sizeof(Engine_Loop));
+    (*engineGlobals)->Loop->UpdateLoop = malloc(sizeof(Engine_Update));
+    (*engineGlobals)->Loop->DrawLoop = malloc(sizeof(Engine_Draw));
+    
+};
+
+void InitialiseWindow(Engine_Window** engineWindow)
 {
     printf("Window Initialise...");
 
@@ -14,37 +26,37 @@ void InitialiseWindow(int windowWidth, int windowHeight)
         printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
     }
 
-    EngineWindow = malloc(sizeof(Engine_Window));
-    EngineWindow->width = windowWidth;
-    EngineWindow->height = windowHeight;
+    //engineWindow = malloc(sizeof(Engine_Window));
+    (*engineWindow)->width = 640;
+    (*engineWindow)->height = 480;
 
-    EngineWindow->window = SDL_CreateWindow( 
+    (*engineWindow)->SDLWindow = SDL_CreateWindow( 
         "PICO-BIT Engine Window", 
-        EngineWindow->width, 
-        EngineWindow->height, 
+        (*engineWindow)->width, 
+        (*engineWindow)->height, 
         SDL_WINDOW_OPENGL
         );
 
-    if(EngineWindow->window == NULL)
+    if((*engineWindow)->SDLWindow == NULL)
     {
         printf("Window could not be created. SDL_Error: %s\n", SDL_GetError());
     }
     else
     {
-        EngineWindow->renderer = SDL_CreateRenderer(EngineWindow->window, NULL);
+        (*engineWindow)->SDLRenderer = SDL_CreateRenderer((*engineWindow)->SDLWindow, NULL);
     }
 
     printf("done.\n");
 };
 
-void InitialiseLoop()
+void InitialiseLoop(Engine_Loop** engineLoop)
 {
     printf("Control Loop Initialise...");
 
-    EngineLoop = malloc(sizeof(Engine_Loop));
+    //engineLoop = malloc(sizeof(Engine_Loop));
 
-    EngineLoop->running = false;
-    EngineLoop->delta = 0.0;
+    (*engineLoop)->running = false;
+    (*engineLoop)->delta = 0.0;
 
     printf("done.\n");
 };

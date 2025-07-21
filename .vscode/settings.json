@@ -1,6 +1,8 @@
 {
+    "debug.openDebug": "neverOpen",
     "files.associations": {
         "sdl_init.h": "c",
-        "sdl_video.h": "c"
+        "sdl_video.h": "c",
+        "engine_entity.h": "c"
     }
 }

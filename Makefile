@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c17 -MMD -MP -g -O0
+CFLAGS = -ggdb -Wall -Wextra -std=c17 -MMD -MP -O0
 
 INCLUDES = -Iinclude
 
@@ -16,8 +16,10 @@ SRC_MAIN := $(wildcard $(SOURCE)/main.c)
 SRC_ENGINE_INIT := $(wildcard $(SOURCE)/Engine/Engine_Initialise.c)
 SRC_ENGINE_SHUT := $(wildcard $(SOURCE)/Engine/Engine_Shutdown.c)
 SRC_ENGINE_LOOP := $(wildcard $(SOURCE)/Engine/Engine_Loop.c)
+SCR_ENGINE_UPDATE := $(wildcard $(SOURCE)/Engine/Engine_Update.c)
+SCR_ENGINE_DRAW := $(wildcard $(SOURCE)/Engine/Engine_Draw.c)
 SRC_ENGINE_ENTITY := $(wildcard $(SOURCE)/Engine/Engine_Entity.c)
-SRCS := $(SRC_MAIN) $(SRC_ENGINE_INIT) $(SRC_ENGINE_SHUT) $(SRC_ENGINE_LOOP) $(SRC_ENGINE_ENTITY)
+SRCS := $(SRC_MAIN) $(SRC_ENGINE_INIT) $(SRC_ENGINE_SHUT) $(SRC_ENGINE_LOOP) $(SCR_ENGINE_UPDATE) $(SCR_ENGINE_DRAW) $(SRC_ENGINE_ENTITY)
 #SRCS := $(shell find $(SOURCE) -name '*.c')
 OBJS := $(patsubst %.c, $(BUILDER)/%.o, $(SRCS:$(SOURCE)/%=%))
 

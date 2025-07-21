@@ -9,31 +9,27 @@
 //NOTES:
 //Multi threading may be needed for Update and Draw
 
-
-Engine_Window* EngineWindow;
-Engine_Loop* EngineLoop;
-SDL_FRect* LoadedRects[2];
-Engine_Entity* Entities[1];
-
+Engine_Globals* Engine;
 
 int main(void)
 {
     printf("Engine Start.\n");
 
-    InitialiseWindow(640, 480);
-    InitialiseLoop();
+    InitialiseEngine(&Engine);
+    InitialiseWindow(&Engine->Window);
+    InitialiseLoop(&Engine->Loop);
 
-
+    /*
     LoadedRects[0] = malloc(sizeof(SDL_FRect));
     LoadedRects[0]->h = EngineWindow->height/4;
     LoadedRects[0]->w = EngineWindow->width/4;
     LoadedRects[0]->x = 0;
     LoadedRects[0]->y = 0;
-
+    */
 
     //Entities[0] = NULL;
 
-    RunLoop();
+    RunLoop(&Engine->Loop);
 
     Shutdown();
 

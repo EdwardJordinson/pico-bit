@@ -7,32 +7,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//Global variables will start will capitalised letter
+//Global Structs will start will capitalised letter
 
-typedef struct
-{
-    int width;
-    int height;
-
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
-} Engine_Window;
-
-typedef struct
-{
-    bool running;
-    uint32_t delta;
-
-} Engine_Loop;
-
-typedef struct
+typedef struct Vector2
 {
     int x, y;
 
 } Vector2;
 
-typedef struct
+typedef struct Engine_Entity
 {
     Vector2 Position;
     Vector2 Shape[4];
@@ -40,15 +23,45 @@ typedef struct
 
 } Engine_Entity;
 
-typedef struct
+typedef struct Engine_Window
 {
+    int width;
+    int height;
 
-} Engine;
+    SDL_Window* SDLWindow;
+    SDL_Renderer* SDLRenderer;
 
+} Engine_Window;
 
-extern Engine_Window* EngineWindow;
-extern Engine_Loop* EngineLoop;
-extern SDL_FRect* LoadedRects[2];
-extern Engine_Entity* Entities[1];
+typedef struct Engine_Update
+{
+    Engine_Entity* LoadedEntities[1];
+
+} Engine_Update;
+
+typedef struct Engine_Draw
+{
+    SDL_FRect* LoadedRects[2];
+
+} Engine_Draw;
+
+typedef struct Engine_Loop
+{
+    bool running;
+    uint32_t delta;
+
+    Engine_Update* UpdateLoop;
+    Engine_Draw* DrawLoop;
+
+} Engine_Loop;
+
+typedef struct Engine_Globals
+{
+    Engine_Window* Window;
+    Engine_Loop* Loop;
+
+} Engine_Globals;
+
+extern Engine_Globals* Engine;
 
 #endif // Engine_Globals_H

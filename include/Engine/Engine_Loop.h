@@ -5,17 +5,10 @@
 #include <stdbool.h>
 
 //Forward declares
+typedef struct Engine_Loop Engine_Loop;
 //
 
-void RunLoop();
-
-void UpdateLoop();
-
-void DrawLoop();
-
-void DrawEntities();
-
-void CreateTarget(int posX, int posY);
+void RunLoop(Engine_Loop** engineLoop);
 
 void PrintConsole(bool* firstFrame, int frameRate, uint32_t frameDelta);
 
