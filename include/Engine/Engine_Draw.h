@@ -2,10 +2,10 @@
 #define Engine_Draw_H
 
 //Forward declares
-typedef struct Engine_Update Engine_Update;
-typedef struct Engine_Draw Engine_Draw;
+typedef struct Engine_GameState Engine_GameState;
+typedef struct Engine_Renderer Engine_Renderer;
 //
 
-void DrawCall(Engine_Draw* engineDraw, Engine_Update* engineUpdate);
+void DrawCall(Engine_Renderer* renderer, Engine_GameState* gamestate);
 
 #endif //Engine_Draw_H

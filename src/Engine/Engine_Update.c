@@ -3,7 +3,7 @@
 #include <Engine/Engine_Entity.h>
 
 
-void UpdateCall(Engine_Update* engineUpdate)
+void UpdateCall(Engine_GameState* gamestate)
 {
 
 

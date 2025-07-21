@@ -12,8 +12,8 @@ void InitialiseEngine(Engine_Globals** engineGlobals)
     (*engineGlobals)->Window = malloc(sizeof(Engine_Window));
     
     (*engineGlobals)->Loop = malloc(sizeof(Engine_Loop));
-    (*engineGlobals)->Loop->UpdateLoop = malloc(sizeof(Engine_Update));
-    (*engineGlobals)->Loop->DrawLoop = malloc(sizeof(Engine_Draw));
+    (*engineGlobals)->Loop->GameState = malloc(sizeof(Engine_GameState));
+    (*engineGlobals)->Loop->Renderer = malloc(sizeof(Engine_Renderer));
     
 };
 

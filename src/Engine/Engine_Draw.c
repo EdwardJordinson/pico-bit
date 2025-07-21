@@ -3,7 +3,7 @@
 
 
 
-void DrawCall(Engine_Draw* engineDraw, Engine_Update* engineUpdate)
+void DrawCall(Engine_Renderer* renderer, Engine_GameState* gamestate)
 {
     SDL_SetRenderDrawColor(Engine->Window->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(Engine->Window->SDLRenderer);

@@ -13,4 +13,13 @@ void InitialiseWindow(Engine_Window** engineWindow);
 
 void InitialiseLoop(Engine_Loop** engineLoop);
 
+//Create SDL_Event
+void InitialiseEvent();
+
+//Create base Entity to use
+void InitialiseUpdate();
+
+//Create primatives to draw
+void InitialiseDraw();
+
 #endif //Engine_Initialise_H

@@ -12,7 +12,6 @@
 typedef struct Vector2
 {
     int x, y;
-
 } Vector2;
 
 typedef struct Engine_Entity
@@ -33,25 +32,26 @@ typedef struct Engine_Window
 
 } Engine_Window;
 
-typedef struct Engine_Update
+typedef struct Engine_GameState
 {
-    Engine_Entity* LoadedEntities[1];
+    Engine_Entity* EntitiesLoaded[1];
 
-} Engine_Update;
+} Engine_GameState;
 
-typedef struct Engine_Draw
+typedef struct Engine_Renderer
 {
-    SDL_FRect* LoadedRects[2];
+    SDL_FRect* RectsLoaded[2];
 
-} Engine_Draw;
+} Engine_Renderer;
 
 typedef struct Engine_Loop
 {
     bool running;
     uint32_t delta;
 
-    Engine_Update* UpdateLoop;
-    Engine_Draw* DrawLoop;
+    SDL_Event* SDLEvent;
+    Engine_GameState* GameState;
+    Engine_Renderer* Renderer;
 
 } Engine_Loop;
 

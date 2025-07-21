@@ -64,8 +64,8 @@ void RunLoop(Engine_Loop** engineLoop)
 
         //PrintConsole(&firstFrame, frameRate, EngineLoop->delta);
 
-        UpdateCall((*engineLoop)->UpdateLoop);
-        DrawCall((*engineLoop)->DrawLoop, (*engineLoop)->UpdateLoop);
+        UpdateCall((*engineLoop)->GameState);
+        DrawCall((*engineLoop)->Renderer, (*engineLoop)->GameState);
         ++frameCount;
 
         (*engineLoop)->delta = SDL_GetTicks() - startTime;

@@ -2,9 +2,9 @@
 #define Engine_Update_H
 
 //Forward declares
-typedef struct Engine_Update Engine_Update;
+typedef struct Engine_GameState Engine_GameState;
 //
 
-void UpdateCall(Engine_Update* engineUpdate);
+void UpdateCall(Engine_GameState* gamestate);
 
 #endif //Engine_Update_H
