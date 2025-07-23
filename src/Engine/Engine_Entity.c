@@ -1,6 +1,7 @@
 #include <Engine/Engine_Entity.h>
 #include <Engine/Engine_Globals.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 int InitEntity()
@@ -23,21 +24,70 @@ int InitEntity()
 
     newEntity->ID = 0;
 
-    Engine->Loop->GameState->EntitiesLoaded[0] = newEntity;
+    //Engine->Loop->GameState->EntitiesLoaded[0] = newEntity;
 
     return 0;
 };
 
 void AddEntity(int xPosition, int yPosition)
 {
-    int entityID = InitEntity();
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->w/2);
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->h/2);
+    int newID = Engine_Entity_Allocate(Engine->Loop->GameState->EntityManager);
+    Engine_Entity* newEntity = Engine_Entity_Get(Engine->Loop->GameState->EntityManager, newID);
+    newEntity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
+    newEntity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
 
 };
 
 void UpdateEntity(int entityID, int xPosition, int yPosition)
 {
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->w/2);
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->h/2);
+    Engine_Entity* newEntity = Engine_Entity_Get(Engine->Loop->GameState->EntityManager, entityID);
+    newEntity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
+    newEntity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
+};
+
+int Engine_Entity_Allocate(Engine_EntityManager* manager)
+{
+    if (manager->freeCount <= 0)
+    {
+        return -1;
+    }
+
+    int index = manager->freeList[--manager->freeCount];
+    manager->active[index] = true;
+
+    Engine_Entity* newEntity = &manager->entities[index];
+    memset(newEntity, 0, sizeof(Engine_Entity));
+    newEntity->ID = index;
+
+    manager->activeList[manager->activeCount++] = index;
+
+    return index;
+};
+
+void Engine_Entity_Free(Engine_EntityManager* manager, int index)
+{
+    if (index < 0 || index >= MAX_ENTITY_SIZE || !manager->active[index])
+    {
+        return;
+    }
+
+    manager->active[index] = false;
+    manager->freeList[manager->freeCount++] = index;
+
+    for (int i = 0; i < manager->activeCount; ++i) {
+        if (manager->activeList[i] == index) {
+            manager->activeList[i] = manager->activeList[--manager->activeCount];
+            break;
+        }
+    }
+};
+
+Engine_Entity* Engine_Entity_Get(Engine_EntityManager* manager, int index)
+{
+    if (index < 0 || index >= MAX_ENTITY_SIZE || !manager->active[index]) 
+    {
+        return NULL;
+    }
+
+    return &manager->entities[index];
 };

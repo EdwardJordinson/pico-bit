@@ -14,8 +14,22 @@ void InitialiseEngine(Engine_Globals** engineGlobals)
     (*engineGlobals)->Loop = malloc(sizeof(Engine_Loop));
     (*engineGlobals)->Loop->SDLEvent = malloc(sizeof(SDL_Event));
     (*engineGlobals)->Loop->GameState = malloc(sizeof(Engine_GameState));
+    (*engineGlobals)->Loop->GameState->EntityManager = malloc(sizeof(Engine_EntityManager));
     (*engineGlobals)->Loop->Renderer = malloc(sizeof(Engine_Renderer));
     
+};
+
+void InitialiseEntityManager(Engine_EntityManager* manager)
+{
+    manager->freeCount = MAX_ENTITY_SIZE;
+    manager->activeCount = 0;
+
+    for (int i = 0; i < MAX_ENTITY_SIZE; ++i)
+    {
+        manager->freeList[i] = MAX_ENTITY_SIZE - 1 - i;
+        manager->active[i] = false;
+        
+    }
 };
 
 void InitialiseWindow(Engine_Window** engineWindow)
@@ -56,8 +70,7 @@ void InitialiseEvent(SDL_Event** event)
 
 void InitialiseGameState(Engine_GameState** gamestate)
 {
-    (*gamestate)->EntitiesLoaded[0] = NULL;
-
+    
 };
 
 void InitialiseRenderer(Engine_Renderer** renderer)

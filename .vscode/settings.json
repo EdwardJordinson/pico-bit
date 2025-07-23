@@ -11,6 +11,17 @@
         "cwchar": "c",
         "type_traits": "c",
         "cmath": "c",
-        "limits": "c"
+        "limits": "c",
+        "array": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "flat_map": "c",
+        "flat_set": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "span": "c",
+        "stacktrace": "c",
+        "regex": "c"
     }
 }

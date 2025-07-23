@@ -16,9 +16,10 @@ int main(void)
     printf("Engine Start.\n");
 
     InitialiseEngine(&Engine);
+    InitialiseEntityManager(Engine->Loop->GameState->EntityManager);
     InitialiseWindow(&Engine->Window);
     //InitialiseEvent(&Engine->Loop->SDLEvent);
-    InitialiseGameState(&Engine->Loop->GameState);
+    //InitialiseGameState(&Engine->Loop->GameState);
     InitialiseRenderer(&Engine->Loop->Renderer);
     InitialiseLoop(&Engine->Loop);
 

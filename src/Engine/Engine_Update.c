@@ -19,7 +19,10 @@ void UpdateCall(Engine_GameState* gamestate, SDL_Event* event)
             {
                 float xMouse, yMouse;
                 SDL_GetMouseState(&xMouse, &yMouse);
-                if (gamestate->EntitiesLoaded[0] == NULL)
+
+                //printf("%d\n", gamestate->EntityManager->activeCount);
+
+                if (gamestate->EntityManager->activeCount == 0)
                 {
                     AddEntity(xMouse, yMouse);
                 }

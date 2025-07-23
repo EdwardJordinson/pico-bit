@@ -7,44 +7,20 @@ void DrawCall(Engine_Renderer* renderer, Engine_GameState* gamestate)
 {
     SDL_SetRenderDrawColor(Engine->Window->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(Engine->Window->SDLRenderer);
-    DrawEntities(renderer, gamestate->EntitiesLoaded);
+    DrawEntities(renderer, gamestate->EntityManager);
     SDL_RenderPresent(Engine->Window->SDLRenderer);
 };
 
 //(*entities)
 
-void DrawEntities(Engine_Renderer* renderer, Engine_Entity* entities[])
+void DrawEntities(Engine_Renderer* renderer, Engine_EntityManager* entityManager)
 {
-    if (entities[0] != NULL)
+    for (int i = 0; i < entityManager->activeCount; i++)
     {
+        int tID = entityManager->entities[entityManager->activeList[i]].ID;
         SDL_SetRenderDrawColor(Engine->Window->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
-        renderer->RectsLoaded[entities[0]->ID]->x = entities[0]->Position.x;
-        renderer->RectsLoaded[entities[0]->ID]->y = entities[0]->Position.y;
-        SDL_RenderFillRect(Engine->Window->SDLRenderer, renderer->RectsLoaded[entities[0]->ID]);
+        renderer->RectsLoaded[tID]->x = entityManager->entities[entityManager->activeList[i]].Position.x;
+        renderer->RectsLoaded[tID]->y = entityManager->entities[entityManager->activeList[i]].Position.y;
+        SDL_RenderFillRect(Engine->Window->SDLRenderer, renderer->RectsLoaded[tID]);
     }
-
 };
-
-
-/*
-void DrawLoop(Engine_Draw** engineDraw)
-{ 
-    SDL_SetRenderDrawColor(Engine->Window->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
-    SDL_RenderClear(Engine->Window->SDLRenderer);
-    DrawEntities();
-    SDL_RenderPresent(Engine->Window->SDLRenderer);
-};
-
-void DrawEntities()
-{
-    
-    if (Entities[0] != NULL)
-    {
-        SDL_SetRenderDrawColor(EngineWindow->renderer, 0xff, 0xff, 0xff, 0xff);
-        LoadedRects[Entities[0]->ID]->x = Entities[0]->Position.x;
-        LoadedRects[Entities[0]->ID]->y = Entities[0]->Position.y;
-        SDL_RenderFillRect(EngineWindow->renderer, LoadedRects[Entities[0]->ID]);
-    }
-    
-};
-*/
