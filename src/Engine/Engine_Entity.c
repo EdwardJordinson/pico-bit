@@ -31,13 +31,13 @@ int InitEntity()
 void AddEntity(int xPosition, int yPosition)
 {
     int entityID = InitEntity();
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition;
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition;
+    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->w/2);
+    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->h/2);
 
 };
 
 void UpdateEntity(int entityID, int xPosition, int yPosition)
 {
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition;
-    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition;
+    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->w/2);
+    Engine->Loop->GameState->EntitiesLoaded[entityID]->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[entityID]->h/2);
 };

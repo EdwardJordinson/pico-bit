@@ -12,6 +12,7 @@ void InitialiseEngine(Engine_Globals** engineGlobals)
     (*engineGlobals)->Window = malloc(sizeof(Engine_Window));
     
     (*engineGlobals)->Loop = malloc(sizeof(Engine_Loop));
+    (*engineGlobals)->Loop->SDLEvent = malloc(sizeof(SDL_Event));
     (*engineGlobals)->Loop->GameState = malloc(sizeof(Engine_GameState));
     (*engineGlobals)->Loop->Renderer = malloc(sizeof(Engine_Renderer));
     
@@ -26,7 +27,6 @@ void InitialiseWindow(Engine_Window** engineWindow)
         printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
     }
 
-    //engineWindow = malloc(sizeof(Engine_Window));
     (*engineWindow)->width = 640;
     (*engineWindow)->height = 480;
 
@@ -47,6 +47,27 @@ void InitialiseWindow(Engine_Window** engineWindow)
     }
 
     printf("done.\n");
+};
+
+void InitialiseEvent(SDL_Event** event)
+{
+
+};
+
+void InitialiseGameState(Engine_GameState** gamestate)
+{
+    (*gamestate)->EntitiesLoaded[0] = NULL;
+
+};
+
+void InitialiseRenderer(Engine_Renderer** renderer)
+{
+    (*renderer)->RectsLoaded[0] = malloc(sizeof(SDL_FRect));
+    (*renderer)->RectsLoaded[0]->h = Engine->Window->height/4;
+    (*renderer)->RectsLoaded[0]->w = Engine->Window->width/4;
+    (*renderer)->RectsLoaded[0]->x = 0;
+    (*renderer)->RectsLoaded[0]->y = 0;
+
 };
 
 void InitialiseLoop(Engine_Loop** engineLoop)

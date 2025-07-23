@@ -2,7 +2,6 @@
 #include <Engine/Engine_Globals.h>
 #include <Engine/Engine_Update.h>
 #include <Engine/Engine_Draw.h>
-#include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -23,38 +22,9 @@ void RunLoop(Engine_Loop** engineLoop)
 
     //bool firstFrame = true;
 
-    SDL_Event event;
-
     while ((*engineLoop)->running == true)
     {
         startTime = SDL_GetTicks();
-
-        while (SDL_PollEvent(&event) == true)
-        {
-            if (event.type == SDL_EVENT_QUIT)
-            {
-                (*engineLoop)->running = false;
-            }
-            
-            if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-            {
-                if (event.button.button == SDL_BUTTON_LEFT)
-                {
-                    float xMouse, yMouse;
-                    SDL_GetMouseState(&xMouse, &yMouse);
-                    /*
-                    if (Entities[0] == NULL)
-                    {
-                        AddEntity(xMouse, yMouse);
-                    }
-                    else
-                    {
-                        UpdateEntity(0, xMouse, yMouse);
-                    }
-                    */
-                }
-            }
-        }
 
         frameRate = frameCount/((SDL_GetTicks() - loopTimer)/1000.f);
         if (frameRate > 2000000)
@@ -64,7 +34,7 @@ void RunLoop(Engine_Loop** engineLoop)
 
         //PrintConsole(&firstFrame, frameRate, EngineLoop->delta);
 
-        UpdateCall((*engineLoop)->GameState);
+        UpdateCall((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
         DrawCall((*engineLoop)->Renderer, (*engineLoop)->GameState);
         ++frameCount;
 

@@ -4,8 +4,11 @@
 //Forward declares
 typedef struct Engine_GameState Engine_GameState;
 typedef struct Engine_Renderer Engine_Renderer;
+typedef struct Engine_Entity Engine_Entity;
 //
 
 void DrawCall(Engine_Renderer* renderer, Engine_GameState* gamestate);
+
+void DrawEntities(Engine_Renderer* renderer, Engine_Entity* entities[]);
 
 #endif //Engine_Draw_H

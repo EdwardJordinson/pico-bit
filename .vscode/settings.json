@@ -3,6 +3,14 @@
     "files.associations": {
         "sdl_init.h": "c",
         "sdl_video.h": "c",
-        "engine_entity.h": "c"
+        "engine_entity.h": "c",
+        "any": "c",
+        "complex": "c",
+        "bit": "c",
+        "compare": "c",
+        "cwchar": "c",
+        "type_traits": "c",
+        "cmath": "c",
+        "limits": "c"
     }
 }
