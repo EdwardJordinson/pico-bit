@@ -28,9 +28,6 @@ void UpdateEntity(int entityID, int xPosition, int yPosition)
 void SetupEntity(Engine_Entity* entity, int xPosition, int yPosition)
 {
     entity->Position = Vector2_Initialise(xPosition, yPosition);
-    //entity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
-    //entity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
-
     entity->Velocity = Vector2_Initialise(50.0, 0.0);
 };
 
