@@ -22,18 +22,30 @@ void AddEntity(int xPosition, int yPosition)
 void UpdateEntity(int entityID, int xPosition, int yPosition)
 {
     Engine_Entity* newEntity = Engine_Entity_Get(Engine->Loop->GameState->EntityManager, entityID);
-    newEntity->Position = Vector2_Initialise(xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2), yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2));
+    newEntity->Position = Vector2_Initialise((xPosition+1) - (Engine->Loop->Renderer->RectsLoaded[0]->w/2), yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2));
 };
 
 void SetupEntity(Engine_Entity* entity, int xPosition, int yPosition)
 {
     entity->Position = Vector2_Initialise(xPosition, yPosition);
-    entity->Velocity = Vector2_Initialise(50.0, 0.0);
+    entity->Velocity = Vector2_Initialise(0.0, 0.0);
 };
 
 void SimulateEntity(Engine_Entity* entity, float deltaTime)
 {
-    Vector2 newVector = Vector2_ScalarMuliply(deltaTime, &entity->Velocity);
+    //Get direction P - I, then normalise it.
+    Vector2 offset = Vector2_Initialise((Engine->Loop->Renderer->RectsLoaded[0]->w/2), (Engine->Loop->Renderer->RectsLoaded[0]->h/2));
+    Vector2 newPos = Vector2_VectorAdd(&entity->Position, &offset);
+    Vector2 newDir = Vector2_Subtract(&mousePos, &newPos);
+    Vector2 normalDir = Vector2_Normailised(&newDir);
+    //Multiply the scalar value of your required velocity
+    Vector2 speedDir = Vector2_ScalarMuliply(100, &normalDir);
+    Vector2 finalDir = Vector2_VectorAdd(&entity->Velocity, &speedDir);
+    printf("%.2f : %.2f\n", normalDir.x, normalDir.y);
+    printf("%.2f : %.2f\n", mousePos.x, mousePos.y);
+    printf("%.2f : %.2f\n", entity->Position.x, entity->Position.y);
+
+    Vector2 newVector = Vector2_ScalarMuliply(deltaTime, &finalDir);
     entity->Position = Vector2_VectorAdd(&entity->Position, &newVector);
 };
 

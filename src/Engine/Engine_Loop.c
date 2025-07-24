@@ -56,7 +56,7 @@ void PrintConsole(bool* firstFrame, float frameRate, float frameDelta)
         printf("\n\n\n");
         *firstFrame = false;
     }
-    printf("\033[2A");
+    printf("\033[5A");
     printf("\r\033[2KFrame Rate : %.2f\n", frameRate);
     printf("\r\033[2KFrame Delta  : %.4f\n",frameDelta);
     fflush(stdout);

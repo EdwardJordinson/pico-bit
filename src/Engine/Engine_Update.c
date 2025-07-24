@@ -40,6 +40,11 @@ void HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
                 }
             }
         }
+        else if (event->type == SDL_EVENT_MOUSE_MOTION)
+        {
+            mousePos.x = event->motion.x;
+            mousePos.y = event->motion.y;
+        }
     }
 };
 

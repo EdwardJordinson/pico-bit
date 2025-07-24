@@ -77,4 +77,6 @@ typedef struct Engine_Globals
 
 extern Engine_Globals* Engine;
 
+extern Vector2 mousePos;
+
 #endif // Engine_Globals_H
