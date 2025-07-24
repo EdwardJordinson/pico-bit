@@ -19,8 +19,8 @@ int main(void)
     InitialiseEntityManager(Engine->Loop->GameState->EntityManager);
     InitialiseWindow(&Engine->Window);
     //InitialiseEvent(&Engine->Loop->SDLEvent);
-    //InitialiseGameState(&Engine->Loop->GameState);
     InitialiseRenderer(&Engine->Loop->Renderer);
+    InitialiseGameState(&Engine->Loop->GameState);
     InitialiseLoop(&Engine->Loop);
 
     RunLoop(&Engine->Loop);

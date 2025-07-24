@@ -1,5 +1,6 @@
 #include <Engine/Engine_Initialise.h>
 #include <Engine/Engine_Globals.h>
+#include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_init.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -70,14 +71,15 @@ void InitialiseEvent(SDL_Event** event)
 
 void InitialiseGameState(Engine_GameState** gamestate)
 {
-    
+    AddEntity(Engine->Window->width/4, Engine->Window->height/4);
+
 };
 
 void InitialiseRenderer(Engine_Renderer** renderer)
 {
     (*renderer)->RectsLoaded[0] = malloc(sizeof(SDL_FRect));
-    (*renderer)->RectsLoaded[0]->h = Engine->Window->height/4;
-    (*renderer)->RectsLoaded[0]->w = Engine->Window->width/4;
+    (*renderer)->RectsLoaded[0]->h = 100;
+    (*renderer)->RectsLoaded[0]->w = 100;
     (*renderer)->RectsLoaded[0]->x = 0;
     (*renderer)->RectsLoaded[0]->y = 0;
 
@@ -90,7 +92,7 @@ void InitialiseLoop(Engine_Loop** engineLoop)
     //engineLoop = malloc(sizeof(Engine_Loop));
 
     (*engineLoop)->running = false;
-    (*engineLoop)->delta = 0.0;
+    (*engineLoop)->delta = 0.00f;
 
     printf("done.\n");
 };

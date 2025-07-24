@@ -12,41 +12,44 @@ void RunLoop(Engine_Loop** engineLoop)
 {
     (*engineLoop)->running = true;
 
-    const int targetFPS = 60;
-    const int delayTime = 1000 / targetFPS;
+    const float targetFPS = 60;
+    const float delayTime = 1000 / targetFPS;
 
-    Uint32 loopTimer = SDL_GetTicks();
-    Uint32 startTime;
+    Uint64 runTime = SDL_GetTicks();
+    Uint64 lastTime = SDL_GetTicks();
+    Uint64 currentTime;
+
     int frameCount = 0;
     float frameRate = 0.0f;
 
-    //bool firstFrame = true;
+    bool firstFrame = true;
 
     while ((*engineLoop)->running == true)
-    {
-        startTime = SDL_GetTicks();
+    {   
 
-        frameRate = frameCount/((SDL_GetTicks() - loopTimer)/1000.f);
-        if (frameRate > 2000000)
-        {
-            frameRate = 0;
-        }
+        frameRate = frameCount/((lastTime - runTime)/1000.f);
+        if (frameRate > 500.0f) frameRate = 0.0f;
 
-        //PrintConsole(&firstFrame, frameRate, EngineLoop->delta);
-
+        PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
+        
         UpdateCall((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
         DrawCall((*engineLoop)->Renderer, (*engineLoop)->GameState);
         ++frameCount;
+        
+        currentTime = SDL_GetTicks();
+        (*engineLoop)->delta = (currentTime - lastTime)/1000.0f;
+        lastTime = currentTime;
 
-        (*engineLoop)->delta = SDL_GetTicks() - startTime;
-        if ((uint32_t)delayTime > (*engineLoop)->delta)
+        
+        if ((*engineLoop)->delta < delayTime)
         {
             SDL_Delay(delayTime - (*engineLoop)->delta);
-        }
+        }    
+    
     }
 };
 
-void PrintConsole(bool* firstFrame, int frameRate, Uint32 frameDelta)
+void PrintConsole(bool* firstFrame, float frameRate, float frameDelta)
 {
     if (*firstFrame == true)
     {
@@ -54,7 +57,7 @@ void PrintConsole(bool* firstFrame, int frameRate, Uint32 frameDelta)
         *firstFrame = false;
     }
     printf("\033[2A");
-    printf("\r\033[2KFrame Rate : %d\n", frameRate);
-    printf("\r\033[2KFrame Delta  : %" PRIu32 "\n",frameDelta);
+    printf("\r\033[2KFrame Rate : %.2f\n", frameRate);
+    printf("\r\033[2KFrame Delta  : %.4f\n",frameDelta);
     fflush(stdout);
 };

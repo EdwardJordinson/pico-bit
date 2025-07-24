@@ -3,9 +3,17 @@
 #include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_events.h>
 #include <stdio.h>
+#include <math.h>
 
 
 void UpdateCall(Engine_GameState* gamestate, SDL_Event* event)
+{
+    HandleInput(gamestate, event);
+
+    SimulateEntity(&gamestate->EntityManager->entities[0], Engine->Loop->delta);
+};
+
+void HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
 {
     while (SDL_PollEvent(event) == true)
     {
@@ -24,7 +32,7 @@ void UpdateCall(Engine_GameState* gamestate, SDL_Event* event)
 
                 if (gamestate->EntityManager->activeCount == 0)
                 {
-                    AddEntity(xMouse, yMouse);
+                    //AddEntity(xMouse, yMouse);
                 }
                 else
                 {
@@ -33,8 +41,5 @@ void UpdateCall(Engine_GameState* gamestate, SDL_Event* event)
             }
         }
     }
-
 };
-
-
 

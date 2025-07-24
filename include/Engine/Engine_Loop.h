@@ -10,6 +10,6 @@ typedef struct Engine_Loop Engine_Loop;
 
 void RunLoop(Engine_Loop** engineLoop);
 
-void PrintConsole(bool* firstFrame, int frameRate, uint32_t frameDelta);
+void PrintConsole(bool* firstFrame, float frameRate, float frameDelta);
 
 #endif //Engine_Loop_H

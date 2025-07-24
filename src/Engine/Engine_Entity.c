@@ -1,30 +1,12 @@
 #include <Engine/Engine_Entity.h>
 #include <Engine/Engine_Globals.h>
+#include <Engine/Engine_Vector2.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 
 int InitEntity()
 {
-    Engine_Entity* newEntity = malloc(sizeof(Engine_Entity));
-    newEntity->Position.x = 0;
-    newEntity->Position.y = 0;
-
-    newEntity->Shape[0].x = 100;
-    newEntity->Shape[0].y = -100;
-
-    newEntity->Shape[1].x = 100;
-    newEntity->Shape[1].y = 100;
-
-    newEntity->Shape[2].x = -100;
-    newEntity->Shape[2].y = 100;
-
-    newEntity->Shape[3].x = -100;
-    newEntity->Shape[3].y = -100;
-
-    newEntity->ID = 0;
-
-    //Engine->Loop->GameState->EntitiesLoaded[0] = newEntity;
 
     return 0;
 };
@@ -33,16 +15,29 @@ void AddEntity(int xPosition, int yPosition)
 {
     int newID = Engine_Entity_Allocate(Engine->Loop->GameState->EntityManager);
     Engine_Entity* newEntity = Engine_Entity_Get(Engine->Loop->GameState->EntityManager, newID);
-    newEntity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
-    newEntity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
+    SetupEntity(newEntity, xPosition, yPosition);
 
 };
 
 void UpdateEntity(int entityID, int xPosition, int yPosition)
 {
     Engine_Entity* newEntity = Engine_Entity_Get(Engine->Loop->GameState->EntityManager, entityID);
-    newEntity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
-    newEntity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
+    newEntity->Position = Vector2_Initialise(xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2), yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2));
+};
+
+void SetupEntity(Engine_Entity* entity, int xPosition, int yPosition)
+{
+    entity->Position = Vector2_Initialise(xPosition, yPosition);
+    //entity->Position.x = xPosition - (Engine->Loop->Renderer->RectsLoaded[0]->w/2);
+    //entity->Position.y = yPosition - (Engine->Loop->Renderer->RectsLoaded[0]->h/2);
+
+    entity->Velocity = Vector2_Initialise(50.0, 0.0);
+};
+
+void SimulateEntity(Engine_Entity* entity, float deltaTime)
+{
+    Vector2 newVector = Vector2_ScalarMuliply(deltaTime, &entity->Velocity);
+    entity->Position = Vector2_VectorAdd(&entity->Position, &newVector);
 };
 
 int Engine_Entity_Allocate(Engine_EntityManager* manager)

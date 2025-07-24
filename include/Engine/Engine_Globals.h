@@ -5,19 +5,20 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_events.h>
+#include <Engine/Engine_Vector2.h>
 #include <stdint.h>
 #include <stdbool.h>
 
+//Forward declares
+//
+
 #define MAX_ENTITY_SIZE 512
 
-typedef struct Vector2
-{
-    int x, y;
-} Vector2;
 
 typedef struct Engine_Entity
 {
     Vector2 Position;
+    Vector2 Velocity;
     Vector2 Shape[4];
     int ID;
 
@@ -59,7 +60,7 @@ typedef struct Engine_Renderer
 typedef struct Engine_Loop
 {
     bool running;
-    uint32_t delta;
+    float delta;
 
     SDL_Event* SDLEvent;
     Engine_GameState* GameState;
