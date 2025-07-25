@@ -1,14 +1,14 @@
-#include <Engine/Engine_Loop.h>
+#include <Engine/Engine_MainLoop.h>
 #include <Engine/Engine_Globals.h>
-#include <Engine/Engine_Update.h>
-#include <Engine/Engine_Draw.h>
+#include <Engine/Engine_GameState.h>
+#include <Engine/Engine_RenderState.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 
-void RunLoop(Engine_Loop** engineLoop)
+void MainLoop_Run(Engine_MainLoop** engineLoop)
 {
     (*engineLoop)->running = true;
 
@@ -28,12 +28,12 @@ void RunLoop(Engine_Loop** engineLoop)
     {   
 
         frameRate = frameCount/((lastTime - runTime)/1000.f);
-        if (frameRate > 500.0f) frameRate = 0.0f;
+        if (frameRate > 5000.0f) frameRate = 0.0f;
 
-        PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
+        MainLoop_PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
         
-        UpdateCall((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
-        DrawCall((*engineLoop)->Renderer, (*engineLoop)->GameState);
+        Update_Call((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
+        Draw_Call((*engineLoop)->RenderState, (*engineLoop)->GameState);
         ++frameCount;
         
         currentTime = SDL_GetTicks();
@@ -43,13 +43,12 @@ void RunLoop(Engine_Loop** engineLoop)
         
         if ((*engineLoop)->delta < delayTime)
         {
-            SDL_Delay(delayTime - (*engineLoop)->delta);
+            //SDL_Delay(delayTime - (*engineLoop)->delta);
         }    
-    
     }
 };
 
-void PrintConsole(bool* firstFrame, float frameRate, float frameDelta)
+void MainLoop_PrintConsole(bool* firstFrame, float frameRate, float frameDelta)
 {
     if (*firstFrame == true)
     {

@@ -1,39 +1,27 @@
 #include <Engine/Engine_Initialise.h>
 #include <Engine/Engine_Globals.h>
-#include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_video.h>
+#include <SDL3/SDL_render.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 
-void InitialiseEngine(Engine_Globals** engineGlobals)
+void Initialise_Engine(Engine_Globals** engineGlobals)
 {
     *engineGlobals = malloc(sizeof(Engine_Globals));
 
     (*engineGlobals)->Window = malloc(sizeof(Engine_Window));
     
-    (*engineGlobals)->Loop = malloc(sizeof(Engine_Loop));
-    (*engineGlobals)->Loop->SDLEvent = malloc(sizeof(SDL_Event));
-    (*engineGlobals)->Loop->GameState = malloc(sizeof(Engine_GameState));
-    (*engineGlobals)->Loop->GameState->EntityManager = malloc(sizeof(Engine_EntityManager));
-    (*engineGlobals)->Loop->Renderer = malloc(sizeof(Engine_Renderer));
+    (*engineGlobals)->MainLoop = malloc(sizeof(Engine_MainLoop));
+    (*engineGlobals)->MainLoop->SDLEvent = malloc(sizeof(SDL_Event));
+    (*engineGlobals)->MainLoop->GameState = malloc(sizeof(Engine_GameState));
+    (*engineGlobals)->MainLoop->GameState->EntityManager = malloc(sizeof(Engine_EntityManager));
+    (*engineGlobals)->MainLoop->RenderState = malloc(sizeof(Engine_RenderState));
     
 };
 
-void InitialiseEntityManager(Engine_EntityManager* manager)
-{
-    manager->freeCount = MAX_ENTITY_SIZE;
-    manager->activeCount = 0;
-
-    for (int i = 0; i < MAX_ENTITY_SIZE; ++i)
-    {
-        manager->freeList[i] = MAX_ENTITY_SIZE - 1 - i;
-        manager->active[i] = false;
-        
-    }
-};
-
-void InitialiseWindow(Engine_Window** engineWindow)
+void Initialise_Window(Engine_Window** engineWindow)
 {
     printf("Window Initialise...");
 
@@ -64,28 +52,43 @@ void InitialiseWindow(Engine_Window** engineWindow)
     printf("done.\n");
 };
 
-void InitialiseEvent(SDL_Event** event)
+void Initialise_Event(SDL_Event** event)
 {
 
 };
 
-void InitialiseGameState(Engine_GameState** gamestate)
+void Initialise_GameState(Engine_GameState** gameState)
 {
-    AddEntity(Engine->Window->width/4, Engine->Window->height/4);
+    int ID = EntityManager_Allocate((*gameState)->EntityManager);
+    //Engine->Window->width/4, Engine->Window->height/4
+};
+
+void Initialise_EntityManager(Engine_EntityManager* manager)
+{
+    manager->freeCount = MAX_ENTITY_SIZE;
+    manager->activeCount = 0;
+
+    for (int i = 0; i < MAX_ENTITY_SIZE; ++i)
+    {
+        manager->freeList[i] = MAX_ENTITY_SIZE - 1 - i;
+        manager->active[i] = false;
+        
+    }
+};
+
+void Initialise_RenderState(Engine_RenderState** rendererState)
+{
+    (*rendererState)->RectsLoaded[0] = malloc(sizeof(SDL_FRect));
+    (*rendererState)->RectsLoaded[0]->h = 100;
+    (*rendererState)->RectsLoaded[0]->w = 100;
+    (*rendererState)->RectsLoaded[0]->x = 0;
+    (*rendererState)->RectsLoaded[0]->y = 0;
 
 };
 
-void InitialiseRenderer(Engine_Renderer** renderer)
-{
-    (*renderer)->RectsLoaded[0] = malloc(sizeof(SDL_FRect));
-    (*renderer)->RectsLoaded[0]->h = 100;
-    (*renderer)->RectsLoaded[0]->w = 100;
-    (*renderer)->RectsLoaded[0]->x = 0;
-    (*renderer)->RectsLoaded[0]->y = 0;
+void Initialise_RenderManager();
 
-};
-
-void InitialiseLoop(Engine_Loop** engineLoop)
+void Initialise_MainLoop(Engine_MainLoop** engineLoop)
 {
     printf("Control Loop Initialise...");
 

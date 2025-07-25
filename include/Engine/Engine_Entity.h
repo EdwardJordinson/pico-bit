@@ -1,27 +1,28 @@
 #ifndef Engine_Entity_H
 #define Engine_Entity_H
 
+#include <Engine/Engine_Vector2.h>
 #include <stdint.h>
 
 //Forward declares
-typedef struct Engine_EntityManager Engine_EntityManager;
-typedef struct Engine_Entity Engine_Entity;
 //
 
-int InitEntity();
+typedef struct Engine_Entity
+{
+    int ID;
+    Vector2 Position;
+    Vector2 Velocity;
+    Vector2 Shape[4];
 
-void AddEntity(int xPosition, int yPosition);
+} Engine_Entity;
 
-void UpdateEntity(int entityID, int xPosition, int yPosition);
 
-void SetupEntity(Engine_Entity* entity, int xPosition, int yPosition);
+Engine_Entity Entity_Initialise(int id);
 
-void SimulateEntity(Engine_Entity* entity, float deltaTime);
+void Entity_Setup(Engine_Entity* entity, int xPosition, int yPosition);
 
-int Engine_Entity_Allocate(Engine_EntityManager* manager);
+void Entity_Update(Engine_Entity* entity, int xPosition, int yPosition);
 
-void Engine_Entity_Free(Engine_EntityManager* manager, int index);
-
-Engine_Entity* Engine_Entity_Get(Engine_EntityManager* manager, int index);
+void Entity_Simulate(Engine_Entity* entity, float deltaTime);
 
 #endif // Engine_Entity_H

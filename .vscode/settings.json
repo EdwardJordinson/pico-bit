@@ -22,6 +22,10 @@
         "ranges": "c",
         "span": "c",
         "stacktrace": "c",
-        "regex": "c"
+        "regex": "c",
+        "engine_entitymanager.h": "c",
+        "engine_gameloop.h": "c",
+        "engine_mainloop.h": "c",
+        "sdl_render.h": "c"
     }
 }

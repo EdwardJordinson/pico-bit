@@ -4,6 +4,6 @@
 //Forward declares
 //
 
-void Shutdown();
+void Engine_Shutdown();
 
 #endif //Engine_Shutdown_H

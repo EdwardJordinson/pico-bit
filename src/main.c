@@ -2,7 +2,7 @@
 #include <Engine/Engine_Initialise.h>
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_Shutdown.h>
-#include <Engine/Engine_Loop.h>
+#include <Engine/Engine_MainLoop.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -16,17 +16,17 @@ int main(void)
 {
     printf("Engine Start.\n");
 
-    InitialiseEngine(&Engine);
-    InitialiseEntityManager(Engine->Loop->GameState->EntityManager);
-    InitialiseWindow(&Engine->Window);
-    //InitialiseEvent(&Engine->Loop->SDLEvent);
-    InitialiseRenderer(&Engine->Loop->Renderer);
-    InitialiseGameState(&Engine->Loop->GameState);
-    InitialiseLoop(&Engine->Loop);
+    Initialise_Engine(&Engine);
+    Initialise_EntityManager(Engine->MainLoop->GameState->EntityManager);
+    Initialise_Window(&Engine->Window);
+    //Initialise_Event(&Engine->Loop->SDLEvent);
+    Initialise_RenderState(&Engine->MainLoop->RenderState);
+    Initialise_GameState(&Engine->MainLoop->GameState);
+    Initialise_MainLoop(&Engine->MainLoop);
 
-    RunLoop(&Engine->Loop);
+    MainLoop_Run(&Engine->MainLoop);
 
-    Shutdown();
+    Engine_Shutdown();
 
     printf("Engine Shutdown.\n");
 

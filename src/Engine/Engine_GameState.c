@@ -1,4 +1,4 @@
-#include <Engine/Engine_Update.h>
+#include <Engine/Engine_GameState.h>
 #include <Engine/Engine_Globals.h>
 #include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_events.h>
@@ -6,20 +6,20 @@
 #include <math.h>
 
 
-void UpdateCall(Engine_GameState* gamestate, SDL_Event* event)
+void Update_Call(Engine_GameState* gamestate, SDL_Event* event)
 {
-    HandleInput(gamestate, event);
+    Update_HandleInput(gamestate, event);
 
-    SimulateEntity(&gamestate->EntityManager->entities[0], Engine->Loop->delta);
+    Entity_Simulate(&gamestate->EntityManager->entities[0], Engine->MainLoop->delta);
 };
 
-void HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
+void Update_HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
 {
     while (SDL_PollEvent(event) == true)
     {
         if (event->type == SDL_EVENT_QUIT)
         {
-            Engine->Loop->running = false;
+            Engine->MainLoop->running = false;
         }
         if (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN)
         {
@@ -36,7 +36,7 @@ void HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
                 }
                 else
                 {
-                    UpdateEntity(0, xMouse, yMouse);
+                    Entity_Update(0, xMouse, yMouse);
                 }
             }
         }

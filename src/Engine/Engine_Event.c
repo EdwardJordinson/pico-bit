@@ -2,3 +2,7 @@
 #include <Engine/Engine_Globals.h>
 
 
+void Event_Call()
+{
+    
+};

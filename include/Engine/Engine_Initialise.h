@@ -5,26 +5,28 @@
 
 //Forward declares
 typedef struct Engine_Globals Engine_Globals;
+typedef struct Engine_MainLoop Engine_MainLoop;
+typedef struct Engine_GameState Engine_GameState;
+typedef struct Engine_RenderState Engine_RenderState;
 typedef struct Engine_EntityManager Engine_EntityManager;
 typedef struct Engine_Window Engine_Window;
 union SDL_Event;
-typedef struct Engine_GameState Engine_GameState;
-typedef struct Engine_Renderer Engine_Renderer;
-typedef struct Engine_Loop Engine_Loop;
 //
 
-void InitialiseEngine(Engine_Globals** globals);
+void Initialise_Engine(Engine_Globals** globals);
 
-void InitialiseEntityManager(Engine_EntityManager* pool);
+void Initialise_Window(Engine_Window** window);
 
-void InitialiseWindow(Engine_Window** window);
+void Initialise_Event(union SDL_Event** event);
 
-void InitialiseEvent(union SDL_Event** event);
+void Initialise_GameState(Engine_GameState** gameState);
 
-void InitialiseGameState(Engine_GameState** gamestate);
+void Initialise_EntityManager(Engine_EntityManager* pool);
 
-void InitialiseRenderer(Engine_Renderer** renderer);
+void Initialise_RenderState(Engine_RenderState** renderState);
 
-void InitialiseLoop(Engine_Loop** engineLoop);
+void Initialise_RenderManager();
+
+void Initialise_MainLoop(Engine_MainLoop** mainLoop);
 
 #endif //Engine_Initialise_H
