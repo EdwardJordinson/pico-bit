@@ -25,10 +25,7 @@ void Initialise_Window(Engine_Window** engineWindow)
 {
     printf("Window Initialise...");
 
-    if(SDL_Init(SDL_INIT_VIDEO) != true)
-    {
-        printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
-    }
+    if(SDL_Init(SDL_INIT_VIDEO) != true) printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
 
     (*engineWindow)->width = 640;
     (*engineWindow)->height = 480;
@@ -37,8 +34,7 @@ void Initialise_Window(Engine_Window** engineWindow)
         "PICO-BIT Engine Window", 
         (*engineWindow)->width, 
         (*engineWindow)->height, 
-        SDL_WINDOW_OPENGL
-        );
+        SDL_WINDOW_OPENGL);
 
     if((*engineWindow)->SDLWindow == NULL)
     {
@@ -59,21 +55,9 @@ void Initialise_Event(SDL_Event** event)
 
 void Initialise_GameState(Engine_GameState** gameState)
 {
-    int ID = EntityManager_Allocate((*gameState)->EntityManager);
+    EntityManager_Initialise((*gameState)->EntityManager);
+    int id = EntityManager_Allocate((*gameState)->EntityManager);
     //Engine->Window->width/4, Engine->Window->height/4
-};
-
-void Initialise_EntityManager(Engine_EntityManager* manager)
-{
-    manager->freeCount = MAX_ENTITY_SIZE;
-    manager->activeCount = 0;
-
-    for (int i = 0; i < MAX_ENTITY_SIZE; ++i)
-    {
-        manager->freeList[i] = MAX_ENTITY_SIZE - 1 - i;
-        manager->active[i] = false;
-        
-    }
 };
 
 void Initialise_RenderState(Engine_RenderState** rendererState)
@@ -85,8 +69,6 @@ void Initialise_RenderState(Engine_RenderState** rendererState)
     (*rendererState)->RectsLoaded[0]->y = 0;
 
 };
-
-void Initialise_RenderManager();
 
 void Initialise_MainLoop(Engine_MainLoop** engineLoop)
 {

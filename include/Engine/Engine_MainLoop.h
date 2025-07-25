@@ -4,11 +4,9 @@
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_RenderState.h>
 #include <SDL3/SDL_events.h>
-#include <stdint.h>
 #include <stdbool.h>
 
 //Forward declares
-union SDL_Event;
 //
 
 typedef struct Engine_MainLoop

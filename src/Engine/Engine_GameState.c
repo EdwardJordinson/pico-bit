@@ -6,7 +6,7 @@
 #include <math.h>
 
 
-void Update_Call(Engine_GameState* gamestate, SDL_Event* event)
+void GameState_Update(Engine_GameState* gamestate, SDL_Event* event)
 {
     Update_HandleInput(gamestate, event);
 

@@ -1,7 +1,4 @@
 #include <Engine/Engine_MainLoop.h>
-#include <Engine/Engine_Globals.h>
-#include <Engine/Engine_GameState.h>
-#include <Engine/Engine_RenderState.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -32,15 +29,14 @@ void MainLoop_Run(Engine_MainLoop** engineLoop)
 
         MainLoop_PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
         
-        Update_Call((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
-        Draw_Call((*engineLoop)->RenderState, (*engineLoop)->GameState);
+        GameState_Update((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
+        RenderState_Draw((*engineLoop)->RenderState, (*engineLoop)->GameState);
         ++frameCount;
         
         currentTime = SDL_GetTicks();
         (*engineLoop)->delta = (currentTime - lastTime)/1000.0f;
         lastTime = currentTime;
 
-        
         if ((*engineLoop)->delta < delayTime)
         {
             //SDL_Delay(delayTime - (*engineLoop)->delta);

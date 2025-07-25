@@ -1,7 +1,18 @@
 #include <Engine/Engine_EntityManager.h>
 #include <string.h>
-//#include <Engine/Engine_Globals.h>
 
+
+void EntityManager_Initialise(Engine_EntityManager* manager)
+{
+    manager->freeCount = MAX_ENTITY_SIZE;
+    manager->activeCount = 0;
+
+    for (int i = 0; i < MAX_ENTITY_SIZE; ++i)
+    {
+        manager->freeList[i] = MAX_ENTITY_SIZE - 1 - i;
+        manager->active[i] = false;
+    }
+};
 
 int EntityManager_Allocate(Engine_EntityManager* manager)
 {

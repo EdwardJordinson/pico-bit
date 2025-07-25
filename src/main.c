@@ -1,9 +1,6 @@
 #include <Engine/Engine_Globals.h>
 #include <Engine/Engine_Initialise.h>
-#include <Engine/Engine_Window.h>
 #include <Engine/Engine_Shutdown.h>
-#include <Engine/Engine_MainLoop.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 //NOTES:
@@ -15,20 +12,24 @@
 
 //Cleanup movement for entities, fix segmentation error on left click
 
+//Create Event handling system, tracking mouse movement
+
+
 Engine_Globals* Engine;
 Vector2 mousePos = {0.0, 0.0};
 
 int main(void)
 {
     printf("Engine Start.\n");
-
+    
     Initialise_Engine(&Engine);
-    Initialise_EntityManager(Engine->MainLoop->GameState->EntityManager);
     Initialise_Window(&Engine->Window);
-    //Initialise_Event(&Engine->Loop->SDLEvent);
-    Initialise_RenderState(&Engine->MainLoop->RenderState);
+    //Initialise_Event(&Engine->MainLoop->SDLEvent);
     Initialise_GameState(&Engine->MainLoop->GameState);
+    Initialise_RenderState(&Engine->MainLoop->RenderState);
     Initialise_MainLoop(&Engine->MainLoop);
+
+    Engine->MainLoop->RenderState->SDLRenderer = Engine->Window->SDLRenderer;
 
     MainLoop_Run(&Engine->MainLoop);
 

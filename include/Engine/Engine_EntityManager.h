@@ -22,6 +22,8 @@ typedef struct Engine_EntityManager
 } Engine_EntityManager;
 
 
+void EntityManager_Initialise(Engine_EntityManager* manager);
+
 int EntityManager_Allocate(Engine_EntityManager* manager);
 
 void EntityManager_Free(Engine_EntityManager* manager, int index);
