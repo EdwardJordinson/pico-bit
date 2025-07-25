@@ -3,7 +3,6 @@
 #include <Engine/Engine_Entity.h>
 #include <SDL3/SDL_events.h>
 #include <stdio.h>
-#include <math.h>
 
 
 void GameState_Update(Engine_GameState* gamestate, SDL_Event* event)
@@ -36,7 +35,7 @@ void Update_HandleInput(Engine_GameState* gamestate, union SDL_Event* event)
                 }
                 else
                 {
-                    Entity_Update(0, xMouse, yMouse);
+                    Entity_Update(&gamestate->EntityManager->entities[0], xMouse, yMouse);
                 }
             }
         }
