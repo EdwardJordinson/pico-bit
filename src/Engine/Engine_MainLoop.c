@@ -23,13 +23,14 @@ void MainLoop_Run(Engine_MainLoop** engineLoop)
 
     while ((*engineLoop)->running == true)
     {   
+        Event_Process((*engineLoop)->EventHandler, &(*engineLoop)->running);
 
         frameRate = frameCount/((lastTime - runTime)/1000.f);
         if (frameRate > 5000.0f) frameRate = 0.0f;
 
         MainLoop_PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
         
-        GameState_Update((*engineLoop)->GameState, (*engineLoop)->SDLEvent);
+        GameState_Update((*engineLoop)->GameState, (*engineLoop)->EventHandler, (*engineLoop)->delta);
         RenderState_Draw((*engineLoop)->RenderState, (*engineLoop)->GameState);
         ++frameCount;
         

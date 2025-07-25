@@ -5,6 +5,7 @@
 
 //Forward declares
 union SDL_Event;
+typedef struct Engine_EventHandler Engine_EventHandler;
 //
 
 typedef struct Engine_GameState
@@ -14,8 +15,6 @@ typedef struct Engine_GameState
 } Engine_GameState;
 
 
-void GameState_Update(Engine_GameState* gamestate, union SDL_Event* event);
-
-void Update_HandleInput(Engine_GameState* gamestate, union SDL_Event* event);
+void GameState_Update(Engine_GameState* gameState, Engine_EventHandler* eventHandler, float deltaTime);
 
 #endif //Engine_GameState_H

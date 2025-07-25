@@ -3,8 +3,6 @@
 
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_MainLoop.h>
-#include <stdint.h>
-#include <stdbool.h>
 
 //Forward declares
 //

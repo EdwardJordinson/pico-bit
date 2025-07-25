@@ -14,7 +14,9 @@ void Initialise_Engine(Engine_Globals** engineGlobals)
     (*engineGlobals)->Window = malloc(sizeof(Engine_Window));
     
     (*engineGlobals)->MainLoop = malloc(sizeof(Engine_MainLoop));
-    (*engineGlobals)->MainLoop->SDLEvent = malloc(sizeof(SDL_Event));
+    (*engineGlobals)->MainLoop->EventHandler = malloc(sizeof(Engine_EventHandler));
+    (*engineGlobals)->MainLoop->EventHandler->SDLEvent = malloc(sizeof(SDL_Event));
+
     (*engineGlobals)->MainLoop->GameState = malloc(sizeof(Engine_GameState));
     (*engineGlobals)->MainLoop->GameState->EntityManager = malloc(sizeof(Engine_EntityManager));
     (*engineGlobals)->MainLoop->RenderState = malloc(sizeof(Engine_RenderState));
@@ -48,9 +50,10 @@ void Initialise_Window(Engine_Window** engineWindow)
     printf("done.\n");
 };
 
-void Initialise_Event(SDL_Event** event)
+void Initialise_Event(Engine_EventHandler** eventHandler)
 {
-
+    (*eventHandler)->mouseVector = Vector2_Initialise(0,0);
+    
 };
 
 void Initialise_GameState(Engine_GameState** gameState)

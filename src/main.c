@@ -7,10 +7,7 @@
 //Multi threading may be needed for Update and Draw
 
 //Cleanup init scripts, remove the need to have the global script
-//Remove uneeded includes
 //Look at other cleanup options
-
-//Cleanup movement for entities, fix segmentation error on left click
 
 //Create Event handling system, tracking mouse movement
 
@@ -24,12 +21,11 @@ int main(void)
     
     Initialise_Engine(&Engine);
     Initialise_Window(&Engine->Window);
-    //Initialise_Event(&Engine->MainLoop->SDLEvent);
+    Initialise_Event(&Engine->MainLoop->EventHandler);
     Initialise_GameState(&Engine->MainLoop->GameState);
     Initialise_RenderState(&Engine->MainLoop->RenderState);
-    Initialise_MainLoop(&Engine->MainLoop);
-
     Engine->MainLoop->RenderState->SDLRenderer = Engine->Window->SDLRenderer;
+    Initialise_MainLoop(&Engine->MainLoop);
 
     MainLoop_Run(&Engine->MainLoop);
 

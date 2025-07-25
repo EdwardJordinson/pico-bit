@@ -1,6 +1,7 @@
 #ifndef Engine_MainLoop_H
 #define Engine_MainLoop_H
 
+#include <Engine/Engine_EventHandler.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_RenderState.h>
 #include <SDL3/SDL_events.h>
@@ -14,7 +15,7 @@ typedef struct Engine_MainLoop
     bool running;
     float delta;
 
-    SDL_Event* SDLEvent;
+    Engine_EventHandler* EventHandler;
     Engine_GameState* GameState;
     Engine_RenderState* RenderState;
 

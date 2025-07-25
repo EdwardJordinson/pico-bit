@@ -26,6 +26,7 @@
         "engine_entitymanager.h": "c",
         "engine_gameloop.h": "c",
         "engine_mainloop.h": "c",
-        "sdl_render.h": "c"
+        "sdl_render.h": "c",
+        "engine_eventhandler.h": "c"
     }
 }
