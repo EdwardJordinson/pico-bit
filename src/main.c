@@ -9,6 +9,11 @@
 //NOTES:
 //Multi threading may be needed for Update and Draw
 
+//Cleanup init scripts, remove the need to have the global script
+//Look at other cleanup options
+
+//Cleanup movement for entities, fix segmentation error on left click
+
 Engine_Globals* Engine;
 Vector2 mousePos = {0.0, 0.0};
 

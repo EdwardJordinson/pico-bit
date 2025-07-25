@@ -21,12 +21,14 @@
 //Forward declares
 //
 
+//Global engine variables for ease of access (avoid reliance if possible).
 typedef struct Engine_Globals
 {
     Engine_Window* Window;
     Engine_MainLoop* MainLoop;
 
 } Engine_Globals;
+//
 
 extern Engine_Globals* Engine;
 extern Vector2 mousePos;
