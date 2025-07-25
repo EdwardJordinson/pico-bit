@@ -10,6 +10,7 @@
 //Multi threading may be needed for Update and Draw
 
 //Cleanup init scripts, remove the need to have the global script
+//Remove uneeded includes
 //Look at other cleanup options
 
 //Cleanup movement for entities, fix segmentation error on left click
