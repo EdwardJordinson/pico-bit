@@ -28,6 +28,6 @@ void Entity_SetPosition(Engine_Entity* entity, int xPosition, int yPosition);
 
 void Entity_SetVelocity(Engine_Entity* entity, Vector2 vector);
 
-void Entity_Simulate(Engine_Entity* entity, float deltaTime);
+void Entity_Update(Engine_Entity* entity, float deltaTime);
 
 #endif //Engine_Entity_H

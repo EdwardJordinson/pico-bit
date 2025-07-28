@@ -17,6 +17,7 @@ void Entity_Setup(Engine_Entity* entity, int xPosition, int yPosition)
 
 void Entity_Event(Engine_Entity* entity, Engine_EventHandler* eventHandler)
 {
+    /*
     while (SDL_PollEvent(eventHandler->SDLEvent) == true)
     {
         if (eventHandler->SDLEvent->type == SDL_EVENT_MOUSE_BUTTON_DOWN)
@@ -29,6 +30,7 @@ void Entity_Event(Engine_Entity* entity, Engine_EventHandler* eventHandler)
             }
         }
     }
+    */
 };
 
 void Entity_SetPosition(Engine_Entity* entity, int xPosition, int yPosition)
@@ -51,7 +53,7 @@ void Entity_SetVelocity(Engine_Entity* entity, Vector2 vector)
     
 };
 
-void Entity_Simulate(Engine_Entity* entity, float deltaTime)
+void Entity_Update(Engine_Entity* entity, float deltaTime)
 {
     entity->Position = Vector2_VectorAdd(entity->Position, Vector2_ScalarMuliply(deltaTime, entity->Velocity));
 }; 

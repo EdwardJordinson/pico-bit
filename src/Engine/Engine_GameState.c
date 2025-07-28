@@ -6,6 +6,6 @@ void GameState_Update(Engine_GameState* gameState, Engine_EventHandler* eventHan
 {
     Entity_Event(&gameState->EntityManager->entities[0], eventHandler);
     Entity_SetVelocity(&gameState->EntityManager->entities[0], eventHandler->mouseVector);
-    Entity_Simulate(&gameState->EntityManager->entities[0], deltaTime);
+    Entity_Update(&gameState->EntityManager->entities[0], deltaTime);
 
 };

@@ -18,5 +18,4 @@ typedef struct Engine_Window
 } Engine_Window;
 
 
-
 #endif //Engine_Window_H

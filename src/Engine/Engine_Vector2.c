@@ -52,3 +52,13 @@ Vector2 Vector2_Normailised(Vector2 vector)
 {
     return Vector2_ScalarDivide(Vector2_Length(vector), vector);
 };
+
+float Vector2_DotProduct(Vector2 vector1, Vector2 vector2)
+{
+    return (float)(vector1.x*vector2.x + vector1.y*vector2.y);
+};
+
+float Vector2_CrossProduct(Vector2 vector1, Vector2 vector2)
+{
+    return (float)(vector1.x*vector2.y - vector1.y*vector2.x); 
+};

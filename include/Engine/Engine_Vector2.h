@@ -34,4 +34,8 @@ float Vector2_Length(Vector2 vector);
 
 Vector2 Vector2_Normailised(Vector2 vector);
 
+float Vector2_DotProduct(Vector2 vector1, Vector2 vector2);
+
+float Vector2_CrossProduct(Vector2 vector1, Vector2 vector2);
+
 #endif //Engine_Vector2_H
