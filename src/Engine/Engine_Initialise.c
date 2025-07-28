@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-void Initialise_Engine(Engine_Globals** engineGlobals)
+void Initialise_EngineMemory(Engine_Globals** engineGlobals)
 {
     *engineGlobals = malloc(sizeof(Engine_Globals));
 
@@ -20,6 +20,7 @@ void Initialise_Engine(Engine_Globals** engineGlobals)
     (*engineGlobals)->MainLoop->GameState = malloc(sizeof(Engine_GameState));
     (*engineGlobals)->MainLoop->GameState->EntityManager = malloc(sizeof(Engine_EntityManager));
     (*engineGlobals)->MainLoop->RenderState = malloc(sizeof(Engine_RenderState));
+    (*engineGlobals)->MainLoop->RenderState->RenderManager = malloc(sizeof(Engine_RenderManager));
     
 };
 
@@ -50,7 +51,7 @@ void Initialise_Window(Engine_Window** engineWindow)
     printf("done.\n");
 };
 
-void Initialise_Event(Engine_EventHandler** eventHandler)
+void Initialise_EventHandler(Engine_EventHandler** eventHandler)
 {
     (*eventHandler)->mouseVector = Vector2_Initialise(0,0);
     
@@ -58,26 +59,23 @@ void Initialise_Event(Engine_EventHandler** eventHandler)
 
 void Initialise_GameState(Engine_GameState** gameState)
 {
+    Vector2Type_Initialise(&VECTOR2);
+
     EntityManager_Initialise((*gameState)->EntityManager);
-    int id = EntityManager_Allocate((*gameState)->EntityManager);
-    //Engine->Window->width/4, Engine->Window->height/4
+    EntityManager_Allocate((*gameState)->EntityManager);
+
 };
 
 void Initialise_RenderState(Engine_RenderState** rendererState)
 {
-    (*rendererState)->RectsLoaded[0] = malloc(sizeof(SDL_FRect));
-    (*rendererState)->RectsLoaded[0]->h = 100;
-    (*rendererState)->RectsLoaded[0]->w = 100;
-    (*rendererState)->RectsLoaded[0]->x = 0;
-    (*rendererState)->RectsLoaded[0]->y = 0;
+    RenderManager_Initialise((*rendererState)->RenderManager);
+    RenderManager_Allocate((*rendererState)->RenderManager);
 
 };
 
 void Initialise_MainLoop(Engine_MainLoop** engineLoop)
 {
     printf("Control Loop Initialise...");
-
-    //engineLoop = malloc(sizeof(Engine_Loop));
 
     (*engineLoop)->running = false;
     (*engineLoop)->delta = 0.00f;

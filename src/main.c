@@ -14,14 +14,15 @@
 
 Engine_Globals* Engine;
 Vector2 mousePos = {0.0, 0.0};
+Vector2Type VECTOR2;
 
 int main(void)
 {
     printf("Engine Start.\n");
     
-    Initialise_Engine(&Engine);
+    Initialise_EngineMemory(&Engine);
     Initialise_Window(&Engine->Window);
-    Initialise_Event(&Engine->MainLoop->EventHandler);
+    Initialise_EventHandler(&Engine->MainLoop->EventHandler);
     Initialise_GameState(&Engine->MainLoop->GameState);
     Initialise_RenderState(&Engine->MainLoop->RenderState);
     Engine->MainLoop->RenderState->SDLRenderer = Engine->Window->SDLRenderer;

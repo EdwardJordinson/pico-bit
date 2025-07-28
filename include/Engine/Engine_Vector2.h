@@ -1,13 +1,22 @@
 #ifndef Engine_Vector2_H
 #define Engine_Vector2_H
 
-//Forward declares
-//
 
-typedef struct Vector2
+typedef struct Vector2 Vector2;
+struct Vector2
 {
     float x, y;
-} Vector2;
+};
+
+typedef struct Vector2Type
+{
+    Vector2 (*Create)(float, float);
+} Vector2Type;
+
+extern Vector2Type VECTOR2;
+
+
+void Vector2Type_Initialise(Vector2Type* vector2Type);
 
 Vector2 Vector2_Initialise(float x, float y);
 

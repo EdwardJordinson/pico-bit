@@ -3,6 +3,11 @@
 #include <math.h>
 
 
+void Vector2Type_Initialise(Vector2Type* vector2Type)
+{
+    vector2Type->Create = Vector2_Initialise;
+};
+
 Vector2 Vector2_Initialise(float x, float y)
 {
     return (Vector2){x, y};

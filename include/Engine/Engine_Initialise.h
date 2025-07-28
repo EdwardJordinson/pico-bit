@@ -13,11 +13,11 @@ typedef struct Engine_RenderState Engine_RenderState;
 typedef struct Engine_MainLoop Engine_MainLoop;
 //
 
-void Initialise_Engine(Engine_Globals** globals);
+void Initialise_EngineMemory(Engine_Globals** globals);
 
 void Initialise_Window(Engine_Window** window);
 
-void Initialise_Event(Engine_EventHandler** event);
+void Initialise_EventHandler(Engine_EventHandler** event);
 
 void Initialise_GameState(Engine_GameState** gameState);
 

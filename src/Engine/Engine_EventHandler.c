@@ -26,7 +26,7 @@ void Event_Process(Engine_EventHandler* eventHandler, bool* running)
                 else
                 {
                     //Entity_Update(&gamestate->EntityManager->entities[0], xMouse, yMouse);
-                }               
+                }                
                 */
             }
         }

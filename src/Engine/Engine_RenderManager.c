@@ -1,7 +1,7 @@
-#include <Engine/Engine_EntityManager.h>
+#include <Engine/Engine_RenderManager.h>
 
 
-void EntityManager_Initialise(Engine_EntityManager* manager)
+void RenderManager_Initialise(Engine_RenderManager* manager)
 {
     manager->freeCount = MAX_ENTITY_SIZE;
     manager->activeCount = 0;
@@ -13,7 +13,7 @@ void EntityManager_Initialise(Engine_EntityManager* manager)
     }
 };
 
-int EntityManager_Allocate(Engine_EntityManager* manager)
+int RenderManager_Allocate(Engine_RenderManager* manager)
 {
     if (manager->freeCount <= 0)
     {
@@ -23,17 +23,21 @@ int EntityManager_Allocate(Engine_EntityManager* manager)
     int index = manager->freeList[--manager->freeCount];
     manager->active[index] = true;
 
-    Engine_Entity* newEntity = &manager->entities[index];
-    Entity_Setup(newEntity, 0.0,0.0);
+    SDL_FRect* newObject = &manager->objects[index];
+    newObject->h = 100.0;
+    newObject->w = 100.0;
+    newObject->x = 0.0;
+    newObject->y = 0.0;
+    //Entity_Setup(newEntity, 0.0,0.0);
     //memset(newEntity, 0, sizeof(Engine_Entity));
-    newEntity->ID = index;
+    //newObject->ID = index;
 
     manager->activeList[manager->activeCount++] = index;
 
     return index;
 };
 
-void EntityManager_Free(Engine_EntityManager* manager, int index)
+void RenderManager_Free(Engine_RenderManager* manager, int index)
 {
     if (index < 0 || index >= MAX_ENTITY_SIZE || !manager->active[index])
     {
@@ -51,12 +55,12 @@ void EntityManager_Free(Engine_EntityManager* manager, int index)
     }
 };
 
-Engine_Entity* EntityManager_Get(Engine_EntityManager* manager, int index)
+SDL_FRect* RenderManager_Get(Engine_RenderManager* manager, int index)
 {
     if (index < 0 || index >= MAX_ENTITY_SIZE || !manager->active[index]) 
     {
         return NULL;
     }
 
-    return &manager->entities[index];
+    return &manager->objects[index];
 };

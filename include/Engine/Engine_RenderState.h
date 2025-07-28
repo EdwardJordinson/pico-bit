@@ -1,17 +1,18 @@
 #ifndef Engine_RenderState_H
 #define Engine_RenderState_H
 
+#include <Engine/Engine_RenderManager.h>
+
 //Forward declares
 typedef struct SDL_Renderer SDL_Renderer;
 typedef struct Engine_GameState Engine_GameState;
-typedef struct SDL_FRect SDL_FRect;
 typedef struct Engine_EntityManager Engine_EntityManager;
 //
 
 typedef struct Engine_RenderState
 {
     SDL_Renderer* SDLRenderer;
-    SDL_FRect* RectsLoaded[2];
+    Engine_RenderManager* RenderManager;
 
 } Engine_RenderState;
 
