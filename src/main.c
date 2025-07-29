@@ -3,13 +3,11 @@
 #include <Engine/Engine_Shutdown.h>
 #include <stdio.h>
 
+//Fucking mingw64 turns off wildcard support by default because python script kiddies code was being compiled wrong.
+//This should fix it...
+
 //NOTES:
 //Multi threading may be needed for Update and Draw
-
-//Cleanup init scripts, remove the need to have the global script
-//Look at other cleanup options
-
-//Create Event handling system, tracking mouse movement
 
 
 Engine_Globals* Engine;

@@ -13,18 +13,10 @@ TARGET := bin
 EXEC := $(TARGET)/main
 
 SRC_MAIN := $(wildcard $(SOURCE)/main.c)
-SRC_ENGINE_INIT := $(wildcard $(SOURCE)/Engine/Engine_Initialise.c)
-SRC_ENGINE_SHUT := $(wildcard $(SOURCE)/Engine/Engine_Shutdown.c)
-SRC_ENGINE_EVENT := $(wildcard $(SOURCE)/Engine/Engine_EventHandler.c)
-SCR_ENGINE_GAMESTATE := $(wildcard $(SOURCE)/Engine/Engine_GameState.c)
-SRC_ENGINE_VECTOR2 := $(wildcard $(SOURCE)/Engine/Engine_Vector2.c)
-SRC_ENGINE_ENTITY := $(wildcard $(SOURCE)/Engine/Engine_Entity.c)
-SRC_ENGINE_ENTITYMANAGER := $(wildcard $(SOURCE)/Engine/Engine_EntityManager.c)
-SCR_ENGINE_RENDERSTATE := $(wildcard $(SOURCE)/Engine/Engine_RenderState.c)
-SCR_ENGINE_RENDERMANAGER := $(wildcard $(SOURCE)/Engine/Engine_RenderManager.c)
-SRC_ENGINE_LOOP := $(wildcard $(SOURCE)/Engine/Engine_MainLoop.c)
-SRCS := $(SRC_MAIN) $(SRC_ENGINE_INIT) $(SRC_ENGINE_SHUT) $(SRC_ENGINE_EVENT) $(SCR_ENGINE_GAMESTATE) $(SRC_ENGINE_ENTITY) $(SRC_ENGINE_ENTITYMANAGER) $(SRC_ENGINE_VECTOR2) $(SCR_ENGINE_RENDERSTATE) $(SCR_ENGINE_RENDERMANAGER) $(SRC_ENGINE_LOOP)
+SRC_ENGINE_ALL := $(wildcard $(SOURCE)/Engine/*.c)
+SRC_GAME_ALL := $(wildcard $(SOURCE)/Game/*.c)
 #SRCS := $(shell find $(SOURCE) -name '*.c')
+SRCS := $(SRC_MAIN) $(SRC_ENGINE_ALL)
 OBJS := $(patsubst %.c, $(BUILDER)/%.o, $(SRCS:$(SOURCE)/%=%))
 
 

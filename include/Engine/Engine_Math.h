@@ -2,6 +2,7 @@
 #define Engine_Math_H
 
 
-float Engine_InterpolationLinear();
+float Math_InterpolationLinear();
+
 
 #endif //Engine_Math_H
