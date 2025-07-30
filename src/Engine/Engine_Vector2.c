@@ -40,7 +40,7 @@ Vector2 Vector2_ScalarDivide(float scalar, Vector2 vector2)
 
 float Vector2_Length(Vector2 vector)
 {
-    return (float)sqrtf(vector.x*vector.x+vector.y*vector.y);
+    return (float)sqrtf(vector.x*vector.x + vector.y*vector.y);
 };
 
 float Vector2_LengthSquared(Vector2 vector)

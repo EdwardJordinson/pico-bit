@@ -12,25 +12,15 @@ Engine_Entity Entity_Initialise(int id)
 
 void Entity_Setup(Engine_Entity* entity, int xPosition, int yPosition)
 {
-    entity->Position = VECTOR2.Create(xPosition, yPosition); entity->Velocity = VECTOR2.Create(0.0, 0.0);
+    entity->Position = VECTOR2.Create(xPosition-50, yPosition-50);
+    entity->Velocity = VECTOR2.Create(0.0, 0.0);
+    entity->BoundingBox = AABB_Initialise();
+
 };
 
 void Entity_Event(Engine_Entity* entity, Engine_EventHandler* eventHandler)
 {
-    /*
-    while (SDL_PollEvent(eventHandler->SDLEvent) == true)
-    {
-        if (eventHandler->SDLEvent->type == SDL_EVENT_MOUSE_BUTTON_DOWN)
-        {
-            if (eventHandler->SDLEvent->button.button == SDL_BUTTON_LEFT)
-            {
-                float xMouse, yMouse;
-                SDL_GetMouseState(&xMouse, &yMouse);
-                Entity_SetPosition(entity, xMouse, yMouse);
-            }
-        }
-    }
-    */
+
 };
 
 void Entity_SetPosition(Engine_Entity* entity, int xPosition, int yPosition)
@@ -40,20 +30,25 @@ void Entity_SetPosition(Engine_Entity* entity, int xPosition, int yPosition)
 
 void Entity_SetVelocity(Engine_Entity* entity, Vector2 vector)
 {
+    //REplace subtrace with Add
      entity->Velocity = Vector2_ScalarMuliply(
         100, Vector2_Normailised(
-            Vector2_Subtract(
-                vector, Vector2_VectorAdd(
-                    entity->Position, Vector2_Initialise(
-                        50, 50)))));//Vector2_VectorAdd(entity->Velocity, ); 
+            Vector2_VectorAdd(
+                Vector2_VectorAdd(entity->Position, Vector2_Initialise(50, 50)), vector)));//Vector2_VectorAdd(entity->Velocity, ); 
 
-    printf("%.2f : %.2f\n", vector.x, vector.y);
+    //printf("%.2f : %.2f\n", vector.x, vector.y);
     printf("%.2f : %.2f\n", entity->Velocity.x, entity->Velocity.y);
     printf("%.2f : %.2f\n", entity->Position.x, entity->Position.y);
     
 };
 
-void Entity_Update(Engine_Entity* entity, float deltaTime)
+void Entity_UpdateRigid(Engine_Entity* entity, float deltaTime)
 {
-    entity->Position = Vector2_VectorAdd(entity->Position, Vector2_ScalarMuliply(deltaTime, entity->Velocity));
+    entity->Position = Vector2_VectorAdd(Vector2_ScalarMuliply(deltaTime, entity->Velocity), entity->Position);
+    AABB_AddPosition(&entity->BoundingBox, entity->Position);
 }; 
+
+void Entity_UpdateStatic(Engine_Entity* entity, float deltaTime)
+{
+
+};

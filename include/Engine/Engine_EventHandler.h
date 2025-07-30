@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 //Forward declares
-typedef struct Vector2 Vector2;
+typedef struct Engine_GameState Engine_GameState;
 //
 
 typedef struct Engine_EventHandler
@@ -16,7 +16,7 @@ typedef struct Engine_EventHandler
     
 } Engine_EventHandler;
 
-void Event_Process(Engine_EventHandler* eventHandler, bool* running);
+void Event_Process(Engine_EventHandler* eventHandler, Engine_GameState* gameState, bool* running);
 
 
 #endif //Engine_EventHandler_H

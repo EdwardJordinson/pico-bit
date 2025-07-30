@@ -25,8 +25,10 @@ int EntityManager_Allocate(Engine_EntityManager* manager)
 
     Engine_Entity* newEntity = &manager->entities[index];
     Entity_Setup(newEntity, 0.0,0.0);
+    //Entity_Setup(newEntity, 640/2,480/2);
     //memset(newEntity, 0, sizeof(Engine_Entity));
     newEntity->ID = index;
+    newEntity->renderID = 0;
 
     manager->activeList[manager->activeCount++] = index;
 

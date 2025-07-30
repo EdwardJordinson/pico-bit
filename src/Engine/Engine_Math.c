@@ -5,3 +5,10 @@ float Math_InterpolationLinear()
 {
 
 };
+
+void Math_Swap(float* num1, float* num2)
+{
+    float temp = *num1;
+    *num1 = *num2;
+    *num2 = temp;
+};

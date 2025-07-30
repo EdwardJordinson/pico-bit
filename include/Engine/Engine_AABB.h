@@ -9,12 +9,18 @@ typedef struct AABB
 {
     Vector2 minVector;
     Vector2 maxVector;
-}   AABB;
+} AABB;
 
 
-bool AABB_LineIntersection();
+AABB AABB_Initialise();
 
-bool AABB_ClipLine();
+void AABB_AddPosition(AABB* box2D, Vector2 newPosition);
+
+bool AABB_ClipLine(int dimention, AABB* aabbBox, Vector2 lineStart, Vector2 lineEnd, float f_low, float f_high);
+
+bool AABB_IntersectionLine();
+
+bool AABB_IntersectionAABB(AABB box1, AABB box2);
 
 
 #endif //Engine_AABB_H

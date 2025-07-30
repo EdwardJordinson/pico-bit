@@ -17,4 +17,6 @@ typedef struct Engine_GameState
 
 void GameState_Update(Engine_GameState* gameState, Engine_EventHandler* eventHandler, float deltaTime);
 
+void GameState_EntityAllUpdate(Engine_EntityManager* EntityManager, Vector2 mousePosition, float deltaTime);
+
 #endif //Engine_GameState_H

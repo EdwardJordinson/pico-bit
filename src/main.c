@@ -3,12 +3,9 @@
 #include <Engine/Engine_Shutdown.h>
 #include <stdio.h>
 
-//Fucking mingw64 turns off wildcard support by default because python script kiddies code was being compiled wrong.
-//This should fix it...
 
 //NOTES:
 //Multi threading may be needed for Update and Draw
-
 
 Engine_Globals* Engine;
 Vector2 mousePos = {0.0, 0.0};

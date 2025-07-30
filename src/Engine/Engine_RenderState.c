@@ -17,8 +17,17 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_EntityManager* enti
     for (int i = 0; i < entityManager->activeCount; i++)
     {   
         Engine_Entity* tempEntity = EntityManager_Get(entityManager, i);
-        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempEntity->ID);
-        SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
+        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempEntity->renderID);
+
+        if (i==0)
+        {
+            SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
+        }
+        else
+        {
+            SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
+        }
+        
         tempFRect->x = tempEntity->Position.x;
         tempFRect->y = tempEntity->Position.y;
         SDL_RenderFillRect(rendererState->SDLRenderer, tempFRect);
