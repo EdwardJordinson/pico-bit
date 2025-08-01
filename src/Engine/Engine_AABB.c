@@ -20,7 +20,7 @@ bool AABB_ClipLine(int dimention, AABB* aabbBox, Vector2 lineStart, Vector2 line
 
 bool AABB_IntersectionLine()
 {
-
+ 
 };
 
 bool AABB_IntersectionAABB(AABB box1, AABB box2)

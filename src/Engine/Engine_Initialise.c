@@ -59,15 +59,17 @@ void Initialise_EventHandler(Engine_EventHandler** eventHandler)
 
 void Initialise_GameState(Engine_GameState** gameState)
 {
-    Vector2Type_Initialise(&VECTOR2);
+
+    Vector2_InitialiseBasis();
 
     EntityManager_Initialise((*gameState)->EntityManager);
     int entityID1 = EntityManager_Allocate((*gameState)->EntityManager);
     int entityID2 = EntityManager_Allocate((*gameState)->EntityManager);
     Engine_Entity* entity1 = EntityManager_Get((*gameState)->EntityManager, entityID1);
     Engine_Entity* entity2 = EntityManager_Get((*gameState)->EntityManager, entityID2);
-    Entity_Setup(entity1, 640/2,480/2);
+    Entity_Setup(entity1, 640/2,360);
     Entity_Setup(entity2, 640/2,480/4);
+    entity1->Mass = 100.0;
     entity2->Velocity.y = 100.0;
 
 };

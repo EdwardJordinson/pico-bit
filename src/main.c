@@ -8,8 +8,7 @@
 //Multi threading may be needed for Update and Draw
 
 Engine_Globals* Engine;
-Vector2 mousePos = {0.0, 0.0};
-Vector2Type VECTOR2;
+BasisVector2 BASISVECTOR2;
 
 int main(void)
 {

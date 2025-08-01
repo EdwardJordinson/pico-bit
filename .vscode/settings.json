@@ -29,6 +29,11 @@
         "sdl_render.h": "c",
         "engine_eventhandler.h": "c",
         "stdbool.h": "c",
-        "entity_rendermanager.h": "c"
+        "entity_rendermanager.h": "c",
+        "barrier": "c",
+        "chrono": "c",
+        "random": "c",
+        "latch": "c",
+        "semaphore": "c"
     }
 }

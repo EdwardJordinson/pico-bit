@@ -7,15 +7,19 @@
 
 //Forward declares
 typedef struct Engine_EventHandler Engine_EventHandler;
+typedef struct Engine_Manifold Engine_Manifold;
 //
 
 typedef struct Engine_Entity
 {
     int ID;
     int renderID;
-    Vector2 Position;
-    Vector2 Velocity;
+    Vector2 Position; //Origin
+    BasisVector2 Basis; //Transform
+    Vector2 Velocity; //Movement Direction/Speed
     AABB BoundingBox;
+    float Restitution; //Bouncy-ness
+    float Mass; //Mass
 
     void (*update)(struct Engine_Entity*,float);
 
@@ -35,5 +39,9 @@ void Entity_SetVelocity(Engine_Entity* entity, Vector2 vector);
 void Entity_UpdateRigid(Engine_Entity* entity, float deltaTime);
 
 void Entity_UpdateStatic(Engine_Entity* entity, float deltaTime);
+
+void Entity_CollisionResolve(Engine_Entity* entity1, Engine_Entity* entity2, Engine_Manifold* manifold);
+
+Engine_Manifold Entity_CollisionNormal(Engine_Entity* entity1, Engine_Entity* entity2);
 
 #endif //Engine_Entity_H

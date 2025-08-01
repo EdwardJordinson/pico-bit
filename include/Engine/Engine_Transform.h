@@ -4,6 +4,11 @@
 //Forward declares
 //
 
+typedef struct Transform2D Transform2D;
+struct Transform2D
+{
+    
+};
 
 
 #endif //Engine_Transform_H

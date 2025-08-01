@@ -3,9 +3,10 @@
 #include <math.h>
 
 
-void Vector2Type_Initialise(Vector2Type* vector2Type)
+void Vector2_InitialiseBasis()
 {
-    vector2Type->Create = Vector2_Initialise;
+    BASISVECTOR2.RIGHT = (Vector2){1.0,0.0};
+    BASISVECTOR2.UP = (Vector2){0.0,1.0};
 };
 
 Vector2 Vector2_Initialise(float x, float y)
@@ -18,9 +19,14 @@ Vector2 Vector2_VectorAdd(Vector2 vector1, Vector2 vector2)
     return (Vector2){vector1.x+vector2.x, vector1.y+vector2.y};
 };
 
-Vector2 Vector2_Subtract(Vector2 vector1, Vector2 vector2)
+Vector2 Vector2_VectorSubtract(Vector2 vector1, Vector2 vector2)
 {
     return (Vector2){vector1.x-vector2.x, vector1.y-vector2.y};
+};
+
+Vector2 Vector2_VectorMultiply(Vector2 vector1, Vector2 vector2)
+{
+    return (Vector2){vector1.x*vector2.x, vector1.y*vector2.y}; 
 };
 
 Vector2 Vector2_ScalarAdd(float scalar, Vector2 vector)
@@ -46,6 +52,11 @@ float Vector2_Length(Vector2 vector)
 float Vector2_LengthSquared(Vector2 vector)
 {
     return (float)(vector.x*vector.x + vector.y*vector.y);
+};
+
+Vector2 Vector_ABS(Vector2 vector)
+{
+    return (Vector2){abs(vector.x), abs(vector.y)};
 };
 
 Vector2 Vector2_Normailised(Vector2 vector)
