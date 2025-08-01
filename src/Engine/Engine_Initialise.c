@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Redundant, need to move the initcode there own files
 
 void Initialise_EngineMemory(Engine_Globals** engineGlobals)
 {
@@ -67,10 +68,10 @@ void Initialise_GameState(Engine_GameState** gameState)
     int entityID2 = EntityManager_Allocate((*gameState)->EntityManager);
     Engine_Entity* entity1 = EntityManager_Get((*gameState)->EntityManager, entityID1);
     Engine_Entity* entity2 = EntityManager_Get((*gameState)->EntityManager, entityID2);
-    Entity_Setup(entity1, 640/2,360);
-    Entity_Setup(entity2, 640/2,480/4);
+    Entity_Setup(entity1, 0.0, 0.0);
+    Entity_Setup(entity2, 0.0,200.0);
     entity1->Mass = 100.0;
-    entity2->Velocity.y = 100.0;
+    entity2->Velocity.y = -100.0;
 
 };
 

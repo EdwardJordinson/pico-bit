@@ -6,8 +6,10 @@
 
 //NOTES:
 //Multi threading may be needed for Update and Draw
+//Read .efd(Engine Form Data) file for game creation.
 
 Engine_Globals* Engine;
+Engine_Window* EngineWindow;
 BasisVector2 BASISVECTOR2;
 
 int main(void)
@@ -19,6 +21,7 @@ int main(void)
     Initialise_EventHandler(&Engine->MainLoop->EventHandler);
     Initialise_GameState(&Engine->MainLoop->GameState);
     Initialise_RenderState(&Engine->MainLoop->RenderState);
+    EngineWindow = Engine->Window;
     Engine->MainLoop->RenderState->SDLRenderer = Engine->Window->SDLRenderer;
     Initialise_MainLoop(&Engine->MainLoop);
 

@@ -1,7 +1,11 @@
 #include <Engine/Engine_RenderState.h>
 #include <Engine/Engine_GameState.h>
+#include <Engine/Engine_Window.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_render.h>
+
+
+//Handles Draw calls to the window
 
 
 void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameState)
@@ -28,8 +32,17 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_EntityManager* enti
             SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
         }
         
-        tempFRect->x = tempEntity->Position.x;
-        tempFRect->y = tempEntity->Position.y;
+        Vector2 tempPosition = Window_WorldToScreen(tempEntity->Position);
+        tempFRect->x = tempPosition.x;
+        tempFRect->y = tempPosition.y;
+
+        //tempFRect->x = tempEntity->Position.x;
+        //tempFRect->y = tempEntity->Position.y;
         SDL_RenderFillRect(rendererState->SDLRenderer, tempFRect);
     }
+};
+
+Vector2 RenderState_WorldToScreen(Vector2 vector2)
+{
+    
 };

@@ -5,6 +5,7 @@
 //Forward declares
 typedef struct SDL_Window SDL_Window;
 typedef struct SDL_Renderer SDL_Renderer;
+typedef struct Vector2 Vector2;
 //
 
 typedef struct Engine_Window
@@ -16,6 +17,12 @@ typedef struct Engine_Window
     SDL_Renderer* SDLRenderer;
 
 } Engine_Window;
+
+extern Engine_Window* EngineWindow;
+
+void Window_Initialise();
+
+Vector2 Window_WorldToScreen(Vector2 position);
 
 
 #endif //Engine_Window_H

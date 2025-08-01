@@ -14,5 +14,9 @@ typedef struct Engine_Manifold
 } Engine_Manifold;
 
 
+void Physics_InverseMass();
+
+void Physics_CollisionResolve();
+
 
 #endif //Engine_Physics_H
