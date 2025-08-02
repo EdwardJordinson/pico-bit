@@ -1,21 +1,18 @@
 #ifndef Engine_Globals_H
 #define Engine_Globals_H
 
-#include <Engine/Engine_Window.h>
-#include <Engine/Engine_MainLoop.h>
-
 //Forward declares
+typedef struct Engine_MainLoop Engine_MainLoop;
 //
 
-//Global engine variables for ease of access (avoid reliance if possible).
-typedef struct Engine_Globals
+typedef struct Engine_Main
 {
-    Engine_Window* Window;
     Engine_MainLoop* MainLoop;
 
-} Engine_Globals;
-//
+} Engine_Main;
 
-extern Engine_Globals* Engine;
+
+extern Engine_Main* Engine;
+
 
 #endif //Engine_Globals_H

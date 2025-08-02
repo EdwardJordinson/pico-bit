@@ -4,25 +4,21 @@
 #include <stddef.h>
 
 //Forward declares
-typedef struct Engine_Globals Engine_Globals;
-typedef struct Engine_Window Engine_Window;
-typedef struct Engine_EventHandler Engine_EventHandler;
-typedef struct Engine_GameState Engine_GameState;
-typedef struct Engine_EntityManager Engine_EntityManager;
-typedef struct Engine_RenderState Engine_RenderState;
-typedef struct Engine_MainLoop Engine_MainLoop;
+typedef struct Engine_Main Engine_Main;
 //
 
-void Initialise_EngineMemory(Engine_Globals** globals);
 
-void Initialise_Window(Engine_Window** window);
+void Initialise_EngineMemory(Engine_Main** engine);
 
-void Initialise_EventHandler(Engine_EventHandler** event);
+void Initialise_SDL();
 
-void Initialise_GameState(Engine_GameState** gameState);
+void Initialise_Systems(Engine_Main* engine);
 
-void Initialise_RenderState(Engine_RenderState** renderState);
+void Initialise_ReadEFD();
 
-void Initialise_MainLoop(Engine_MainLoop** mainLoop);
+void Initialise_EFDConfigure(Engine_Main* engine);
+
+void Initialise_Game(Engine_Main* engine);
+
 
 #endif //Engine_Initialise_H

@@ -1,8 +1,10 @@
 #ifndef Engine_Physics_H
 #define Engine_Physics_H
 
-#include <Engine/Engine_Vector2.h>
+#include <Engine/Engine_Coordinates.h>
 
+//Forward declares
+//
 
 typedef struct Engine_Manifold
 {

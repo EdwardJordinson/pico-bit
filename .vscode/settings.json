@@ -34,6 +34,11 @@
         "chrono": "c",
         "random": "c",
         "latch": "c",
-        "semaphore": "c"
+        "semaphore": "c",
+        "engine_rendermanager.h": "c",
+        "stdint.h": "c",
+        "engine_physics.h": "c",
+        "engine_window.h": "c",
+        "engine_gamestate.h": "c"
     }
 }

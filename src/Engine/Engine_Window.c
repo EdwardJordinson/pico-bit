@@ -1,19 +1,33 @@
 #include <Engine/Engine_Window.h>
-#include <Engine/Engine_Vector2.h>
+#include <Engine/Engine_Coordinates.h>
+#include <SDL3/SDL_video.h>
+#include <SDL3/SDL_render.h>
+#include <stdio.h>
 
 
-void Window_Initialise()
+void Window_Initialise(Engine_Window* engineWindow)
 {
+    printf("Window Initialise...");
 
+    engineWindow->width = 640;
+    engineWindow->height = 480;
+
+    engineWindow->SDLWindow = SDL_CreateWindow( 
+        "PICO-BIT Engine Window", 
+        engineWindow->width, 
+        engineWindow->height, 
+        SDL_WINDOW_OPENGL);
+
+    if(engineWindow->SDLWindow == NULL)
+    {
+        printf("Window could not be created. SDL_Error: %s\n", SDL_GetError());
+    }
+    else
+    {
+        engineWindow->SDLRenderer = SDL_CreateRenderer(engineWindow->SDLWindow, NULL);
+    }
+
+    printf("done.\n");
 };
 
-Vector2 Window_WorldToScreen(Vector2 position)
-{
-    position.y = -position.y;
-    float half_screen_width = EngineWindow->width/2.0;
-    float half_screen_height = EngineWindow->height/2.0;
 
-    position.x += half_screen_width;
-    position.y += half_screen_height;
-    return position;
-};

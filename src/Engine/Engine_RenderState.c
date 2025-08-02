@@ -1,48 +1,57 @@
 #include <Engine/Engine_RenderState.h>
+#include <Engine/Engine_RenderManager.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_Window.h>
+#include <Engine/Engine_Object.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_render.h>
 
 
 //Handles Draw calls to the window
 
+void RenderState_Initialise(Engine_RenderState* renderState)
+{
+
+};
 
 void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameState)
 {
-    SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
-    SDL_RenderClear(rendererState->SDLRenderer);
-    Draw_Entities(rendererState, gameState->EntityManager);
-    SDL_RenderPresent(rendererState->SDLRenderer);
+    SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
+    SDL_RenderClear(rendererState->EngineWindow->SDLRenderer);
+    Draw_Entities(rendererState, gameState->ObjectManager);
+    SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
 
-void Draw_Entities(Engine_RenderState* rendererState, Engine_EntityManager* entityManager)
+void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* objectManager)
 {
-    for (int i = 0; i < entityManager->activeCount; i++)
+    for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
-        Engine_Entity* tempEntity = EntityManager_Get(entityManager, i);
-        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempEntity->renderID);
+        Engine_Object* tempObject = ObjectManager_Get(objectManager, i);
+        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->renderID);
 
         if (i==0)
         {
-            SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
+            SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
         }
         else
         {
-            SDL_SetRenderDrawColor(rendererState->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
+            SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
         }
         
-        Vector2 tempPosition = Window_WorldToScreen(tempEntity->Position);
+        Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, tempObject->Transform2D.Position);
         tempFRect->x = tempPosition.x;
         tempFRect->y = tempPosition.y;
-
-        //tempFRect->x = tempEntity->Position.x;
-        //tempFRect->y = tempEntity->Position.y;
-        SDL_RenderFillRect(rendererState->SDLRenderer, tempFRect);
+        SDL_RenderFillRect(rendererState->EngineWindow->SDLRenderer, tempFRect);
     }
 };
 
-Vector2 RenderState_WorldToScreen(Vector2 vector2)
+Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position)
 {
-    
+    position.y = -position.y;
+    float half_screen_width = window->width/2.0;
+    float half_screen_height = window->height/2.0;
+
+    position.x += half_screen_width;
+    position.y += half_screen_height;
+    return position;
 };

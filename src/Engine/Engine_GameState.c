@@ -1,28 +1,35 @@
 #include <Engine/Engine_GameState.h>
-#include <Engine/Engine_EventHandler.h>
+#include <Engine/Engine_Object.h>
+#include <Engine/Engine_EventProcess.h>
 #include <Engine/Engine_Physics.h>
 #include <stdio.h>
 
 
-void GameState_Update(Engine_GameState* gameState, Engine_EventHandler* eventHandler, float deltaTime)
+void GameState_Initialise(Engine_GameState* gameState)
 {
-    GameState_EntityAllUpdate(gameState->EntityManager, eventHandler->mouseVector, deltaTime);
+    gameState->delta = 0.0;
 
 };
 
-void GameState_EntityAllUpdate(Engine_EntityManager* entityManager, Vector2 mousePosition, float deltaTime)
+void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess, float deltaTime)
 {
-    for (int i = 0; i < entityManager->activeCount; i++)
+    GameState_EntityAllUpdate(gameState->ObjectManager, deltaTime);
+
+};
+
+void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaTime)
+{
+    for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
-        Engine_Entity* tempEntity = EntityManager_Get(entityManager, i);
+        Engine_Object* tempObject = ObjectManager_Get(objectManager, i);
         //Entity_SetVelocity(tempEntity, mousePosition);
-        Entity_UpdateRigid(tempEntity, deltaTime); 
+        Object_UpdateRigid(tempObject, deltaTime); 
     }
 
-    Engine_Manifold collisionData = Entity_CollisionNormal(&entityManager->entities[0], &entityManager->entities[1]);
+    Engine_Manifold collisionData = Object_CollisionNormal(&objectManager->ObjectList[0], &objectManager->ObjectList[1]);
     if (collisionData.Hit == true)
     {
         //printf("Touching\n");
-        Entity_CollisionResolve(&entityManager->entities[0], &entityManager->entities[1], &collisionData);
+        Object_CollisionResolve(&objectManager->ObjectList[0], &objectManager->ObjectList[1], &collisionData);
     }
 };

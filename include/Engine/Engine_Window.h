@@ -18,11 +18,8 @@ typedef struct Engine_Window
 
 } Engine_Window;
 
-extern Engine_Window* EngineWindow;
 
-void Window_Initialise();
-
-Vector2 Window_WorldToScreen(Vector2 position);
+void Window_Initialise(Engine_Window* engineWindow);
 
 
 #endif //Engine_Window_H

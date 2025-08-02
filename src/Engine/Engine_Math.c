@@ -13,11 +13,3 @@ void Math_Swap(float* num1, float* num2)
     *num1 = *num2;
     *num2 = temp;
 };
-
-Rotation Math_SinCos(float rotation)
-{
-    Rotation newRotation;
-    newRotation.cos = cosf(rotation);
-    newRotation.sin = sinf(rotation);
-    return newRotation;
-};

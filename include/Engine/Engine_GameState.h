@@ -1,22 +1,24 @@
 #ifndef Engine_GameState_H
 #define Engine_GameState_H
 
-#include <Engine/Engine_EntityManager.h>
-
 //Forward declares
-union SDL_Event;
-typedef struct Engine_EventHandler Engine_EventHandler;
+typedef struct Engine_EventProcess Engine_EventProcess;
+typedef struct Engine_ObjectManager Engine_ObjectManager;
 //
 
 typedef struct Engine_GameState
 {
-    Engine_EntityManager* EntityManager;
+    float delta;
+    Engine_ObjectManager* ObjectManager;
 
 } Engine_GameState;
 
 
-void GameState_Update(Engine_GameState* gameState, Engine_EventHandler* eventHandler, float deltaTime);
+void GameState_Initialise(Engine_GameState* gameState);
 
-void GameState_EntityAllUpdate(Engine_EntityManager* EntityManager, Vector2 mousePosition, float deltaTime);
+void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess, float deltaTime);
+
+void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaTime);
+
 
 #endif //Engine_GameState_H

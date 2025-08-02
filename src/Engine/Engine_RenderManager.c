@@ -23,6 +23,7 @@ int RenderManager_Allocate(Engine_RenderManager* manager)
     int index = manager->freeList[--manager->freeCount];
     manager->active[index] = true;
 
+    //Need creation pipeline
     SDL_FRect* newObject = &manager->objects[index];
     newObject->h = 100.0;
     newObject->w = 100.0;

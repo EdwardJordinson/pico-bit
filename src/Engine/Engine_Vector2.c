@@ -1,14 +1,6 @@
-#include <Engine/Engine_Vector2.h>
-#include <Engine/Engine_Globals.h>
-#include <Engine/Engine_Math.h>
+#include <Engine/Engine_Coordinates.h>
 #include <math.h>
 
-
-void Vector2_InitialiseBasis()
-{
-    BASISVECTOR2.RIGHT = (Vector2){1.0,0.0};
-    BASISVECTOR2.UP = (Vector2){0.0,1.0};
-};
 
 Vector2 Vector2_Initialise(float x, float y)
 {
@@ -73,7 +65,7 @@ Vector2 Vector2_Skew(Vector2 vector)
     return (Vector2){-vector.y,vector.x};
 };
 
-Vector2 Vector2_RotationMultiply(Rotation rotation, Vector2 vector)
+Vector2 Vector2_RotationMultiply(Engine_Rotation rotation, Vector2 vector)
 {
     return(Vector2){rotation.cos * vector.x - rotation.sin * vector.y, rotation.sin * vector.x + rotation.cos * vector.y};
 };
