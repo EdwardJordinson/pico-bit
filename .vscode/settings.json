@@ -39,6 +39,17 @@
         "stdint.h": "c",
         "engine_physics.h": "c",
         "engine_window.h": "c",
-        "engine_gamestate.h": "c"
+        "engine_gamestate.h": "c",
+        "text_encoding": "c",
+        "typeindex": "c",
+        "typeinfo": "c",
+        "charconv": "c",
+        "functional": "c",
+        "ratio": "c",
+        "scoped_allocator": "c",
+        "tuple": "c",
+        "utility": "c",
+        "variant": "c",
+        "source_location": "c"
     }
 }

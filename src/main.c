@@ -1,7 +1,9 @@
 #include <Engine/Engine_Globals.h>
 #include <Engine/Engine_Initialise.h>
 #include <Engine/Engine_Shutdown.h>
+#include <Engine/Engine_EFD.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 
 //NOTES:
@@ -10,16 +12,24 @@
 
 Engine_Main* Engine;
 
+bool makeEFD = false;
 
-int main(void)
+
+int main(int argc, char** argv)
 {
+    if (makeEFD == true)
+    {
+        EFD_WriteFile(argc, argv);
+        return 0;
+    }
+
     printf("Engine Start.\n");
     
     Initialise_EngineMemory(&Engine);
     Initialise_SDL();
     Initialise_Systems(Engine);
-    Initialise_ReadEFD();
-    Initialise_EFDConfigure(Engine);
+    EFD_File* data = Initialise_ReadEFD();
+    Initialise_EFDConfigure(Engine, data);
     Initialise_Game(Engine);
 
     Engine_Shutdown();

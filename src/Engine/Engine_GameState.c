@@ -11,9 +11,9 @@ void GameState_Initialise(Engine_GameState* gameState)
 
 };
 
-void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess, float deltaTime)
+void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess)
 {
-    GameState_EntityAllUpdate(gameState->ObjectManager, deltaTime);
+    GameState_EntityAllUpdate(gameState->ObjectManager, gameState->delta);
 
 };
 

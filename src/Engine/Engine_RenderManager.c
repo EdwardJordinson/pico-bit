@@ -29,9 +29,6 @@ int RenderManager_Allocate(Engine_RenderManager* manager)
     newObject->w = 100.0;
     newObject->x = 0.0;
     newObject->y = 0.0;
-    //Entity_Setup(newEntity, 0.0,0.0);
-    //memset(newEntity, 0, sizeof(Engine_Entity));
-    //newObject->ID = index;
 
     manager->activeList[manager->activeCount++] = index;
 

@@ -5,6 +5,7 @@
 
 //Forward declares
 typedef struct Engine_Main Engine_Main;
+typedef struct EFD_File EFD_File;
 //
 
 
@@ -14,9 +15,9 @@ void Initialise_SDL();
 
 void Initialise_Systems(Engine_Main* engine);
 
-void Initialise_ReadEFD();
+EFD_File* Initialise_ReadEFD();
 
-void Initialise_EFDConfigure(Engine_Main* engine);
+void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data);
 
 void Initialise_Game(Engine_Main* engine);
 

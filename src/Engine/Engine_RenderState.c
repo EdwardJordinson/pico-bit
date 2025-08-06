@@ -9,6 +9,10 @@
 
 //Handles Draw calls to the window
 
+
+//Incomplete, object implemenation need work
+
+
 void RenderState_Initialise(Engine_RenderState* renderState)
 {
 
@@ -28,16 +32,7 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* obje
     {   
         Engine_Object* tempObject = ObjectManager_Get(objectManager, i);
         SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->renderID);
-
-        if (i==0)
-        {
-            SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0xff, 0xff, 0xff, 0xff);
-        }
-        else
-        {
-            SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
-        }
-        
+        SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
         Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, tempObject->Transform2D.Position);
         tempFRect->x = tempPosition.x;
         tempFRect->y = tempPosition.y;

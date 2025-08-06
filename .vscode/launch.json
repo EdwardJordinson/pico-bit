@@ -6,7 +6,11 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/bin/main.exe",
-      "args": [],
+      "args": [ 
+        "bin/demo_scene.efd",
+        "${workspaceFolder}/src/Game/demo_scene.efd"
+
+       ],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],

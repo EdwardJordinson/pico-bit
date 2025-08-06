@@ -12,9 +12,9 @@ Engine_Object Object_Initialise(int id)
     return(Engine_Object){id};
 };
 
-void Object_Setup(Engine_Object* object, int xPosition, int yPosition)
+void Object_Setup(Engine_Object* object, float xPosition, float yPosition)
 {
-    object->Transform2D.Position = Vector2_Initialise(xPosition-50, yPosition-50);
+    object->Transform2D.Position = Vector2_Initialise(xPosition-50.0, yPosition-50.0);
     object->Velocity = Vector2_Initialise(0.0, 0.0);
     object->CollisionShape = AABB_Initialise();
 	object->Restitution = 1.0;
@@ -27,9 +27,9 @@ void Object_Event(Engine_Object* object, Engine_EventHandler* eventHandler)
 
 };
 
-void Object_SetPosition(Engine_Object* object, int xPosition, int yPosition)
+void Object_SetPosition(Engine_Object* object, float xPosition, float yPosition)
 {
-    object->Transform2D.Position = Vector2_Initialise(xPosition-50, yPosition-50);
+    object->Transform2D.Position = Vector2_Initialise(xPosition-50.0, yPosition-50.0);
 };
 
 void Object_SetVelocity(Engine_Object* object, Vector2 vector)
@@ -78,16 +78,16 @@ void Object_CollisionResolve(Engine_Object* object1, Engine_Object* object2, Eng
 	object2->Velocity = Vector2_VectorAdd(object2->Velocity, Vector2_ScalarMuliply(1.0/object2->Mass, impulse));
 };
 
-Engine_Manifold Object_CollisionNormal(Engine_Object* entity1, Engine_Object* entity2)
+Engine_Manifold Object_CollisionNormal(Engine_Object* object1, Engine_Object* object2)
 {
 	Engine_Manifold output;
 	output.Hit = false;
 
-	Vector2 mid_1 = Vector2_ScalarMuliply(0.5, Vector2_VectorAdd(entity1->CollisionShape.minVector, entity1->CollisionShape.maxVector));
-	Vector2 mid_2 = Vector2_ScalarMuliply(0.5, Vector2_VectorAdd(entity2->CollisionShape.minVector, entity2->CollisionShape.maxVector));
+	Vector2 mid_1 = Vector2_ScalarMuliply(0.5, Vector2_VectorAdd(object1->CollisionShape.minVector, object1->CollisionShape.maxVector));
+	Vector2 mid_2 = Vector2_ScalarMuliply(0.5, Vector2_VectorAdd(object2->CollisionShape.minVector, object2->CollisionShape.maxVector));
 	
-	Vector2 e1 = Vector_ABS(Vector2_ScalarMuliply(0.5, Vector2_VectorSubtract(entity1->CollisionShape.maxVector, entity1->CollisionShape.minVector)));
-	Vector2 e2 = Vector_ABS(Vector2_ScalarMuliply(0.5, Vector2_VectorSubtract(entity2->CollisionShape.maxVector, entity2->CollisionShape.minVector)));
+	Vector2 e1 = Vector_ABS(Vector2_ScalarMuliply(0.5, Vector2_VectorSubtract(object1->CollisionShape.maxVector, object1->CollisionShape.minVector)));
+	Vector2 e2 = Vector_ABS(Vector2_ScalarMuliply(0.5, Vector2_VectorSubtract(object2->CollisionShape.maxVector, object2->CollisionShape.minVector)));
 	
 	Vector2 direction = Vector2_VectorSubtract(mid_1, mid_2);
 

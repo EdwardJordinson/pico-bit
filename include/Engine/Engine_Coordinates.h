@@ -22,17 +22,6 @@ typedef struct Vector2
     float x, y;
 } Vector2;
 
-/*
-typedef struct Vector2_TEST
-{
-    float *x,*y;
-    float v[2];
-
-    void (*Add)(struct Vector2_TEST*,struct Vector2_TEST);
-    void (*Sub)(struct Vector2_TEST*,struct Vector2_TEST);
-
-} Vector2_TEST;
-*/
 
 Vector2 Vector2_Initialise(float x, float y);
 Vector2 Vector2_VectorAdd(Vector2 vector1, Vector2 vector2);

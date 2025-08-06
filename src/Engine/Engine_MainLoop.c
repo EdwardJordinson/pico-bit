@@ -12,7 +12,6 @@
 void MainLoop_Intitialise(Engine_MainLoop* mainLoop)
 {
     mainLoop->running = false;
-    mainLoop->delta = 0.0;
 
 };
 
@@ -42,15 +41,15 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
         //Make this output to the screen with SDL_ttf
         //MainLoop_PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
         
-        GameState_Update(engineLoop->GameState, engineLoop->EventProcess, engineLoop->delta);
+        GameState_Update(engineLoop->GameState, engineLoop->EventProcess);
         RenderState_Draw(engineLoop->RenderState, engineLoop->GameState);
         ++frameCount;
         
         currentTime = SDL_GetTicks();
-        engineLoop->delta = (currentTime - lastTime)/1000.0f;
+        engineLoop->GameState->delta = (currentTime - lastTime)/1000.0f;
         lastTime = currentTime;
 
-        if (engineLoop->delta < delayTime)
+        if (engineLoop->GameState->delta < delayTime)
         {
             //SDL_Delay(delayTime - (*engineLoop)->delta);
         }    

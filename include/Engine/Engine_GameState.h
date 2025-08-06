@@ -16,7 +16,7 @@ typedef struct Engine_GameState
 
 void GameState_Initialise(Engine_GameState* gameState);
 
-void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess, float deltaTime);
+void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess);
 
 void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaTime);
 

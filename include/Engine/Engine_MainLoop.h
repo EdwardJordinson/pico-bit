@@ -12,7 +12,6 @@ typedef struct Engine_RenderState Engine_RenderState;
 typedef struct Engine_MainLoop
 {
     bool running;
-    float delta; //Have gamestate only track this
 
     Engine_EventProcess* EventProcess;
     Engine_GameState* GameState;
