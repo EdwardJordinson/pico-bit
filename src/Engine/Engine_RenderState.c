@@ -1,6 +1,7 @@
 #include <Engine/Engine_RenderState.h>
 #include <Engine/Engine_RenderManager.h>
 #include <Engine/Engine_GameState.h>
+#include <Engine/Engine_GameObject.h>
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_Object.h>
 #include <SDL3/SDL_video.h>
@@ -30,8 +31,8 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* obje
 {
     for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
-        Engine_Object* tempObject = ObjectManager_Get(objectManager, i);
-        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->renderID);
+        Engine_GameObject* tempObject = ObjectManager_Get(objectManager, i)->Data;
+        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->RenderID);
         SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
         Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, tempObject->Transform2D.Position);
         tempFRect->x = tempPosition.x;

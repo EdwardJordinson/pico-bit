@@ -4,6 +4,7 @@
 #include <Engine/Engine_EventProcess.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_Object.h>
+#include <Engine/Engine_GameObject.h>
 #include <Engine/Engine_RenderState.h>
 #include <Engine/Engine_RenderManager.h>
 #include <Engine/Engine_Window.h>
@@ -44,7 +45,7 @@ void Initialise_Systems(Engine_Main *engine)
     EventProcess_Initialise(engine->MainLoop->EventProcess);
 
     GameState_Initialise(engine->MainLoop->GameState);
-    ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager);
+    ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager, sizeof(Engine_GameObject), 16, Object_Initialise, GameObject_Setup);
 
     RenderState_Initialise(engine->MainLoop->RenderState);
     Window_Initialise(engine->MainLoop->RenderState->EngineWindow);
@@ -69,10 +70,12 @@ void Initialise_EFDConfigure(Engine_Main *engine, EFD_File *data)
     char *savePointer;
     while ((line != NULL))
     {
-        Engine_Object *newObject;
+        Engine_Object *newEObject;
         if (strncmp(line, "Game-", 5) == 0)
         {
-            newObject = ObjectManager_Get(objectManager, ObjectManager_Allocate(objectManager));
+            //newObject = ObjectManager_Get(objectManager, ObjectManager_Allocate(objectManager));
+            newEObject = ObjectManager_Allocate(engine->MainLoop->GameState->ObjectManager);
+            Engine_GameObject* newObject = newEObject->Data;
 
             char lineCopy[1024];
             strncpy(lineCopy, line, sizeof(lineCopy));
@@ -86,7 +89,7 @@ void Initialise_EFDConfigure(Engine_Main *engine, EFD_File *data)
                     float tempX = 0.0;
                     float tempY = 0.0;
                     sscanf(token + 8  + 5, "{%f|%f}", &tempX, &tempY);
-                    Object_SetPosition(newObject, tempX,tempY);
+                    GameObject_SetPosition(newObject, tempX,tempY);
                 }
                 else if (strncmp(token, "Velocity", 8) == 0)
                 {
@@ -100,7 +103,7 @@ void Initialise_EFDConfigure(Engine_Main *engine, EFD_File *data)
                 {
                     int renderID = 0;
                     sscanf(token + 8, "{%d}", &renderID);
-                    newObject->renderID = renderID;
+                    newObject->RenderID = renderID;
                 }
                 else if (strncmp(token, "Restitution", 11) == 0)
                 {

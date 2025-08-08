@@ -50,6 +50,8 @@
         "tuple": "c",
         "utility": "c",
         "variant": "c",
-        "source_location": "c"
+        "source_location": "c",
+        "engine_eventprocess.h": "c",
+        "engine_object.h": "c"
     }
 }

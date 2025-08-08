@@ -16,16 +16,35 @@ typedef struct Engine_AABB Engine_AABB;
 
 typedef struct Engine_GameObject
 {
-    int renderID;
+    int RenderID;
     Engine_Matrix3x2 Transform2D;
     Vector2 Velocity; //Movement Direction/Speed
     Engine_AABB CollisionShape;
     float Restitution; //Bouncy-ness
     float Mass; //Mass
 
-    void (*update)(struct Engine_GameObject*,float);
+    void (*Update)(struct Engine_GameObject*,float);
 
 } Engine_GameObject;
+
+
+void GameObject_Initialise(Engine_GameObject* object, int id);
+
+void GameObject_Setup(Engine_GameObject* object, float xPosition, float yPosition);
+
+void GameObject_Event(Engine_GameObject* object, Engine_EventHandler* eventHandler);
+
+void GameObject_SetPosition(Engine_GameObject* object, float xPosition, float yPosition);
+
+void GameObject_SetVelocity(Engine_GameObject* object, Vector2 vector);
+
+void GameObject_UpdateRigid(Engine_GameObject* object, float deltaTime);
+
+void GameObject_UpdateStatic(Engine_GameObject* object, float deltaTime);
+
+void GameObject_CollisionResolve(Engine_GameObject* object1, Engine_GameObject* object2, Engine_Manifold* manifold);
+
+Engine_Manifold GameObject_CollisionNormal(Engine_GameObject* object1, Engine_GameObject* object2);
 
 
 #endif //Engine_GameObject_H
