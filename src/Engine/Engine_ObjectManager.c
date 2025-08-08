@@ -2,12 +2,10 @@
 #include <stdlib.h>
 
 
-void ObjectManager_Initialise(Engine_ObjectManager* manager, size_t objectSize, size_t objectCount, void* initFunc, void* configFunc)
+void ObjectManager_Initialise(Engine_ObjectManager* manager, size_t objectSize, size_t objectCount, void* configFunc)
 {
-    manager->InitObject = initFunc;
     manager->ConfigObject = configFunc;
     manager->ObjectSize = (sizeof(Engine_Object) + objectSize);
-    //manager->ObjectSize = (objectSize > sizeof(void*)) ? objectSize : sizeof(void*);
     manager->ObjectCount = objectCount;
     manager->ObjectPool = malloc(manager->ObjectSize * objectCount);
     manager->FreeList = manager->ObjectPool;
@@ -19,7 +17,7 @@ void ObjectManager_Initialise(Engine_ObjectManager* manager, size_t objectSize, 
     for (size_t i = 0; i < objectCount - 1; i++)
     { 
         Engine_Object* currentObjectBase = (void*)(base + i * manager->ObjectSize);
-        manager->InitObject(currentObjectBase, i);
+        Object_Initialise(currentObjectBase, i);
         currentObjectBase->Data = (char*)currentObjectBase + sizeof(Engine_Object);
 
         void** current = (void**)(base + i * manager->ObjectSize);
@@ -30,13 +28,13 @@ void ObjectManager_Initialise(Engine_ObjectManager* manager, size_t objectSize, 
     *last = NULL;
 };
 
-void* ObjectManager_Allocate(Engine_ObjectManager* manager)
+Engine_Object* ObjectManager_Allocate(Engine_ObjectManager* manager)
 {
     if (manager->FreeList == NULL) return NULL;
 
-    void* allocated = manager->FreeList;
+    Engine_Object* allocated = manager->FreeList;
     manager->FreeList = *(void**)manager->FreeList;
-    manager->ConfigObject(allocated, 0.0, 0.0);
+    manager->ConfigObject(allocated->Data);
     manager->ActiveCount += 1;
     return allocated;
 };
@@ -54,4 +52,11 @@ Engine_Object* ObjectManager_Get(Engine_ObjectManager* manager, size_t index)
 
     char* base = (char*)manager->ObjectPool;
     return (void*)(base + index * manager->ObjectSize);
+};
+
+void ObjectManager_Shutdown(Engine_ObjectManager* manager)
+{
+    free(manager->FreeList);
+    free(manager->ObjectPool);
+
 };

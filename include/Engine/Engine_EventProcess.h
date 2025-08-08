@@ -15,7 +15,7 @@ typedef struct Engine_EventProcess
 } Engine_EventProcess;
 
 
-void EventProcess_Initialise(Engine_EventProcess* eventprocess);
+void EventProcess_Initialise(Engine_EventProcess* eventProcess);
 
 void EventProcess_Check(Engine_EventProcess* eventHandler, Engine_GameState* gameState, bool* running);
 

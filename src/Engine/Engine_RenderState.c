@@ -1,8 +1,8 @@
 #include <Engine/Engine_RenderState.h>
-#include <Engine/Engine_RenderManager.h>
+#include <Engine/Engine_RenderObject.h>
+#include <Engine/Engine_Window.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_GameObject.h>
-#include <Engine/Engine_Window.h>
 #include <Engine/Engine_Object.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_render.h>
@@ -31,12 +31,17 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* obje
 {
     for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
-        Engine_GameObject* tempObject = ObjectManager_Get(objectManager, i)->Data;
-        SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->RenderID);
-        SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x00, 0xff, 0xff, 0xff);
-        Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, tempObject->Transform2D.Position);
+        Engine_GameObject* gameObject = ObjectManager_Get(objectManager, i)->Data;
+        //SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->RenderID);
+        Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
+        SDL_FRect* tempFRect;
+        Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->Transform2D.Position);
         tempFRect->x = tempPosition.x;
         tempFRect->y = tempPosition.y;
+        tempFRect->w = renderObject->Width;
+        tempFRect->h = renderObject->Height;
+
+        SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
         SDL_RenderFillRect(rendererState->EngineWindow->SDLRenderer, tempFRect);
     }
 };

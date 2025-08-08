@@ -7,14 +7,32 @@
 #include <stdio.h>
 
 
-void GameObject_Initialise(Engine_GameObject* object, int id)
-{
-    
+void GameObject_Initialise()
+{ //Set values to defaults -> Creation pipeline
+    //return(Engine_GameObject){};
+    /*
+        object->Transform2D.Position = Vector2_Initialise(0.0, 0.0);
+    object->Velocity = Vector2_Initialise(0.0, 0.0);
+    object->CollisionShape = AABB_Initialise();
+	object->Restitution = 1.0;
+	object->Mass = 10.0;
+    */
+
+};
+
+void GameObject_Configure(Engine_GameObject* object)
+{ //Set values to defaults -> Creation pipeline
+    object->Transform2D.Position = Vector2_Initialise(0.0, 0.0);
+    object->Velocity = Vector2_Initialise(0.0, 0.0);
+    object->CollisionShape = AABB_Initialise();
+	object->Restitution = 1.0;
+	object->Mass = 10.0;
+
 };
 
 void GameObject_Setup(Engine_GameObject* object, float xPosition, float yPosition)
 {
-    object->Transform2D.Position = Vector2_Initialise(xPosition-50.0, yPosition-50.0);
+    object->Transform2D.Position = Vector2_Initialise(xPosition-50.0, yPosition-50.0); // Object shape must be considered when setting position
     object->Velocity = Vector2_Initialise(0.0, 0.0);
     object->CollisionShape = AABB_Initialise();
 	object->Restitution = 1.0;
