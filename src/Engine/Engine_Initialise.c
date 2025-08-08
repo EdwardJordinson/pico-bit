@@ -7,7 +7,6 @@
 #include <Engine/Engine_GameObject.h>
 #include <Engine/Engine_RenderState.h>
 #include <Engine/Engine_RenderObject.h>
-#include <Engine/Engine_RenderManager.h>
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_EFD.h>
 #include <SDL3/SDL_init.h>
@@ -159,10 +158,7 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                 {
                     int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
                     sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
-                    newRenderObject->Red = tempRed;
-                    newRenderObject->Green = tempGreen;
-                    newRenderObject->Blue = tempBlue;
-                    newRenderObject->Alpha = tempAlpha;
+                    RenderObject_SetColour(newRenderObject, tempRed, tempBlue, tempGreen, tempAlpha);
                 }
                 token = strtok_r(NULL, ",", &savePointer);
             }

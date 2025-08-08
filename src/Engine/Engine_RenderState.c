@@ -32,7 +32,6 @@ void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* obje
     for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
         Engine_GameObject* gameObject = ObjectManager_Get(objectManager, i)->Data;
-        //SDL_FRect* tempFRect = RenderManager_Get(rendererState->RenderManager, tempObject->RenderID);
         Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
         SDL_FRect* tempFRect;
         Vector2 tempPosition = RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->Transform2D.Position);

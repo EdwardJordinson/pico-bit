@@ -1,5 +1,5 @@
 Objects
 Game-Position{0.0|0.0},Velocity{0.0|0.0},RenderID{0},CollisionShape{AABB{-50.0|-50.0|50.0|50.0}},Restitution{1.0},Mass{100.0}
-Game-Position{0.0|200.0},Velocity{0.0|-100.0},RenderID{0},CollisionShape{AABB{-50.0|-50.0|50.0|50.0}},Restitution{1.0},Mass{10.0}
+Game-Position{0.0|200.0},Velocity{0.0|-100.0},RenderID{1},CollisionShape{AABB{-50.0|-50.0|50.0|50.0}},Restitution{1.0},Mass{10.0}
 Render-Position{0.0|0.0},Width{100.0},Height{100.0},Colour{0xff|0xff|0xff|0xff}
 Render-Position{0.0|0.0},Width{100.0},Height{100.0},Colour{0x00|0xff|0xff|0xff}

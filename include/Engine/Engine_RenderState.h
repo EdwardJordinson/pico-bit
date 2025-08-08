@@ -17,11 +17,8 @@ typedef struct Engine_RenderState
 
 
 void RenderState_Initialise(Engine_RenderState* renderState);
-
 void RenderState_Draw(Engine_RenderState* renderState, Engine_GameState* gameState);
-
 void Draw_Entities(Engine_RenderState* renderState, Engine_ObjectManager* objectManager);
-
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position);
 
 #endif //Engine_RenderState_H
