@@ -45,7 +45,7 @@ void Initialise_Systems(Engine_Main *engine)
     EventProcess_Initialise(engine->MainLoop->EventProcess);
 
     GameState_Initialise(engine->MainLoop->GameState);
-    ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager, sizeof(Engine_GameObject), 16, GameObject_Configure);
+    ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager, sizeof(Engine_GameObject), 16, GameObject_SetDefault);
 
     RenderState_Initialise(engine->MainLoop->RenderState);
     Window_Initialise(engine->MainLoop->RenderState->EngineWindow);
@@ -86,18 +86,15 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
             {
                 if (strncmp(token + 5, "Position", 8) == 0)
                 {
-                    float tempX = 0.0;
-                    float tempY = 0.0;
+                    float tempX = 0.0; float tempY = 0.0;
                     sscanf(token + 8  + 5, "{%f|%f}", &tempX, &tempY);
-                    GameObject_SetPosition(newGameObject, tempX,tempY);
+                    GameObject_SetPositionXY(newGameObject, tempX, tempY);
                 }
                 else if (strncmp(token, "Velocity", 8) == 0)
                 {
-                    float tempX = 0.0;
-                    float tempY = 0.0;
+                    float tempX = 0.0; float tempY = 0.0;
                     sscanf(token + 8, "{%f|%f}", &tempX, &tempY);
-                    newGameObject->Velocity.x = tempX;
-                    newGameObject->Velocity.y = tempY;
+                    Vector2_SetXY(&newGameObject->Velocity, tempX, tempY);
                 }
                 else if (strncmp(token, "RenderID", 8) == 0)
                 {

@@ -3,7 +3,7 @@
 
 Engine_Matrix3x2 Matrix3x2_Inititialise()
 {
-    return (Engine_Matrix3x2){(Engine_Matrix2x2)Matrix2x2_Inititialise(), (Vector2)Vector2_Initialise(0.0,0.0)};
+    return (Engine_Matrix3x2){(Engine_Matrix2x2)Matrix2x2_Inititialise(), (Vector2){0.0,0.0}};
 };
 
 Engine_Matrix3x2 Matrix3x2_TranslationVector(Vector2 vector)
@@ -18,7 +18,7 @@ Engine_Matrix3x2 Matrix3x2_TranslationXY(float x, float y)
 
 Engine_Matrix3x2 Matrix3x2_Rotate(float radians)
 {
-    return (Engine_Matrix3x2){(Engine_Matrix2x2)Matrix2x2_Rotation(radians), (Vector2)Vector2_Initialise(0.0,0.0)};
+    return (Engine_Matrix3x2){(Engine_Matrix2x2)Matrix2x2_Rotation(radians), (Vector2){0.0,0.0}};
 };
 
 Engine_Matrix3x2 Matrix3x2_TSR(float radians)

@@ -11,16 +11,18 @@
 // -----------------------AABB-------------------------- //
 typedef struct Engine_AABB
 {
-    Vector2 minVector;
-    Vector2 maxVector;
+    Vector2 maxVector; Vector2 minVector;
 } Engine_AABB;
 
 
 Engine_AABB AABB_Initialise();
-void AABB_AddPosition(Engine_AABB* box2D, Vector2 newPosition);
+void AABB_SetDefault(Engine_AABB* aabb);
+void AABB_SetConfiguration(Engine_AABB* aabb, Engine_AABB configAABB);
+void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector);
+Engine_AABB AABB_FindPosition(Engine_AABB* aabb, Vector2 newPosition);
+bool AABB_IntersectionAABB(Engine_AABB aabb1, Engine_AABB aabb2);
 //bool AABB_ClipLine(int dimention, AABB* aabbBox, Vector2 lineStart, Vector2 lineEnd, float f_low, float f_high);
 //bool AABB_IntersectionLine();
-bool AABB_IntersectionAABB(Engine_AABB box1, Engine_AABB box2);
 
 
 #endif //Engine_Collision_H

@@ -4,7 +4,7 @@
 
 void ObjectManager_Initialise(Engine_ObjectManager* manager, size_t objectSize, size_t objectCount, void* configFunc)
 {
-    manager->ConfigObject = configFunc;
+    manager->ConfigObject = configFunc; //Will need another file to be loaded for engine defaults this functions will use deafult config provided
     manager->ObjectSize = (sizeof(Engine_Object) + objectSize);
     manager->ObjectCount = objectCount;
     manager->ObjectPool = malloc(manager->ObjectSize * objectCount);

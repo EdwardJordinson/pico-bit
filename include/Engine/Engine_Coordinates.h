@@ -23,17 +23,25 @@ typedef struct Vector2
 } Vector2;
 
 
-Vector2 Vector2_Initialise(float x, float y);
-Vector2 Vector2_VectorAdd(Vector2 vector1, Vector2 vector2);
-Vector2 Vector2_VectorSubtract(Vector2 vector1, Vector2 vector2);
-Vector2 Vector2_VectorMultiply(Vector2 vector1, Vector2 vector2);
-Vector2 Vector2_ScalarAdd(float scalar, Vector2 vector);
-Vector2 Vector2_ScalarMuliply(float scalar, Vector2 vector);
-Vector2 Vector2_ScalarDivide(float scalar, Vector2 vector2);
+Vector2 Vector2_Initialise();
+Vector2 Vector2_SetXY(Vector2* srcVector, float x, float y);
+Vector2 Vector2_SetVector(Vector2* srcVector, Vector2 vector);
+Vector2 Vector2_AddScalar(Vector2 vector, float scale);
+Vector2 Vector2_AddXY(Vector2 vector, float x, float y);
+Vector2 Vector2_AddVector(Vector2 vector2, Vector2 vector1);
+Vector2 Vector2_SubtractScalar(Vector2 vector, float scale);
+Vector2 Vector2_SubtractXY(Vector2 vector, float x, float y);
+Vector2 Vector2_SubtractVector(Vector2 vector1, Vector2 vector2);
+Vector2 Vector2_MuliplyScalar(Vector2 vector, float scale);
+Vector2 Vector2_MultiplyXY(Vector2 vector, float x, float y);
+Vector2 Vector2_MultiplyVector(Vector2 vector1, Vector2 vector2);
+Vector2 Vector2_DivideScalar(Vector2 vector, float scale);
+Vector2 Vector2_DivideXY(Vector2 vector, float x, float y);
+Vector2 Vector2_DivideVector(Vector2 vector1, Vector2 vector2);
 Vector2 Vector2_Rotate(Vector2 vector, float radians);
 Vector2 Vector2_Skew(Vector2 vector);
-Vector2 Vector2_RotationMultiply(Engine_Rotation rotation, Vector2 vector);
-Vector2 Vector2_NormalVectorFromAngle(float radaians);
+Vector2 Vector2_RotationMultiply(Vector2 vector, Engine_Rotation rotation);
+Vector2 Vector2_NormalAngleRadians(float radaians);
 float Vector2_Length(Vector2 vector);
 Vector2 Vector_ABS(Vector2 vector);
 Vector2 Vector2_Normailised(Vector2 vector);

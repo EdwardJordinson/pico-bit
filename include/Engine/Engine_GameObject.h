@@ -29,15 +29,17 @@ typedef struct Engine_GameObject
 
 
 void GameObject_Initialise();
-void GameObject_Configure(Engine_GameObject* object);
-void GameObject_Setup(Engine_GameObject* object, float xPosition, float yPosition);
-void GameObject_Event(Engine_GameObject* object, Engine_EventHandler* eventHandler);
-void GameObject_SetPosition(Engine_GameObject* object, float xPosition, float yPosition);
-void GameObject_SetVelocity(Engine_GameObject* object, Vector2 vector);
-void GameObject_UpdateRigid(Engine_GameObject* object, float deltaTime);
-void GameObject_UpdateStatic(Engine_GameObject* object, float deltaTime);
-void GameObject_CollisionResolve(Engine_GameObject* object1, Engine_GameObject* object2, Engine_Manifold* manifold);
-Engine_Manifold GameObject_CollisionNormal(Engine_GameObject* object1, Engine_GameObject* object2);
+void GameObject_SetDefault(Engine_GameObject* gameObject);
+void GameObject_SetConfiguration(Engine_GameObject* gameObject, Engine_GameObject configObject);
+void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, float yPosition);
+void GameObject_SetPositionVector(Engine_GameObject* gameObject, Vector2 vector);
+void GameObject_SetVelocity(Engine_GameObject* gameObject, Vector2 vector);
+
+//Move these into physics code
+void GameObject_UpdateRigid(Engine_GameObject* gameObject, float deltaTime);
+void GameObject_UpdateStatic(Engine_GameObject* gameObject, float deltaTime);
+void GameObject_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2, Engine_Manifold* manifold);
+Engine_Manifold GameObject_CollisionNormal(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2);
 
 
 #endif //Engine_GameObject_H
