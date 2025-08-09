@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 //Forward declares
+typedef struct Engine_Manifold Engine_Manifold;
 //
 
 //#######################################################//
@@ -20,7 +21,7 @@ void AABB_SetDefault(Engine_AABB* aabb);
 void AABB_SetConfiguration(Engine_AABB* aabb, Engine_AABB configAABB);
 void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector);
 Engine_AABB AABB_FindPosition(Engine_AABB* aabb, Vector2 newPosition);
-bool AABB_IntersectionAABB(Engine_AABB aabb1, Engine_AABB aabb2);
+Engine_Manifold AABB_IntersectionAABB(Engine_AABB aabb1, Vector2 position1, Engine_AABB aabb2, Vector2 position2);
 //bool AABB_ClipLine(int dimention, AABB* aabbBox, Vector2 lineStart, Vector2 lineEnd, float f_low, float f_high);
 //bool AABB_IntersectionLine();
 

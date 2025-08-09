@@ -2,6 +2,7 @@
 #define Engine_Physics_H
 
 #include <Engine/Engine_Coordinates.h>
+#include <stdbool.h>
 
 //Forward declares
 typedef struct Engine_GameObject Engine_GameObject;
@@ -17,12 +18,14 @@ typedef struct Engine_Manifold
 } Engine_Manifold;
 
 
+Engine_Manifold Manifold_Initialise();
+
 void Physics_InverseMass();
-void Physics_CollisionResolve();
-void Physics_SetVelocity(Engine_GameObject* object, Vector2 vector);
-void Physics_UpdateRigid(Engine_GameObject* object, float deltaTime);
-void Physics_UpdateStatic(Engine_GameObject* object, float deltaTime);
-void Physics_CollisionResolve(Engine_GameObject* object1, Engine_GameObject* object2, Engine_Manifold* manifold);
-Engine_Manifold Physics_CollisionNormal(Engine_GameObject* object1, Engine_GameObject* object2);
+void Physics_SetVelocity(Engine_GameObject* gameObject, Vector2 vector);
+void Physics_UpdateRigid(Engine_GameObject* gameObject, float deltaTime);
+void Physics_UpdateStatic(Engine_GameObject* gameObject, float deltaTime);
+void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2, Engine_Manifold* manifold);
+Engine_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony);
+
 
 #endif //Engine_Physics_H

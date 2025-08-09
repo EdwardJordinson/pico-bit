@@ -50,27 +50,5 @@ void ObjectManager_Free(Engine_ObjectManager* manager, void* object);
 Engine_Object* ObjectManager_Get(Engine_ObjectManager* manager, size_t index);
 void ObjectManager_Shutdown(Engine_ObjectManager* manager);
 
-/*
-#define MAX_OBJECT_LIMIT 512
-
-typedef struct Engine_ObjectManager
-{
-    Engine_Object ObjectList[MAX_OBJECT_LIMIT];
-    int FreeList[MAX_OBJECT_LIMIT];
-    int FreeCount;
-    bool ActiveIndex[MAX_OBJECT_LIMIT];
-    int ActiveList[MAX_OBJECT_LIMIT];
-    int ActiveCount;
-
-    void (*InitObject);
-
-} Engine_ObjectManager;
-
-
-void ObjectManager_Initialise(Engine_ObjectManager* manager);
-int ObjectManager_Allocate(Engine_ObjectManager* manager);
-void ObjectManager_Free(Engine_ObjectManager* manager, int index);
-Engine_Object* ObjectManager_Get(Engine_ObjectManager* manager, int index);
-*/
 
 #endif //Engine_Object_H
