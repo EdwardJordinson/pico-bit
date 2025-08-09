@@ -121,7 +121,7 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                     Vector2 minVector = Vector2_Initialise();
                     sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
                     AABB_SetMaxMin(&newGameObject->CollisionShape, maxVector, minVector);
-                    GameObject_SetPositionXY(newGameObject, newGameObject->Transform2D.Position.x, newGameObject->Transform2D.Position.y); // Hackneed way to get the object to start with the correct offset
+                    //GameObject_SetPositionXY(newGameObject, newGameObject->Transform2D.Position.x, newGameObject->Transform2D.Position.y); // Hackneed way to get the object to start with the correct offset
                 }
                 token = strtok_r(NULL, ",", &savePointer);
             }
@@ -176,5 +176,5 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
 void Initialise_Game(Engine_Main *engine)
 {
     MainLoop_Run(engine->MainLoop);
-    
+
 };

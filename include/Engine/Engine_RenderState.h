@@ -6,6 +6,8 @@ typedef struct Engine_Window Engine_Window;
 typedef struct Engine_GameState Engine_GameState;
 typedef struct Engine_ObjectManager Engine_ObjectManager;
 typedef struct Vector2 Vector2;
+typedef struct SDL_Renderer SDL_Renderer;
+typedef struct Engine_AABB Engine_AABB;
 //
 
 typedef struct Engine_RenderState
@@ -18,7 +20,9 @@ typedef struct Engine_RenderState
 
 void RenderState_Initialise(Engine_RenderState* renderState);
 void RenderState_Draw(Engine_RenderState* renderState, Engine_GameState* gameState);
-void Draw_Entities(Engine_RenderState* renderState, Engine_ObjectManager* objectManager);
+void RenderState_DrawObjects(Engine_RenderState* renderState, Engine_ObjectManager* objectManager);
+void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vector2);
+void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox);
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position);
 
 #endif //Engine_RenderState_H

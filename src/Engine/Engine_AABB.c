@@ -23,7 +23,22 @@ void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector)
     aabb->maxVector = maxVector; aabb->minVector = minVector;
 };
 
-Engine_AABB AABB_FindPosition(Engine_AABB* box2D, Vector2 newPosition)
+float AABB_GetWidth(Engine_AABB* aabb)
+{
+    return (float){aabb->maxVector.x - aabb->minVector.x};
+};
+
+float AABB_GetHeight(Engine_AABB* aabb)
+{
+    return (float){aabb->maxVector.y - aabb->minVector.y};
+};
+
+Vector2 AABB_GetCenter(Engine_AABB* aabb)
+{
+    return Vector2_MuliplyScalar(Vector2_AddVector(aabb->maxVector, aabb->minVector), 0.5f);
+};
+
+Engine_AABB AABB_GetPosition(Engine_AABB* box2D, Vector2 newPosition)
 {
     return (Engine_AABB){Vector2_AddVector(box2D->maxVector, newPosition), Vector2_AddVector(box2D->minVector, newPosition)};
 };
@@ -38,8 +53,8 @@ Engine_Manifold AABB_IntersectionAABB(Engine_AABB box1, Vector2 position1, Engin
     //if(box1.maxVector.x < box2.minVector.x || box1.minVector.x > box2.maxVector.x) return false;
     //if(box1.maxVector.y < box2.minVector.y || box1.minVector.y > box2.maxVector.y) return false;
 
-	Engine_AABB objectAABB1 = AABB_FindPosition(&box1, position1);
-	Engine_AABB objectAABB2 = AABB_FindPosition(&box2, position2);
+	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, position1);
+	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, position2);
 
 	Vector2 mid_1 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB1.minVector, objectAABB1.maxVector), 0.5);
 	Vector2 mid_2 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB2.minVector, objectAABB2.maxVector), 0.5);
