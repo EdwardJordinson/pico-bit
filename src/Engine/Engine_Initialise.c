@@ -60,6 +60,7 @@ EFD_File* Initialise_ReadEFD()
     return configFile;
 };
 
+//Requires rework, needs dedicated libarary for parsing. Considering cross-compilation with GNU-Prolog
 void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
 {
     Engine_ObjectManager* objectManager = engine->MainLoop->GameState->ObjectManager;
@@ -175,4 +176,5 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
 void Initialise_Game(Engine_Main *engine)
 {
     MainLoop_Run(engine->MainLoop);
+    
 };

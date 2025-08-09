@@ -27,6 +27,7 @@ void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameS
     SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
 
+// Need to draw lines of each object collision shape instead of a square
 void Draw_Entities(Engine_RenderState* rendererState, Engine_ObjectManager* objectManager)
 {
     for (int i = 0; i < objectManager->ActiveCount; i++)
