@@ -19,9 +19,10 @@ int main(int argc, char** argv)
 {
     if (makeEFD == true)
     {
-        EFD_WriteFile(argc, argv);
+        
         return 0;
     }
+    EFD_WriteFile(argc, argv);
 
     printf("Engine Start.\n");
     

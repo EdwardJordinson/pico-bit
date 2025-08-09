@@ -112,10 +112,16 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                 {
                     float tempMass = 10.0;
                     sscanf(token + 4, "{%f}", &tempMass);
-                    newGameObject->Mass = tempMass;
+                    GameObject_SetMass(newGameObject, tempMass);
                 }
-                // else if (strncmp(token, "CollisionShape{AABB{", 21) == 0)
-                //     sscanf(token + 21, "%f,%f,%f,%f}}", &obj.collider.xMin, &obj.collider.yMin, &obj.collider.xMax, &obj.collider.yMax);
+                else if (strncmp(token, "CollisionShape", 14) == 0)
+                {
+                    Vector2 maxVector = Vector2_Initialise();
+                    Vector2 minVector = Vector2_Initialise();
+                    sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
+                    AABB_SetMaxMin(&newGameObject->CollisionShape, maxVector, minVector);
+                    GameObject_SetPositionXY(newGameObject, newGameObject->Transform2D.Position.x, newGameObject->Transform2D.Position.y); // Hackneed way to get the object to start with the correct offset
+                }
                 token = strtok_r(NULL, ",", &savePointer);
             }
         }

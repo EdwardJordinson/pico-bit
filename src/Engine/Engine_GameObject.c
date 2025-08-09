@@ -10,15 +10,17 @@
 void GameObject_Initialise()
 { //Set values to defaults -> Creation pipeline
     //return(Engine_GameObject){};
+
 };
 
 void GameObject_SetDefault(Engine_GameObject* gameObject)
 {
-    Vector2_SetXY(&gameObject->Transform2D.Position, 0.0,0.0);
-    Vector2_SetXY(&gameObject->Velocity, 0.0,0.0);
-    AABB_SetMaxMin(&gameObject->CollisionShape,(Vector2){50.0,50.0},(Vector2){-50.0,-50.0});
+	gameObject->Transform2D = Matrix3x2_Inititialise();
+	gameObject->Velocity = Vector2_Initialise();
+	gameObject->CollisionShape = AABB_Initialise();
 	gameObject->Restitution = 1.0;
-	gameObject->Mass = 10.0;
+	gameObject->Mass = 1.0;
+	gameObject->InverseMass = 1/gameObject->Mass;
 	gameObject->Update = Physics_UpdateRigid;
 
 };
@@ -30,7 +32,7 @@ void GameObject_SetConfiguration(Engine_GameObject* gameObject, Engine_GameObjec
 
 void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, float yPosition)
 {
-    Vector2_SetXY(&gameObject->Transform2D.Position, xPosition+gameObject->CollisionShape.minVector.x, yPosition+gameObject->CollisionShape.minVector.y);
+    Vector2_SetXY(&gameObject->Transform2D.Position, xPosition+gameObject->CollisionShape.minVector.x, yPosition+gameObject->CollisionShape.maxVector.y);
 };
 
 void GameObject_SetPositionVector(Engine_GameObject* gameObject, Vector2 vector)
@@ -41,4 +43,11 @@ void GameObject_SetPositionVector(Engine_GameObject* gameObject, Vector2 vector)
 void GameObject_SetUpdateFunction(Engine_GameObject* gameObject, void* updateFunction)
 {
 	gameObject->Update = updateFunction;
+};
+
+void GameObject_SetMass(Engine_GameObject* gameObject, float mass)
+{
+	gameObject->Mass = mass;
+	if (mass == 0.0) gameObject->InverseMass = 0.0;
+	else gameObject->InverseMass = 1/gameObject->Mass;
 };

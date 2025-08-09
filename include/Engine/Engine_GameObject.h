@@ -15,10 +15,13 @@ typedef struct Engine_GameObject
 {
     int RenderID;
     Engine_Matrix3x2 Transform2D;
+
+    //Physics Data - May need its own struct...
     Vector2 Velocity;
     Engine_AABB CollisionShape;
     float Restitution; //Bouncy-ness
     float Mass;
+    float InverseMass;
 
     void (*Update)(struct Engine_GameObject*,float);
 
@@ -32,5 +35,6 @@ void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, fl
 void GameObject_SetPositionVector(Engine_GameObject* gameObject, Vector2 vector);
 void GameObject_SetUpdateFunction(Engine_GameObject* gameObject, void* updateFunction);
 
+void GameObject_SetMass(Engine_GameObject* gameObject, float mass);
 
 #endif //Engine_GameObject_H

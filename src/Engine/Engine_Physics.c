@@ -49,11 +49,15 @@ void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject*
 	float e = fmin(gameObject1->Restitution, gameObject2->Restitution);
 
 	float j = -(1 + e) * veloictyAlongNormal;
-	j /= 1.0 / gameObject1->Mass + 1.0 / gameObject2->Mass;
+	j /= gameObject1->InverseMass + gameObject2->InverseMass;
 
 	Vector2 impulse = Vector2_MuliplyScalar(manifold->Normal, j);
-	gameObject1->Velocity = Vector2_SubtractVector(gameObject1->Velocity, Vector2_MuliplyScalar(impulse, 1.0/gameObject1->Mass));
-	gameObject2->Velocity = Vector2_AddVector(gameObject2->Velocity, Vector2_MuliplyScalar(impulse, 1.0/gameObject2->Mass));
+
+    float massSum = gameObject1->Mass + gameObject2->Mass;
+    float ratio = gameObject1->Mass/ massSum;
+	gameObject1->Velocity = Vector2_SubtractVector(gameObject1->Velocity, Vector2_MuliplyScalar(impulse, ratio));
+    ratio = gameObject2->Mass/ massSum;
+	gameObject2->Velocity = Vector2_AddVector(gameObject2->Velocity, Vector2_MuliplyScalar(impulse, ratio));
 };
 
 Engine_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)

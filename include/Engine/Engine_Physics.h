@@ -17,6 +17,7 @@ typedef struct Engine_Manifold
 
 } Engine_Manifold;
 
+//May need physics struct for collision box and velocity
 
 Engine_Manifold Manifold_Initialise();
 
