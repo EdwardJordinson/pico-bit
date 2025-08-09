@@ -4,7 +4,17 @@
 
 Engine_Matrix2x2 Matrix2x2_Inititialise()
 {
-    return (Engine_Matrix2x2){(Vector2){1.0,0.0},(Vector2){0.0,1.0}};
+    return (Engine_Matrix2x2){(Vector2){1.0,0.0},(Vector2){0.0,1.0}}; // Is also the matrix identity
+};
+
+Vector2 Matrix2x2_MultiplyVector(Engine_Matrix2x2 matrix, Vector2 vector)
+{
+    return (Vector2){matrix.X.x * vector.x + matrix.Y.x * vector.y, matrix.X.y * vector.x + matrix.Y.y * vector.y};
+};
+
+Engine_Matrix2x2 Matrix2x2_MultiplyMatrix(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2)
+{
+    return (Engine_Matrix2x2){Matrix2x2_MultiplyVector(matrix1, matrix2.X), Matrix2x2_MultiplyVector(matrix1, matrix2.Y)};
 };
 
 Engine_Matrix2x2 Matrix2x2_Rotation(float radians)
@@ -14,12 +24,7 @@ Engine_Matrix2x2 Matrix2x2_Rotation(float radians)
     return (Engine_Matrix2x2){(Vector2){cos, -sin},(Vector2){sin,cos}};
 };
 
-Vector2 Matrix2x2_VectorMultiply(Engine_Matrix2x2 matrix, Vector2 vector)
+Engine_Matrix2x2 Matrix2x2_Scale(float xScale, float yScale)
 {
-    return (Vector2){matrix.X.x * vector.x + matrix.Y.x * vector.y, matrix.X.y * vector.x + matrix.Y.y * vector.y};
-};
-
-Engine_Matrix2x2 Matrix2x2_MatrixMultiply(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2)
-{
-    return (Engine_Matrix2x2){Matrix2x2_VectorMultiply(matrix1, matrix2.X), Matrix2x2_VectorMultiply(matrix1, matrix2.Y)};
+    return (Engine_Matrix2x2){Vector2_MuliplyScalar((Vector2){1.0,0.0}, xScale), Vector2_MuliplyScalar((Vector2){0.0,1.0}, yScale)};
 };

@@ -12,6 +12,7 @@ typedef struct Engine_Rotation
 } Engine_Rotation;
 
 
+Engine_Rotation Rotation_Initialise();
 Engine_Rotation Rotation_SinCos(float rotation);
 
 
@@ -50,19 +51,6 @@ float Vector2_CrossProduct(Vector2 vector1, Vector2 vector2);
 
 
 //#######################################################//
-// -------------------HalfSpace------------------------- //
-typedef struct HalfSpace
-{
-    Vector2 Normal;
-    float Distance;
-} HalfSpace;
-
-
-HalfSpace HalfSpace_NewPosition(Vector2 normal, Vector2 position);
-HalfSpace HalfSpace_NewDistance(Vector2 normal, float distance);
-
-
-//#######################################################//
 // -------------------Matrix2x2------------------------- //
 typedef struct Engine_Matrix2x2
 {
@@ -72,9 +60,10 @@ typedef struct Engine_Matrix2x2
 
 
 Engine_Matrix2x2 Matrix2x2_Inititialise();
+Vector2 Matrix2x2_MultiplyVector(Engine_Matrix2x2 matrix, Vector2 vector);
+Engine_Matrix2x2 Matrix2x2_MultiplyMatrix(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2);
 Engine_Matrix2x2 Matrix2x2_Rotation(float radians);
-Vector2 Matrix2x2_VectorMultiply(Engine_Matrix2x2 matrix, Vector2 vector);
-Engine_Matrix2x2 Matrix2x2_MatrixMultiply(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2);
+Engine_Matrix2x2 Matrix2x2_Scale(float xScale, float yScale);
 
 
 //#######################################################//
@@ -88,10 +77,23 @@ typedef struct Engine_Matrix3x2
 
 
 Engine_Matrix3x2 Matrix3x2_Inititialise();
-Engine_Matrix3x2 Matrix3x2_TranslationVector(Vector2 vector);
 Engine_Matrix3x2 Matrix3x2_TranslationXY(float x, float y);
+Engine_Matrix3x2 Matrix3x2_TranslationVector(Vector2 vector);
 Engine_Matrix3x2 Matrix3x2_Rotate(float radians);
 Engine_Matrix3x2 Matrix3x2_TSR(float radians);
+
+
+//#######################################################//
+// -------------------HalfSpace------------------------- //
+typedef struct HalfSpace
+{
+    Vector2 Normal;
+    float Distance;
+} HalfSpace;
+
+
+HalfSpace HalfSpace_NewPosition(Vector2 normal, Vector2 position);
+HalfSpace HalfSpace_NewDistance(Vector2 normal, float distance);
 
 
 #endif //Engine_Corrdinates_H
