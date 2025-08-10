@@ -124,7 +124,6 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                     Vector2 minVector = Vector2_Initialise();
                     sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
                     AABB_SetMaxMin(&newGameObject->CollisionShape, maxVector, minVector);
-                    //GameObject_SetPositionXY(newGameObject, newGameObject->Transform2D.Position.x, newGameObject->Transform2D.Position.y); // Hackneed way to get the object to start with the correct offset
                 }
                 token = strtok_r(NULL, ",", &savePointer);
             }
@@ -133,45 +132,6 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
         if (strncmp(line, "Render-", 7) == 0)
         {
             EFD_ParseRender(renderManager, line);
-            /*
-            newObject = ObjectManager_Allocate(renderManager);
-            Engine_RenderObject* newRenderObject = newObject->Data;
-
-            char lineCopy[1024];
-            strncpy(lineCopy, line, sizeof(lineCopy));
-            lineCopy[sizeof(lineCopy) - 1] = '\0';
-
-            char* token = strtok_r(lineCopy, ",", &savePointer);
-            while (token)
-            {
-                if (strncmp(token + 7, "Position", 8) == 0)
-                {
-                    float tempX = 0.0; float tempY = 0.0;
-                    sscanf(token + 8  + 7, "{%f|%f}", &tempX, &tempY);
-                    newRenderObject->PositionX = tempX;
-                    newRenderObject->PositionY = tempY;
-                }
-                else if (strncmp(token, "Width", 5) == 0)
-                {
-                    float tempWidth = 0.0;
-                    sscanf(token + 5, "{%f}", &tempWidth);
-                    newRenderObject->Width = tempWidth;
-                }
-                else if (strncmp(token, "Height", 6) == 0)
-                {
-                    float tempHeight = 0.0;
-                    sscanf(token + 6, "{%f}", &tempHeight);
-                    newRenderObject->Height = tempHeight;
-                }
-                else if (strncmp(token, "Colour", 6) == 0)
-                {
-                    int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
-                    sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
-                    RenderObject_SetColour(newRenderObject, tempRed, tempBlue, tempGreen, tempAlpha);
-                }
-                token = strtok_r(NULL, ",", &savePointer);
-            }
-            */
         }
             
         line = strtok(NULL, "\r\n");

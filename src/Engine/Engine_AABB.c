@@ -48,7 +48,7 @@ bool AABB_IntersectionLine()
  
 };
 
-Engine_Manifold AABB_IntersectionAABB(Engine_AABB box1, Vector2 position1, Engine_AABB box2, Vector2 position2)
+Physics_Manifold AABB_IntersectionAABB(Engine_AABB box1, Vector2 position1, Engine_AABB box2, Vector2 position2)
 {
     //if(box1.maxVector.x < box2.minVector.x || box1.minVector.x > box2.maxVector.x) return false;
     //if(box1.maxVector.y < box2.minVector.y || box1.minVector.y > box2.maxVector.y) return false;

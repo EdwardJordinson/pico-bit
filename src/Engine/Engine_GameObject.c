@@ -32,7 +32,6 @@ void GameObject_SetConfiguration(Engine_GameObject* gameObject, Engine_GameObjec
 
 void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, float yPosition)
 {
-    //Vector2_SetXY(&gameObject->Transform2D.Position, xPosition+gameObject->CollisionShape.minVector.x, yPosition+gameObject->CollisionShape.maxVector.y);
 	Vector2_SetXY(&gameObject->Transform2D.Position, xPosition, yPosition);
 };
 

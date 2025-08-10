@@ -3,9 +3,9 @@
 #include <math.h>
 
 
-Engine_Manifold Manifold_Initialise()
+Physics_Manifold Manifold_Initialise()
 {
-    return (Engine_Manifold){false, (Vector2){0.0,0.0}, 0.0, (Vector2){0.0,0.0}};
+    return (Physics_Manifold){false, (Vector2){0.0,0.0}, 0.0, (Vector2){0.0,0.0}};
 };
 
 void Physics_InverseMass()
@@ -39,7 +39,7 @@ void Physics_UpdateStatic(Engine_GameObject* gameObject, float deltaTime)
 
 };
 
-void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2, Engine_Manifold* manifold)
+void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2, Physics_Manifold* manifold)
 {
     Vector2 relativeVelocity = Vector2_SubtractVector(gameObject2->Velocity, gameObject1->Velocity);
 	float veloictyAlongNormal = Vector2_DotProduct(relativeVelocity, manifold->Normal);
@@ -60,9 +60,9 @@ void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject*
 	gameObject2->Velocity = Vector2_AddVector(gameObject2->Velocity, Vector2_MuliplyScalar(impulse, ratio));
 };
 
-Engine_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)
+Physics_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)
 {
-    Engine_Manifold output = Manifold_Initialise();
+    Physics_Manifold output = Manifold_Initialise();
 
 	Vector2 normal;
 	float depth;

@@ -28,7 +28,7 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
 
     Engine_GameObject* tempGameObject1 = ObjectManager_Get(objectManager, 0)->Data;
     Engine_GameObject* tempGameObject2 = ObjectManager_Get(objectManager, 1)->Data;
-    Engine_Manifold collisionData = AABB_IntersectionAABB(tempGameObject1->CollisionShape, tempGameObject1->Transform2D.Position, tempGameObject2->CollisionShape, tempGameObject2->Transform2D.Position);
+    Physics_Manifold collisionData = AABB_IntersectionAABB(tempGameObject1->CollisionShape, tempGameObject1->Transform2D.Position, tempGameObject2->CollisionShape, tempGameObject2->Transform2D.Position);
     if (collisionData.Hit == true)
     {
         Physics_CollisionResolve(tempGameObject1, tempGameObject2, &collisionData);
