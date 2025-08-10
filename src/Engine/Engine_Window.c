@@ -9,8 +9,8 @@ void Window_Initialise(Engine_Window* engineWindow)
 {
     printf("Window Initialise...");
 
-    engineWindow->width = 640;
-    engineWindow->height = 480;
+    engineWindow->width = 640; //320
+    engineWindow->height = 480; //240
 
     engineWindow->SDLWindow = SDL_CreateWindow( 
         "PICO-BIT Engine Window", 

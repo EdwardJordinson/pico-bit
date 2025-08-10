@@ -40,8 +40,7 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
         frameRate = frameCount/((lastTime - runTime)/1000.f);
         if (frameRate > 5000.0f) frameRate = 0.0f;
 
-        //Make this output to the screen with SDL_ttf
-        //MainLoop_PrintConsole(&firstFrame, frameRate, engineLoop->GameState->delta);
+        //This needs it own part to do, Manager for hud is needed.
         Engine_RenderObject* renderObject = ObjectManager_Get(engineLoop->RenderState->RenderManager, 2)->Data;
         char buffer[32];
         sprintf(buffer, "FPS_Counter: %f", frameRate);
@@ -60,17 +59,4 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
             SDL_Delay(delayTime - engineLoop->GameState->delta);
         }    
     }
-};
-
-void MainLoop_PrintConsole(bool* firstFrame, float frameRate, float frameDelta)
-{
-    if (*firstFrame == true)
-    {
-        printf("\n\n\n");
-        *firstFrame = false;
-    }
-    printf("\033[5A");
-    printf("\r\033[2KFrame Rate : %.2f\n", frameRate);
-    printf("\r\033[2KFrame Delta  : %.4f\n",frameDelta);
-    fflush(stdout);
 };

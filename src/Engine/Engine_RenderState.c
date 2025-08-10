@@ -35,12 +35,10 @@ void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameS
     SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(rendererState->EngineWindow->SDLRenderer);
     RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, rendererState->font, rendererState->textTexture, ObjectManager_Get(rendererState->RenderManager, 2)->Data);
-    //RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, (Vector2){0.0f,0.0f}, rendererState->textTexture);
     RenderState_DrawObjects(rendererState, gameState->ObjectManager);
     SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
 
-// Need to draw lines of each object collision shape instead of a square
 void RenderState_DrawObjects(Engine_RenderState* rendererState, Engine_ObjectManager* objectManager)
 {
     for (int i = 0; i < objectManager->ActiveCount; i++)
@@ -51,7 +49,6 @@ void RenderState_DrawObjects(Engine_RenderState* rendererState, Engine_ObjectMan
         SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
         Engine_AABB drawBox = AABB_GetPosition(&gameObject->CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->Transform2D.Position));
         RenderState_DrawAABB(rendererState->EngineWindow->SDLRenderer, drawBox);
-
     }
 };
 
@@ -75,15 +72,17 @@ void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* t
 {
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, renderObject->RenderData.TextData.Text, 32, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    //if (textTexture == NULL) printf("SDL_ttf could not create texture Error code: %s\n", SDL_GetError());
     SDL_DestroySurface(textSurface);
 
-    SDL_FRect tempFRect;
-    tempFRect.h = renderObject->RenderData.TextData.Height; tempFRect.w = renderObject->RenderData.TextData.Width;
-    tempFRect.x = renderObject->PositionX; tempFRect.y = renderObject->PositionY;
+    SDL_FRect tempFRect = {
+        .h = renderObject->RenderData.TextData.Height, 
+        .w = renderObject->RenderData.TextData.Width, 
+        .x = renderObject->PositionX,
+        .y = renderObject->PositionY
+    };
 
     SDL_RenderTexture(renderer, textTexture, NULL, &tempFRect);
-
+    SDL_DestroyTexture(textTexture);
 };
 
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position)

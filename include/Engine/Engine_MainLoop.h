@@ -21,10 +21,7 @@ typedef struct Engine_MainLoop
 
 
 void MainLoop_Intitialise(Engine_MainLoop* mainLoop);
-
 void MainLoop_Run(Engine_MainLoop* mainLoop);
-
-void MainLoop_PrintConsole(bool* firstFrame, float frameRate, float frameDelta);
 
 
 #endif //Engine_MainLoop_H
