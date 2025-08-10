@@ -51,7 +51,7 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
 
         if (engineLoop->GameState->delta < delayTime)
         {
-            //SDL_Delay(delayTime - (*engineLoop)->delta);
+            SDL_Delay(delayTime - engineLoop->GameState->delta);
         }    
     }
 };

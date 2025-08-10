@@ -10,6 +10,7 @@
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_EFD.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,14 +29,16 @@ void Initialise_EngineMemory(Engine_Main **engine)
     (*engine)->MainLoop->GameState->ObjectManager = malloc(sizeof(Engine_ObjectManager));
 
     (*engine)->MainLoop->RenderState = malloc(sizeof(Engine_RenderState));
+    (*engine)->MainLoop->RenderState->textTexture = malloc(sizeof(SDL_Texture));
     (*engine)->MainLoop->RenderState->EngineWindow = malloc(sizeof(Engine_Window));
     (*engine)->MainLoop->RenderState->RenderManager = malloc(sizeof(Engine_ObjectManager));
 };
 
 void Initialise_SDL()
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != true)
-        printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
+    if (SDL_Init(SDL_INIT_VIDEO) != true) printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
+    if (TTF_Init() != true) printf("SDL could not initialise. SDL_Error: %s\n", SDL_GetError());
+
 };
 
 void Initialise_Systems(Engine_Main *engine)
@@ -47,8 +50,8 @@ void Initialise_Systems(Engine_Main *engine)
     GameState_Initialise(engine->MainLoop->GameState);
     ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager, sizeof(Engine_GameObject), 16, GameObject_SetDefault);
 
-    RenderState_Initialise(engine->MainLoop->RenderState);
     Window_Initialise(engine->MainLoop->RenderState->EngineWindow);
+    RenderState_Initialise(engine->MainLoop->RenderState); //Brevity: This should be called before Window init
     ObjectManager_Initialise(engine->MainLoop->RenderState->RenderManager, sizeof(Engine_RenderObject), 8, RenderObject_Configure);
 };
 
@@ -129,6 +132,8 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
         
         if (strncmp(line, "Render-", 7) == 0)
         {
+            EFD_ParseRender(renderManager, line);
+            /*
             newObject = ObjectManager_Allocate(renderManager);
             Engine_RenderObject* newRenderObject = newObject->Data;
 
@@ -166,8 +171,9 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                 }
                 token = strtok_r(NULL, ",", &savePointer);
             }
+            */
         }
-
+            
         line = strtok(NULL, "\r\n");
     }
 

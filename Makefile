@@ -4,7 +4,7 @@ CFLAGS = -ggdb -Wall -Wextra -std=c17 -MMD -MP -O0
 INCLUDES = -Iinclude
 
 LIB_PATHS = -Llib
-LIB_NAMES = -lSDL3
+LIB_NAMES = -lSDL3 -lSDL3_ttf
 LIBRARIES = $(LIB_PATHS) $(LIB_NAMES)
 
 SOURCE := src

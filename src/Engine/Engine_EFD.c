@@ -1,5 +1,7 @@
 #include <Engine/Engine_EFD.h>
 #include <Engine/Engine_Globals.h>
+#include <Engine/Engine_Object.h>
+#include <Engine/Engine_RenderObject.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -106,5 +108,112 @@ uint8_t* EFD_ReadDump(EFD_File* efdFile, EFD_Dump* dumpFile)
 void EFD_ParseData(Engine_Main* engine, char* text)
 {
 
+};
 
+void EFD_ParseGame(Engine_ObjectManager* renderManager, char* text)
+{
+
+};
+
+void EFD_ParseGameObject(Engine_GameObject* gameObject, char* text)
+{
+
+};
+
+void EFD_ParseRender(Engine_ObjectManager* renderManager, char* text)
+{
+    Engine_RenderObject* newRenderObject = ObjectManager_Allocate(renderManager)->Data;
+
+    if (strncmp(text + 7, "Shape", 5) == 0)
+    {
+        EFD_ParseRenderShape(newRenderObject, text);
+    }
+    else if (strncmp(text + 7, "Text", 4) == 0)
+    {
+        EFD_ParseRenderText(newRenderObject, text);
+    }
+};
+
+void EFD_ParseRenderShape(Engine_RenderObject* objectData, char* text)
+{
+    RenderObject_Shape* shapeData = &objectData->RenderData.ShapeData;
+    objectData->RenderObjectType = 1;
+
+    char* savePointer;
+    char lineCopy[1024];
+    strncpy(lineCopy, text, sizeof(lineCopy));
+    lineCopy[sizeof(lineCopy) - 1] = '\0';
+
+    char* token = strtok_r(lineCopy, ",", &savePointer);
+    while (token)
+    {
+        if (strncmp(token + 7 + 6, "Position", 8) == 0)
+        {
+            float tempX = 0.0; float tempY = 0.0;
+            sscanf(token + 8  + 7, "{%f|%f}", &tempX, &tempY);
+            objectData->PositionX = tempX;
+            objectData->PositionY = tempY;
+        }
+        else if (strncmp(token, "Width", 5) == 0)
+        {
+            float tempWidth = 0.0;
+            sscanf(token + 5, "{%f}", &tempWidth);
+            shapeData->Width = tempWidth;
+        }
+        else if (strncmp(token, "Height", 6) == 0)
+        {
+            float tempHeight = 0.0;
+            sscanf(token + 6, "{%f}", &tempHeight);
+            shapeData->Height = tempHeight;
+        }
+        else if (strncmp(token, "Colour", 6) == 0)
+        {
+            int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
+            sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
+            RenderObject_SetColour(objectData, tempRed, tempBlue, tempGreen, tempAlpha);
+        }
+        token = strtok_r(NULL, ",", &savePointer);
+    }
+};
+
+void EFD_ParseRenderText(Engine_RenderObject* objectData, char* text)
+{
+    RenderObject_Text* textData = &objectData->RenderData.TextData;
+    objectData->RenderObjectType = 2;
+
+    char* savePointer;
+    char lineCopy[1024];
+    strncpy(lineCopy, text, sizeof(lineCopy));
+    lineCopy[sizeof(lineCopy) - 1] = '\0';
+
+    char* token = strtok_r(lineCopy, ",", &savePointer);
+    while (token)
+    {
+        if (strncmp(token + 7 + 5, "Position", 8) == 0)
+        {
+            float tempX = 0.0; float tempY = 0.0;
+            sscanf(token + 8  + 7 + 5, "{%f|%f}", &tempX, &tempY);
+            objectData->PositionX = tempX;
+            objectData->PositionY = tempY;
+        }
+        else if (strncmp(token, "Width", 5) == 0)
+        {
+            float tempWidth = 0.0;
+            sscanf(token + 5, "{%f}", &tempWidth);
+            textData->Width = tempWidth;
+        }
+        else if (strncmp(token, "Height", 6) == 0)
+        {
+            float tempHeight = 0.0;
+            sscanf(token + 6, "{%f}", &tempHeight);
+            textData->Height = tempHeight;
+        }
+        else if (strncmp(token, "Colour", 6) == 0)
+        {
+            int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
+            sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
+            RenderObject_SetColour(objectData, tempRed, tempBlue, tempGreen, tempAlpha);
+        }
+        token = strtok_r(NULL, ",", &savePointer);
+    }
 };

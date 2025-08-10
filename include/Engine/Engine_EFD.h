@@ -7,6 +7,9 @@
 #include <stdio.h>
 
 typedef struct Engine_Main Engine_Main;
+typedef struct Engine_GameObject Engine_GameObject;
+typedef struct Engine_ObjectManager Engine_ObjectManager;
+typedef struct Engine_RenderObject Engine_RenderObject;
 
 typedef struct EFD_Header
 {
@@ -43,15 +46,16 @@ typedef enum EFD_ObjectGame
     MASS
 };
 
+
 void EFD_WriteFile(int argc, char** argv);
-
 EFD_File* EFD_LoadFile(char* fileName);
-
 EFD_Dump* EFD_LoadDump(EFD_File* efdFile);
-
 uint8_t* EFD_ReadDump(EFD_File* efdFile, EFD_Dump* dumpFile);
-
 void EFD_ParseData(Engine_Main* engine, char* text);
-
+void EFD_ParseGame(Engine_ObjectManager* renderManager, char* text);
+void EFD_ParseGameObject(Engine_GameObject* gameObject, char* text);
+void EFD_ParseRender(Engine_ObjectManager* renderManager, char* text);
+void EFD_ParseRenderShape(Engine_RenderObject* shapeData, char* text);
+void EFD_ParseRenderText(Engine_RenderObject* textData, char* text);
 
 #endif //Engine_EFD_H

@@ -4,8 +4,10 @@
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_GameObject.h>
 #include <Engine/Engine_Object.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_render.h>
+#include <stdio.h>
 
 
 //Handles Draw calls to the window
@@ -16,6 +18,13 @@
 
 void RenderState_Initialise(Engine_RenderState* renderState)
 {
+    //Needs to be intergrated into the efd loader
+    renderState->font = TTF_OpenFont("assets/Font_OpenSans/OpenSans-Regular.ttf", 64);
+
+    SDL_Surface* textSurface = TTF_RenderText_Solid(renderState->font, "TESTING-TEXT!!", 14, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
+    renderState->textTexture = SDL_CreateTextureFromSurface(renderState->EngineWindow->SDLRenderer, textSurface);
+    if (renderState->textTexture == NULL) printf("SDL_ttf could not create texture Error code: %s\n", SDL_GetError());
+    SDL_DestroySurface(textSurface);
 
 };
 
@@ -23,6 +32,7 @@ void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameS
 {
     SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(rendererState->EngineWindow->SDLRenderer);
+    RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, (Vector2){0.0f,0.0f}, rendererState->textTexture);
     RenderState_DrawObjects(rendererState, gameState->ObjectManager);
     SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
@@ -56,6 +66,16 @@ void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
     RenderState_DrawLine(renderer, Vector2_AddXY(drawBox.minVector, 0.0f, 1.0f), Vector2_AddXY(drawBox.minVector, 0.0f, height-1.0f));
     RenderState_DrawLine(renderer, drawBox.maxVector, Vector2_SubtractXY(drawBox.maxVector, width, 0.0));
     RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
+};
+
+void RenderState_DrawText(SDL_Renderer* renderer, Vector2 position, SDL_Texture* textTexture)
+{
+    SDL_FRect tempFRect;
+    tempFRect.h = 20.0f; tempFRect.w = 100.0f;
+    tempFRect.x = position.x; tempFRect.y = position.y;
+    
+    SDL_RenderTexture(renderer, textTexture, NULL, &tempFRect);
+
 };
 
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position)

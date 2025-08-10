@@ -1,3 +1,7 @@
+//NOT IMPLEMENTED
+//Engine defaults for objects, window and other initialisation settings
+//Is to be loaded before the main efd file and before memory allocation
+
 Engine
 {
     Window{Size{640,480}},
