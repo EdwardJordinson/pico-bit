@@ -4,4 +4,4 @@ Game-Position{0.0|-240.0},Velocity{0.0|0.0},RenderID{0},CollisionShape{AABB{320.
 Game-Position{0.0|0.0},Velocity{0.0|-50.0},RenderID{1},CollisionShape{AABB{50.0|50.0|-50.0|-50.0}},Restitution{1.0},Mass{10.0}
 Render-Shape{Position{0.0|0.0},Width{100.0},Height{100.0},Colour{0xff|0xff|0xff|0xff}}
 Render-Shape{Position{0.0|0.0},Width{100.0},Height{100.0},Colour{0x00|0xff|0xff|0xff}}
-Render-Text{Position{-320.0|240.0},Width{20.0},Height{100.0},Colour{0x00|0xff|0xff|0xff},Text{"FPS Counter"}}
+Render-Text{Position{0.0|0.0},Width{250.0},Height{20.0},Colour{0x00|0xff|0xff|0xff},Text{FPS_Counter:}}

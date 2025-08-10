@@ -208,6 +208,12 @@ void EFD_ParseRenderText(Engine_RenderObject* objectData, char* text)
             sscanf(token + 6, "{%f}", &tempHeight);
             textData->Height = tempHeight;
         }
+        else if (strncmp(token, "Text", 4) == 0)
+        {
+            char tempCharArray[32] = {0};
+            sscanf(token + 4, "{%31s}", tempCharArray);
+            strncpy(textData->Text, tempCharArray, sizeof(tempCharArray));
+        }
         else if (strncmp(token, "Colour", 6) == 0)
         {
             int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;

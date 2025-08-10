@@ -2,6 +2,8 @@
 #include <Engine/Engine_EventProcess.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_RenderState.h>
+#include <Engine/Engine_RenderObject.h>
+#include <Engine/Engine_Object.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_timer.h>
 #include <inttypes.h>
@@ -39,7 +41,11 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
         if (frameRate > 5000.0f) frameRate = 0.0f;
 
         //Make this output to the screen with SDL_ttf
-        //MainLoop_PrintConsole(&firstFrame, frameRate, (*engineLoop)->delta);
+        //MainLoop_PrintConsole(&firstFrame, frameRate, engineLoop->GameState->delta);
+        Engine_RenderObject* renderObject = ObjectManager_Get(engineLoop->RenderState->RenderManager, 2)->Data;
+        char buffer[32];
+        sprintf(buffer, "FPS_Counter: %f", frameRate);
+        strcpy(renderObject->RenderData.TextData.Text, buffer);
         
         GameState_Update(engineLoop->GameState, engineLoop->EventProcess);
         RenderState_Draw(engineLoop->RenderState, engineLoop->GameState);

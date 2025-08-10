@@ -21,10 +21,12 @@ void RenderState_Initialise(Engine_RenderState* renderState)
     //Needs to be intergrated into the efd loader
     renderState->font = TTF_OpenFont("assets/Font_OpenSans/OpenSans-Regular.ttf", 64);
 
+    /*
     SDL_Surface* textSurface = TTF_RenderText_Solid(renderState->font, "TESTING-TEXT!!", 14, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
     renderState->textTexture = SDL_CreateTextureFromSurface(renderState->EngineWindow->SDLRenderer, textSurface);
     if (renderState->textTexture == NULL) printf("SDL_ttf could not create texture Error code: %s\n", SDL_GetError());
     SDL_DestroySurface(textSurface);
+    */
 
 };
 
@@ -32,7 +34,8 @@ void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameS
 {
     SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(rendererState->EngineWindow->SDLRenderer);
-    RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, (Vector2){0.0f,0.0f}, rendererState->textTexture);
+    RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, rendererState->font, rendererState->textTexture, ObjectManager_Get(rendererState->RenderManager, 2)->Data);
+    //RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, (Vector2){0.0f,0.0f}, rendererState->textTexture);
     RenderState_DrawObjects(rendererState, gameState->ObjectManager);
     SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
@@ -68,12 +71,17 @@ void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
     RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
 };
 
-void RenderState_DrawText(SDL_Renderer* renderer, Vector2 position, SDL_Texture* textTexture)
+void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject) // Testing functionality, needs change
 {
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, renderObject->RenderData.TextData.Text, 32, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
+    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    //if (textTexture == NULL) printf("SDL_ttf could not create texture Error code: %s\n", SDL_GetError());
+    SDL_DestroySurface(textSurface);
+
     SDL_FRect tempFRect;
-    tempFRect.h = 20.0f; tempFRect.w = 100.0f;
-    tempFRect.x = position.x; tempFRect.y = position.y;
-    
+    tempFRect.h = renderObject->RenderData.TextData.Height; tempFRect.w = renderObject->RenderData.TextData.Width;
+    tempFRect.x = renderObject->PositionX; tempFRect.y = renderObject->PositionY;
+
     SDL_RenderTexture(renderer, textTexture, NULL, &tempFRect);
 
 };
