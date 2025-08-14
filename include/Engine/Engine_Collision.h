@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 //Forward declares
-typedef struct Physics_Manifold Physics_Manifold;
+typedef struct Engine_PhysicsManifold Engine_PhysicsManifold;
 //
 
 //#######################################################//
@@ -23,8 +23,8 @@ void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector);
 float AABB_GetWidth(Engine_AABB* aabb);
 float AABB_GetHeight(Engine_AABB* aabb);
 Engine_AABB AABB_GetPosition(Engine_AABB* aabb, Vector2 newPosition);
-Physics_Manifold AABB_IntersectionAABB(Engine_AABB aabb1, Vector2 position1, Engine_AABB aabb2, Vector2 position2);
-//bool AABB_ClipLine(int dimention, AABB* aabbBox, Vector2 lineStart, Vector2 lineEnd, float f_low, float f_high);
+Engine_AABB AABB_GetUnion(Engine_AABB* aabb1, Engine_AABB* aabb2);
+Engine_PhysicsManifold AABB_IntersectionAABB(Engine_AABB aabb1, Vector2 position1, Engine_AABB aabb2, Vector2 position2);
 //bool AABB_IntersectionLine();
 
 

@@ -20,14 +20,6 @@ void RenderState_Initialise(Engine_RenderState* renderState)
 {
     //Needs to be intergrated into the efd loader
     renderState->font = TTF_OpenFont("assets/Font_OpenSans/OpenSans-Regular.ttf", 64);
-
-    /*
-    SDL_Surface* textSurface = TTF_RenderText_Solid(renderState->font, "TESTING-TEXT!!", 14, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
-    renderState->textTexture = SDL_CreateTextureFromSurface(renderState->EngineWindow->SDLRenderer, textSurface);
-    if (renderState->textTexture == NULL) printf("SDL_ttf could not create texture Error code: %s\n", SDL_GetError());
-    SDL_DestroySurface(textSurface);
-    */
-
 };
 
 void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameState)
@@ -47,7 +39,7 @@ void RenderState_DrawObjects(Engine_RenderState* rendererState, Engine_ObjectMan
         Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
 
         SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
-        Engine_AABB drawBox = AABB_GetPosition(&gameObject->CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->Transform2D.Position));
+        Engine_AABB drawBox = AABB_GetPosition(&gameObject->PhysicsBody.CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->PhysicsBody.Transform2D.Position));
         RenderState_DrawAABB(rendererState->EngineWindow->SDLRenderer, drawBox);
     }
 };

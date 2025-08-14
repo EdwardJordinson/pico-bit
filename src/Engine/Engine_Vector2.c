@@ -115,9 +115,19 @@ float Vector2_LengthSquared(Vector2 vector)
     return (float)(vector.x*vector.x + vector.y*vector.y);
 };
 
-Vector2 Vector_ABS(Vector2 vector)
+Vector2 Vector2_ABS(Vector2 vector)
 {
     return (Vector2){abs(vector.x), abs(vector.y)};
+};
+
+Vector2 Vector2_Min(Vector2 vector1, Vector2 vector2)
+{
+
+};
+
+Vector2 Vector2_Max(Vector2 vector1, Vector2 vector2)
+{
+    
 };
 
 Vector2 Vector2_Normailised(Vector2 vector)

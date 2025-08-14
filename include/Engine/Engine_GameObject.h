@@ -3,6 +3,7 @@
 
 #include <Engine/Engine_Coordinates.h>
 #include <Engine/Engine_Collision.h>
+#include <Engine/Engine_Physics.h>
 
 
 //Forward declares
@@ -14,21 +15,15 @@ typedef struct Engine_AABB Engine_AABB;
 typedef struct Engine_GameObject
 {
     int RenderID;
-    Engine_Matrix3x2 Transform2D;
+    
+    Engine_PhysicsBody PhysicsBody;
 
-    //Physics Data - May need its own struct...
-    Vector2 Velocity;
-    Engine_AABB CollisionShape;
-    float Restitution; //Bouncy-ness
-    float Mass;
-    float InverseMass;
-
-    void (*Update)(struct Engine_GameObject*,float);
+    void (*Update)(struct Engine_PhysicsBody*,float);
 
 } Engine_GameObject;
 
 
-void GameObject_Initialise();
+Engine_GameObject GameObject_Initialise();
 void GameObject_SetDefault(Engine_GameObject* gameObject);
 void GameObject_SetConfiguration(Engine_GameObject* gameObject, Engine_GameObject configObject);
 void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, float yPosition);

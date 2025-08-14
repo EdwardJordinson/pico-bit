@@ -23,14 +23,14 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
     for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
         Engine_GameObject* tempGameObject = ObjectManager_Get(objectManager, i)->Data;
-        tempGameObject->Update(tempGameObject, deltaTime);
+        tempGameObject->Update(&tempGameObject->PhysicsBody, deltaTime);
     }
 
     Engine_GameObject* tempGameObject1 = ObjectManager_Get(objectManager, 0)->Data;
     Engine_GameObject* tempGameObject2 = ObjectManager_Get(objectManager, 1)->Data;
-    Physics_Manifold collisionData = AABB_IntersectionAABB(tempGameObject1->CollisionShape, tempGameObject1->Transform2D.Position, tempGameObject2->CollisionShape, tempGameObject2->Transform2D.Position);
+    Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempGameObject1->PhysicsBody.CollisionShape, tempGameObject1->PhysicsBody.Transform2D.Position, tempGameObject2->PhysicsBody.CollisionShape, tempGameObject2->PhysicsBody.Transform2D.Position);
     if (collisionData.Hit == true)
     {
-        Physics_CollisionResolve(tempGameObject1, tempGameObject2, &collisionData);
+        Physics_CollisionResolve(&tempGameObject1->PhysicsBody, &tempGameObject2->PhysicsBody, &collisionData);
     }
 };

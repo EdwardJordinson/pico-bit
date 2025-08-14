@@ -1,68 +1,83 @@
 #include <Engine/Engine_Physics.h>
 #include <Engine/Engine_GameObject.h>
 #include <math.h>
+#include <stdio.h>
 
-
-Physics_Manifold Manifold_Initialise()
-{
-    return (Physics_Manifold){false, (Vector2){0.0,0.0}, 0.0, (Vector2){0.0,0.0}};
-};
 
 void Physics_InverseMass()
 {
 
 };
 
-void Physics_SetVelocity(Engine_GameObject* gameObject, Vector2 vector)
+void Physics_SetVelocity(Engine_PhysicsBody* physicsBody, float deltaTime)
 {
-    //Replace subtrace with Add
-    /*
-     object->Velocity = Vector2_ScalarMuliply(
-        100, Vector2_Normailised(
-            Vector2_VectorAdd(
-                Vector2_VectorAdd(object->Transform2D.Position, (Vector2){50,50}), vector)));//Vector2_VectorAdd(entity->Velocity, ); 
-
-    printf("%.2f : %.2f\n", vector.x, vector.y);
-    printf("%.2f : %.2f\n", object->Velocity.x, object->Velocity.y);
-    printf("%.2f : %.2f\n", object->Transform2D.Position.x, object->Transform2D.Position.y);
-    */
-    
+	
 };
 
-void Physics_UpdateRigid(Engine_GameObject* gameObject, float deltaTime)
+void Physics_SetAcceleration(Engine_PhysicsBody* physicsBody, float deltaTime)
 {
-    Vector2_SetVector(&gameObject->Transform2D.Position, Vector2_AddVector(gameObject->Transform2D.Position, Vector2_MuliplyScalar(gameObject->Velocity, deltaTime)));
+	//Velocity
+	/*
+	Vector2 tempForce = Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass);
+	Vector2 finalVel = Vector2_MuliplyScalar(tempForce, deltaTime);
+	Vector2_SetVector(&physicsBody->Velocity, finalVel);
+
+	Vector2_SetVector(&physicsBody->Velocity, 
+		Vector2_MuliplyScalar(
+			Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass), deltaTime));
+	*/
+
+	//Position
+	/*
+	Vector2 tempVel = Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime);
+	Vector2 tempPos = Vector2_AddVector(physicsBody->Velocity, tempVel);
+	Vector2 finalPos = Vector2_AddVector(physicsBody->Transform2D.Position, tempPos);
+	Vector2_SetVector(&physicsBody->Transform2D.Position, finalPos);
+
+	Vector2_SetVector(&physicsBody->Transform2D.Position, 
+		Vector2_AddVector(physicsBody->Transform2D.Position, 
+			Vector2_AddVector(physicsBody->Velocity, 
+				Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime))));
+	*/
+
 };
 
-void Physics_UpdateStatic(Engine_GameObject* gameObject, float deltaTime)
+void Physics_UpdateRigid(Engine_PhysicsBody* physicsBody, float deltaTime)
+{
+
+
+    Vector2_SetVector(&physicsBody->Transform2D.Position, Vector2_AddVector(physicsBody->Transform2D.Position, Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime)));
+};
+
+void Physics_UpdateStatic(Engine_PhysicsBody* physicsBody, float deltaTime)
 {
 
 };
 
-void Physics_CollisionResolve(Engine_GameObject* gameObject1, Engine_GameObject* gameObject2, Physics_Manifold* manifold)
+void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2, Engine_PhysicsManifold* manifold)
 {
-    Vector2 relativeVelocity = Vector2_SubtractVector(gameObject2->Velocity, gameObject1->Velocity);
+    Vector2 relativeVelocity = Vector2_SubtractVector(physicsBody2->Velocity, physicsBody1->Velocity);
 	float veloictyAlongNormal = Vector2_DotProduct(relativeVelocity, manifold->Normal);
 	
 	if (veloictyAlongNormal < 0) return;
 
-	float e = fmin(gameObject1->Restitution, gameObject2->Restitution);
+	float e = fmin(physicsBody1->Material.Restitution, physicsBody2->Material.Restitution);
 
 	float j = -(1 + e) * veloictyAlongNormal;
-	j /= gameObject1->InverseMass + gameObject2->InverseMass;
+	j /= physicsBody1->MassData.InverseMass + physicsBody2->MassData.InverseMass;
 
 	Vector2 impulse = Vector2_MuliplyScalar(manifold->Normal, j);
 
-    float massSum = gameObject1->Mass + gameObject2->Mass;
-    float ratio = gameObject1->Mass/ massSum;
-	gameObject1->Velocity = Vector2_SubtractVector(gameObject1->Velocity, Vector2_MuliplyScalar(impulse, ratio));
-    ratio = gameObject2->Mass/ massSum;
-	gameObject2->Velocity = Vector2_AddVector(gameObject2->Velocity, Vector2_MuliplyScalar(impulse, ratio));
+    float massSum = physicsBody1->MassData.Mass + physicsBody2->MassData.Mass;
+    float ratio = physicsBody1->MassData.Mass / massSum;
+	physicsBody1->Velocity = Vector2_SubtractVector(physicsBody1->Velocity, Vector2_MuliplyScalar(impulse, ratio));
+    ratio = physicsBody2->MassData.Mass / massSum;
+	physicsBody2->Velocity = Vector2_AddVector(physicsBody2->Velocity, Vector2_MuliplyScalar(impulse, ratio));
 };
 
-Physics_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)
+Engine_PhysicsManifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)
 {
-    Physics_Manifold output = Manifold_Initialise();
+    Engine_PhysicsManifold output = Manifold_Initialise();
 
 	Vector2 normal;
 	float depth;
@@ -102,4 +117,21 @@ Physics_Manifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 dire
 	output.Depth = depth;
 	output.Normal = normal;
 	return output;
+};
+
+void Physics_BoardPhase()
+{
+	
+};
+
+
+Engine_PhysicsPair PhysicsPair_Initialise()
+{
+	return (Engine_PhysicsPair){NULL, NULL};
+};
+
+void PhysicsPair_SetBodyAll(Engine_PhysicsPair* physicsPair, Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2)
+{
+	physicsPair->physicsBody1 = physicsBody1;
+	physicsPair->physicsBody2 = physicsBody2;
 };

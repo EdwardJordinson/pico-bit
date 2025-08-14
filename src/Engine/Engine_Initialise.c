@@ -98,7 +98,7 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                 {
                     float tempX = 0.0; float tempY = 0.0;
                     sscanf(token + 8, "{%f|%f}", &tempX, &tempY);
-                    Vector2_SetXY(&newGameObject->Velocity, tempX, tempY);
+                    Vector2_SetXY(&newGameObject->PhysicsBody.Velocity, tempX, tempY);
                 }
                 else if (strncmp(token, "RenderID", 8) == 0)
                 {
@@ -110,7 +110,7 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                 {
                     float tempRestitution = 1.0;
                     sscanf(token + 11, "{%f}", &tempRestitution);
-                    newGameObject->Restitution = tempRestitution;
+                    newGameObject->PhysicsBody.Material.Restitution = tempRestitution;
                 }
                 else if (strncmp(token, "Mass", 4) == 0)
                 {
@@ -123,7 +123,7 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
                     Vector2 maxVector = Vector2_Initialise();
                     Vector2 minVector = Vector2_Initialise();
                     sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
-                    AABB_SetMaxMin(&newGameObject->CollisionShape, maxVector, minVector);
+                    AABB_SetMaxMin(&newGameObject->PhysicsBody.CollisionShape, maxVector, minVector);
                 }
                 token = strtok_r(NULL, ",", &savePointer);
             }

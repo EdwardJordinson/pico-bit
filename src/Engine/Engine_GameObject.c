@@ -7,20 +7,16 @@
 #include <stdio.h>
 
 
-void GameObject_Initialise()
-{ //Set values to defaults -> Creation pipeline
-    //return(Engine_GameObject){};
-
+Engine_GameObject GameObject_Initialise()
+{
+	return (Engine_GameObject){0,PhysicsBody_Initialise()};
 };
 
 void GameObject_SetDefault(Engine_GameObject* gameObject)
 {
-	gameObject->Transform2D = Matrix3x2_Inititialise();
-	gameObject->Velocity = Vector2_Initialise();
-	gameObject->CollisionShape = AABB_Initialise();
-	gameObject->Restitution = 1.0;
-	gameObject->Mass = 1.0;
-	gameObject->InverseMass = 1/gameObject->Mass;
+	gameObject->RenderID = 0;
+	gameObject->PhysicsBody = PhysicsBody_Initialise();
+
 	gameObject->Update = Physics_UpdateRigid;
 
 };
@@ -32,7 +28,7 @@ void GameObject_SetConfiguration(Engine_GameObject* gameObject, Engine_GameObjec
 
 void GameObject_SetPositionXY(Engine_GameObject* gameObject, float xPosition, float yPosition)
 {
-	Vector2_SetXY(&gameObject->Transform2D.Position, xPosition, yPosition);
+	Vector2_SetXY(&gameObject->PhysicsBody.Transform2D.Position, xPosition, yPosition);
 };
 
 void GameObject_SetPositionVector(Engine_GameObject* gameObject, Vector2 vector)
@@ -47,7 +43,7 @@ void GameObject_SetUpdateFunction(Engine_GameObject* gameObject, void* updateFun
 
 void GameObject_SetMass(Engine_GameObject* gameObject, float mass)
 {
-	gameObject->Mass = mass;
-	if (mass == 0.0) gameObject->InverseMass = 0.0;
-	else gameObject->InverseMass = 1/gameObject->Mass;
+	gameObject->PhysicsBody.MassData.Mass = mass;
+	if (mass == 0.0) gameObject->PhysicsBody.MassData.InverseMass = 0.0;
+	else gameObject->PhysicsBody.MassData.InverseMass = 1/gameObject->PhysicsBody.MassData.Mass;
 };

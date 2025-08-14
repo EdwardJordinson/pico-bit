@@ -8,7 +8,9 @@
 
 //NOTES:
 //Multi threading may be needed for Update and Draw
-//Read .efd(Engine Form Data) file for game creation.
+//Add friction, then AABB BST
+
+
 
 Engine_Main* Engine;
 
