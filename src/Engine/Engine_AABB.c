@@ -1,4 +1,5 @@
 #include <Engine/Engine_Collision.h>
+//#include <Engine/Engine_EntityObject.h>
 #include <Engine/Engine_Physics.h>
 #include <math.h>
 
@@ -58,9 +59,6 @@ bool AABB_IntersectionLine()
 
 Engine_PhysicsManifold AABB_IntersectionAABB(Engine_AABB box1, Vector2 position1, Engine_AABB box2, Vector2 position2)
 {
-    //if(box1.maxVector.x < box2.minVector.x || box1.minVector.x > box2.maxVector.x) return false;
-    //if(box1.maxVector.y < box2.minVector.y || box1.minVector.y > box2.maxVector.y) return false;
-
 	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, position1);
 	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, position2);
 

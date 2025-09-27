@@ -2,7 +2,7 @@
 #include <Engine/Engine_RenderObject.h>
 #include <Engine/Engine_Window.h>
 #include <Engine/Engine_GameState.h>
-#include <Engine/Engine_GameObject.h>
+#include <Engine/Engine_EntityObject.h>
 #include <Engine/Engine_Object.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3/SDL_video.h>
@@ -27,21 +27,52 @@ void RenderState_Draw(Engine_RenderState* rendererState, Engine_GameState* gameS
     SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, 0x80, 0x80, 0x80, 0x80);
     SDL_RenderClear(rendererState->EngineWindow->SDLRenderer);
     RenderState_DrawText(rendererState->EngineWindow->SDLRenderer, rendererState->font, rendererState->textTexture, ObjectManager_Get(rendererState->RenderManager, 2)->Data);
-    RenderState_DrawObjects(rendererState, gameState->ObjectManager);
+    RenderState_DrawObjects(rendererState, gameState->EntityManager);
     SDL_RenderPresent(rendererState->EngineWindow->SDLRenderer);
 };
 
-void RenderState_DrawObjects(Engine_RenderState* rendererState, Engine_ObjectManager* objectManager)
+void RenderState_DrawObjects(Engine_RenderState* renderState, Engine_ObjectManager* entityManager)
 {
-    for (int i = 0; i < objectManager->ActiveCount; i++)
+    for (int i = 0; i < entityManager->ActiveCount; i++)
     {   
-        Engine_GameObject* gameObject = ObjectManager_Get(objectManager, i)->Data;
-        Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
+        Engine_EntityObject* entityObject = ObjectManager_Get(entityManager, i)->Data;
+        void* tempData = EntityObject_GetData(entityObject);
+        Engine_RenderObject* renderObject;
+        switch (entityObject->EntityType)
+        {
+        case 1:
+            Engine_GameEntity* gameData = tempData;
+            renderObject = ObjectManager_Get(renderState->RenderManager, gameData->RenderID)->Data;
+            RenderState_DrawGame(renderState, tempData, renderObject);
+            break;
+        case 2:
+            Engine_DisplayEntity* displayData = tempData;
+            renderObject = ObjectManager_Get(renderState->RenderManager, displayData->RenderID)->Data;
+            RenderState_DrawDisplay(renderState, tempData, renderObject);
+            break;
+        default:
+            break;
+        }
 
-        SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
-        Engine_AABB drawBox = AABB_GetPosition(&gameObject->PhysicsBody.CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->PhysicsBody.Transform2D.Position));
-        RenderState_DrawAABB(rendererState->EngineWindow->SDLRenderer, drawBox);
+        //Engine_EntityObject* gameObject = ObjectManager_Get(entityManager, i)->Data;
+        //Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
+
+        //SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
+        //Engine_AABB drawBox = AABB_GetPosition(&gameObject->PhysicsBody.CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->PhysicsBody.Transform2D.Position));
+        //RenderState_DrawAABB(rendererState->EngineWindow->SDLRenderer, drawBox);
     }
+};
+
+void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* gameEntity, Engine_RenderObject* renderObject)
+{
+    SDL_SetRenderDrawColor(renderState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
+    Engine_AABB drawBox = AABB_GetPosition(&gameEntity->PhysicsBody.CollisionShape, RenderState_WorldToScreen(renderState->EngineWindow, gameEntity->PhysicsBody.Transform2D.Position));
+    RenderState_DrawAABB(renderState->EngineWindow->SDLRenderer, drawBox);
+};
+
+void RenderState_DrawDisplay(Engine_RenderState* renderState, Engine_DisplayEntity* displayEntity, Engine_RenderObject* renderObject)
+{
+    
 };
 
 void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vector2)

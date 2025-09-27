@@ -4,7 +4,7 @@
 #include <Engine/Engine_EventProcess.h>
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_Object.h>
-#include <Engine/Engine_GameObject.h>
+#include <Engine/Engine_EntityObject.h>
 #include <Engine/Engine_RenderState.h>
 #include <Engine/Engine_RenderObject.h>
 #include <Engine/Engine_Window.h>
@@ -26,7 +26,7 @@ void Initialise_EngineMemory(Engine_Main **engine)
     (*engine)->MainLoop->EventProcess->SDLEvent = malloc(sizeof(SDL_Event));
 
     (*engine)->MainLoop->GameState = malloc(sizeof(Engine_GameState));
-    (*engine)->MainLoop->GameState->ObjectManager = malloc(sizeof(Engine_ObjectManager));
+    (*engine)->MainLoop->GameState->EntityManager = malloc(sizeof(Engine_ObjectManager));
 
     (*engine)->MainLoop->RenderState = malloc(sizeof(Engine_RenderState));
     (*engine)->MainLoop->RenderState->textTexture = malloc(sizeof(SDL_Texture));
@@ -48,7 +48,7 @@ void Initialise_Systems(Engine_Main *engine)
     EventProcess_Initialise(engine->MainLoop->EventProcess);
 
     GameState_Initialise(engine->MainLoop->GameState);
-    ObjectManager_Initialise(engine->MainLoop->GameState->ObjectManager, sizeof(Engine_GameObject), 16, GameObject_SetDefault);
+    ObjectManager_Initialise(engine->MainLoop->GameState->EntityManager, sizeof(Engine_EntityObject), 8, EntityObject_SetDefault);
 
     Window_Initialise(engine->MainLoop->RenderState->EngineWindow);
     RenderState_Initialise(engine->MainLoop->RenderState); //Brevity: This should be called before Window init
@@ -66,7 +66,7 @@ EFD_File* Initialise_ReadEFD()
 //Requires rework, needs dedicated libarary for parsing. Considering cross-compilation with GNU-Prolog
 void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
 {
-    Engine_ObjectManager* objectManager = engine->MainLoop->GameState->ObjectManager;
+    Engine_ObjectManager* entityManager = engine->MainLoop->GameState->EntityManager;
     Engine_ObjectManager* renderManager = engine->MainLoop->RenderState->RenderManager;
 
     char* dataString = (char*)EFD_ReadDump(data, data->Dumps);
@@ -76,59 +76,10 @@ void Initialise_EFDConfigure(Engine_Main* engine, EFD_File* data)
     {
         Engine_Object* newObject;
 
-        if (strncmp(line, "Game-", 5) == 0)
+        if (strncmp(line, "Entity-", 7) == 0)
         {
-            newObject = ObjectManager_Allocate(objectManager);
-            Engine_GameObject* newGameObject = newObject->Data;
-
-            char lineCopy[1024];
-            strncpy(lineCopy, line, sizeof(lineCopy));
-            lineCopy[sizeof(lineCopy) - 1] = '\0';
-
-            char* token = strtok_r(lineCopy, ",", &savePointer);
-            while (token)
-            {
-                if (strncmp(token + 5, "Position", 8) == 0)
-                {
-                    float tempX = 0.0; float tempY = 0.0;
-                    sscanf(token + 8  + 5, "{%f|%f}", &tempX, &tempY);
-                    GameObject_SetPositionXY(newGameObject, tempX, tempY);
-                }
-                else if (strncmp(token, "Velocity", 8) == 0)
-                {
-                    float tempX = 0.0; float tempY = 0.0;
-                    sscanf(token + 8, "{%f|%f}", &tempX, &tempY);
-                    Vector2_SetXY(&newGameObject->PhysicsBody.Velocity, tempX, tempY);
-                }
-                else if (strncmp(token, "RenderID", 8) == 0)
-                {
-                    int renderID = 0;
-                    sscanf(token + 8, "{%d}", &renderID);
-                    newGameObject->RenderID = renderID;
-                }
-                else if (strncmp(token, "Restitution", 11) == 0)
-                {
-                    float tempRestitution = 1.0;
-                    sscanf(token + 11, "{%f}", &tempRestitution);
-                    newGameObject->PhysicsBody.Material.Restitution = tempRestitution;
-                }
-                else if (strncmp(token, "Mass", 4) == 0)
-                {
-                    float tempMass = 10.0;
-                    sscanf(token + 4, "{%f}", &tempMass);
-                    GameObject_SetMass(newGameObject, tempMass);
-                }
-                else if (strncmp(token, "CollisionShape", 14) == 0)
-                {
-                    Vector2 maxVector = Vector2_Initialise();
-                    Vector2 minVector = Vector2_Initialise();
-                    sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
-                    AABB_SetMaxMin(&newGameObject->PhysicsBody.CollisionShape, maxVector, minVector);
-                }
-                token = strtok_r(NULL, ",", &savePointer);
-            }
+            EFD_ParseEntity(entityManager, line);
         }
-        
         if (strncmp(line, "Render-", 7) == 0)
         {
             EFD_ParseRender(renderManager, line);

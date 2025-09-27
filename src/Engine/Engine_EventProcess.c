@@ -22,8 +22,7 @@ void EventProcess_Check(Engine_EventProcess* eventProcess, Engine_GameState* gam
             {
                 float xMouse, yMouse;
                 SDL_GetMouseState(&xMouse, &yMouse);
-                //int entityID = EntityManager_Allocate(gameState->EntityManager);
-
+                
             }
             else if (eventProcess->SDLEvent->button.button == SDL_BUTTON_RIGHT)
             {

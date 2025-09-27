@@ -1,6 +1,12 @@
 #ifndef Engine_Object_H
 #define Engine_Object_H
 
+/*
+All engine loaded data will be derived from objects
+Currently, there is only two object types (Entity & Render)
+Resource objects will be added later
+*/
+
 #include <stdint.h>
 
 //Forward declares
@@ -8,7 +14,7 @@
 
 typedef enum ObjectType
 {
-    GAME,
+    ENTITY,
     RENDER
 };
 

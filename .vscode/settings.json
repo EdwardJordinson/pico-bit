@@ -54,6 +54,7 @@
         "engine_eventprocess.h": "c",
         "engine_object.h": "c",
         "vector": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "engine_entityobject.h": "c"
     }
 }

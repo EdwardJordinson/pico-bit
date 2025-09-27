@@ -1,15 +1,22 @@
 #ifndef Engine_RenderObject_H
 #define Engine_RenderObject_H
 
+/*
+Render objects are render loaded data, this is all loaded data that will be displayed on screen.
+Render types are limited and implementation of each is very underdeveloped, as there has not been a need for complex render objects yet.
+For now, there is only two (shape & text).
+Text handles fonts and text on screen, and shapes are just squares for now.
+*/
+
 //Forward declares
 //
 
-enum RenderObjectType
+enum RenderType
 {
-    NILL,
-    SHAPE,
-    TEXT
-};
+    r_NILL,
+    r_SHAPE,
+    r_TEXT
+ };
 
 typedef struct RenderObject_Shape
 {
@@ -23,6 +30,7 @@ typedef struct RenderObject_Text
     char Text[32];
 } RenderObject_Text;
 
+
 union RenderData
 {
     RenderObject_Shape ShapeData;
@@ -30,10 +38,9 @@ union RenderData
 
 };
 
-
 typedef struct Engine_RenderObject
 {
-    enum RenderObjectType RenderObjectType;
+    enum RenderType RenderType;
     float PositionX, PositionY;
     int Red, Green, Blue, Alpha;
     union RenderData RenderData;

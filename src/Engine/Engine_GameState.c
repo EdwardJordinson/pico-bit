@@ -1,6 +1,6 @@
 #include <Engine/Engine_GameState.h>
 #include <Engine/Engine_Object.h>
-#include <Engine/Engine_GameObject.h>
+#include <Engine/Engine_EntityObject.h>
 #include <Engine/Engine_EventProcess.h>
 #include <Engine/Engine_Physics.h>
 #include <stdio.h>
@@ -14,7 +14,7 @@ void GameState_Initialise(Engine_GameState* gameState)
 
 void GameState_Update(Engine_GameState* gameState, Engine_EventProcess* eventProcess)
 {
-    GameState_EntityAllUpdate(gameState->ObjectManager, gameState->delta);
+    GameState_EntityAllUpdate(gameState->EntityManager, gameState->delta);
 
 };
 
@@ -22,15 +22,39 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
 {
     for (int i = 0; i < objectManager->ActiveCount; i++)
     {   
-        Engine_GameObject* tempGameObject = ObjectManager_Get(objectManager, i)->Data;
-        tempGameObject->Update(&tempGameObject->PhysicsBody, deltaTime);
+        Engine_EntityObject* tempEntityObject = ObjectManager_Get(objectManager, i)->Data;
+        Engine_GameEntity* tempGameEntity = EntityObject_GetData(tempEntityObject);
+        //tempEntityObject->Update(&tempEntityObject->PhysicsBody, deltaTime);
+        switch (tempEntityObject->EntityType)
+        {
+        case 1:
+            //GameState_UpdateGameEntity(tempEntityObject);
+            tempGameEntity->Update(&tempGameEntity->PhysicsBody, deltaTime);
+            break;
+        case 2:
+            //GameState_UpdateDisplayEntity(tempGameEntity);
+            break;
+        default:
+            break;
+        }
     }
 
-    Engine_GameObject* tempGameObject1 = ObjectManager_Get(objectManager, 0)->Data;
-    Engine_GameObject* tempGameObject2 = ObjectManager_Get(objectManager, 1)->Data;
-    Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempGameObject1->PhysicsBody.CollisionShape, tempGameObject1->PhysicsBody.Transform2D.Position, tempGameObject2->PhysicsBody.CollisionShape, tempGameObject2->PhysicsBody.Transform2D.Position);
+    
+    Engine_GameEntity* tempEntityObject1 = EntityObject_GetData(ObjectManager_Get(objectManager, 0)->Data);
+    Engine_GameEntity* tempEntityObject2 = EntityObject_GetData(ObjectManager_Get(objectManager, 1)->Data);
+    Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempEntityObject1->PhysicsBody.CollisionShape, tempEntityObject1->PhysicsBody.Transform2D.Position, tempEntityObject2->PhysicsBody.CollisionShape, tempEntityObject2->PhysicsBody.Transform2D.Position);
     if (collisionData.Hit == true)
     {
-        Physics_CollisionResolve(&tempGameObject1->PhysicsBody, &tempGameObject2->PhysicsBody, &collisionData);
+        Physics_CollisionResolve(&tempEntityObject1->PhysicsBody, &tempEntityObject2->PhysicsBody, &collisionData);
     }
+};
+
+void GameState_UpdateGameEntity(Engine_GameEntity* gameEntity)
+{
+    //tempEntityObject->Update(&tempEntityObject->PhysicsBody, deltaTime);
+};
+
+void GameState_UpdateDisplayEntity(Engine_DisplayEntity* displayEntity)
+{
+
 };

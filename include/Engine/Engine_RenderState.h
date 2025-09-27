@@ -11,6 +11,8 @@ typedef struct Engine_AABB Engine_AABB;
 typedef struct TTF_Font TTF_Font;
 typedef struct SDL_Texture SDL_Texture;
 typedef struct Engine_RenderObject Engine_RenderObject;
+typedef struct Engine_GameEntity Engine_GameEntity;
+typedef struct Engine_DisplayEntity Engine_DisplayEntity;
 //
 
 typedef struct Engine_RenderState
@@ -26,6 +28,8 @@ typedef struct Engine_RenderState
 void RenderState_Initialise(Engine_RenderState* renderState);
 void RenderState_Draw(Engine_RenderState* renderState, Engine_GameState* gameState);
 void RenderState_DrawObjects(Engine_RenderState* renderState, Engine_ObjectManager* objectManager);
+void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* gameEntity, Engine_RenderObject* renderObject);
+void RenderState_DrawDisplay(Engine_RenderState* renderState, Engine_DisplayEntity* displayEntity, Engine_RenderObject* renderObject);
 void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vector2);
 void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject);
 void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox);

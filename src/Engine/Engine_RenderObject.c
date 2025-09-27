@@ -9,7 +9,7 @@ void RenderObject_Initialise()
 
 void RenderObject_Configure(Engine_RenderObject* object)
 {
-    object->RenderObjectType = 0;
+    object->RenderType = 0;
     object->PositionX = 0.0; object->PositionY = 0.0;
     object->RenderData.ShapeData.Width = 0.0; object->RenderData.ShapeData.Height = 0.0;
     object->Red = 0.0; object->Green = 0.0; object->Blue = 0.0; object->Alpha = 0.0;
@@ -47,14 +47,14 @@ void RenderObject_Update(Engine_RenderObject* renderObject)
 
 void RenderObject_SetShapeData(Engine_RenderObject* renderObject, float width, float height)
 {
-    renderObject->RenderObjectType = 1;
+    renderObject->RenderType = 1;
     renderObject->RenderData.ShapeData.Width = width;
     renderObject->RenderData.ShapeData.Height = height;
 };
 
 void RenderObject_SetTextData(Engine_RenderObject* renderObject, float width, float height, char* text)
 {
-    renderObject->RenderObjectType = 2;
+    renderObject->RenderType = 2;
     renderObject->RenderData.TextData.Width = width;
     renderObject->RenderData.TextData.Height = height;
     *renderObject->RenderData.TextData.Text = *text;
