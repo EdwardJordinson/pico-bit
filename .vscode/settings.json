@@ -55,6 +55,7 @@
         "engine_object.h": "c",
         "vector": "c",
         "cstdlib": "c",
-        "engine_entityobject.h": "c"
+        "engine_entityobject.h": "c",
+        "algorithm": "c"
     }
 }

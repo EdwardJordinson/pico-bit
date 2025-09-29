@@ -28,13 +28,22 @@ void Physics_Integration(Engine_PhysicsBody* physicsBody, float deltaTime)
 			Vector2_AddVector(physicsBody->Velocity, 
 				Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime))));
 
-	physicsBody->Force = (Vector2){0.0,0.0};
+	//Zero'ing forces
+	Vector2_SetVector(&physicsBody->Force, (Vector2){0.0,0.0});
+
 };
 
+//Applies Velocity
+void Physics_ApplyImpulse(Engine_PhysicsBody* physicsBody, Vector2 impulseVector)
+{
+	
+
+};
+
+//Applies Acceleration
 void Physics_ApplyForce(Engine_PhysicsBody* physicsBody, Vector2 forceVector)
 {
 	Vector2_SetVector(&physicsBody->Force, Vector2_AddVector(physicsBody->Force, forceVector));
-	//physicsBody->Force = forceVector;
 
 };
 
@@ -54,7 +63,7 @@ void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBo
     Vector2 relativeVelocity = Vector2_SubtractVector(physicsBody2->Velocity, physicsBody1->Velocity);
 	float veloictyAlongNormal = Vector2_DotProduct(relativeVelocity, manifold->Normal);
 	
-	if (veloictyAlongNormal < 0.0) return;
+	if (veloictyAlongNormal > 0.0) return;
 
 	float e = fmin(physicsBody1->Material.Restitution, physicsBody2->Material.Restitution);
 
@@ -65,10 +74,8 @@ void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBo
 
     float massSum = physicsBody1->MassData.Mass + physicsBody2->MassData.Mass;
     float ratio = physicsBody1->MassData.Mass / massSum;
-	//Physics_ApplyForce(physicsBody1, Vector2_SubtractVector(physicsBody1->Velocity, Vector2_MuliplyScalar(impulse, ratio)));
 	Vector2_SetVector(&physicsBody1->Velocity, Vector2_SubtractVector(physicsBody1->Velocity, Vector2_MuliplyScalar(impulse, ratio)));
     ratio = physicsBody2->MassData.Mass / massSum;
-	//Physics_ApplyForce(physicsBody2, Vector2_AddVector(physicsBody2->Velocity, Vector2_MuliplyScalar(impulse, ratio)));
 	Vector2_SetVector(&physicsBody2->Velocity, Vector2_AddVector(physicsBody2->Velocity, Vector2_MuliplyScalar(impulse, ratio)));
 };
 
@@ -116,21 +123,26 @@ Engine_PhysicsManifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector
 	return output;
 };
 
-void Physics_BoardPhase()
+//Forgot what this does
+void PhysicsBody_GetList(Engine_PhysicsBody* physicsBody, Engine_ObjectManager* entityManager)
 {
-	
+	Engine_PhysicsBody* allBodies[3];
+    for (int i = 0; i < entityManager->ActiveCount; i++)
+    {
+        Engine_EntityObject* tempEntity = ObjectManager_Get(entityManager, i)->Data;
+        Engine_GameEntity* tempGameE;
+        if (tempEntity->EntityType == 1)
+        {
+			tempGameE = EntityObject_GetData(tempEntity);
+            allBodies[i] = &tempGameE->PhysicsBody;
+        }
+    }
+	physicsBody = *allBodies;
 };
-
 
 Engine_PhysicsPair PhysicsPair_Initialise()
 {
 	return (Engine_PhysicsPair){NULL, NULL};
-};
-
-void PhysicsPair_SetPairBodies(Engine_PhysicsPair* physicsPair, Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2)
-{
-	physicsPair->physicsBody1 = physicsBody1;
-	physicsPair->physicsBody2 = physicsBody2;
 };
 
 void PhysicsPair_Clear(Engine_PhysicsPair* physicsPair)
@@ -139,18 +151,27 @@ void PhysicsPair_Clear(Engine_PhysicsPair* physicsPair)
 	{
 		physicsPair[i] = PhysicsPair_Initialise();
 	}
-
-
 };
 
-void PhysicsPair_GenerateList(Engine_PhysicsPair* physicsPair, Engine_ObjectManager* entityManager)
+void PhysicsPair_SetPairBodies(Engine_PhysicsPair* physicsPair, Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2)
 {
-	PhysicsPair_Clear(physicsPair);
+	physicsPair->physicsBody1 = physicsBody1;
+	physicsPair->physicsBody2 = physicsBody2;
+};
 
-	Engine_PhysicsBody allBodies[3];
-	PhysicsBody_GetList(allBodies, entityManager);
+Engine_PhysicsBroadPhase PhysicsBroadPhase_Initialise()
+{
+	return(Engine_PhysicsBroadPhase){0, NULL};
+};
 
+void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager)
+{
+	PhysicsPair_Clear(physicsBroadPhase->PairList);
 
+	Engine_PhysicsBody* allBodies[3];
+	PhysicsBody_GetList(*allBodies, entityManager);
+
+	physicsBroadPhase->count = 0;
 	int end = 3;
 	for (int i = 0; i != end; ++i)
 	{
@@ -158,50 +179,94 @@ void PhysicsPair_GenerateList(Engine_PhysicsPair* physicsPair, Engine_ObjectMana
 		for (int j = ++jStart; j != end; ++j)
 		{
 
-			Engine_PhysicsBody* physicsBody1 = &allBodies[i];
-			Engine_PhysicsBody* physicsBody2 = &allBodies[j];
+			Engine_PhysicsBody* physicsBody1 = allBodies[i];
+			Engine_PhysicsBody* physicsBody2 = allBodies[j];
 
-			if (physicsBody1 == physicsBody2)
+			if (i == j)
 			{
 				continue;
 			}
 
-			/*  
-			https://allenchou.net/2013/12/game-physics-broadphase/
-			
-			      // add collider pair
-      if (aabbA->Collides(aabbB))
-        m_pairs.push_back(
-          std::make_pair(aabbA->collider, aabbB->collider));
-       
-    } // end of inner loop
-  } // end of outer loop
-   
-  return m_pairs;
-			
-			*/
-
-
+			Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(physicsBody1->CollisionShape, physicsBody1->Transform2D.Position, physicsBody2->CollisionShape, physicsBody2->Transform2D.Position);
+			if (collisionData.Hit == true)
+			{
+				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = physicsBody1;
+				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody2 = physicsBody2;
+				physicsBroadPhase->count++;
+			}
 		}
+	}
+};
+
+void PhysicsBroadPhase_CullDupicatesPairList(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+	//Sorted list
+	Engine_PhysicsPair PairList[6];
 
 
+	int count = 0;
+	while (count < physicsBroadPhase->count)
+	{
+		/* code */
+
+		int checkCount = count + 1;
 
 	}
-
+	
 
 };
 
-void PhysicsBody_GetList(Engine_PhysicsBody* physicsBody, Engine_ObjectManager* entityManager)
+void PhysicsBroadPhase_AddPair(Engine_PhysicsBroadPhase* physicsBroadPhase)
 {
+
+};
+
+void PhysicsBroadPhase_Update(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+
+};
+
+void PhysicsBroadPhase_Query(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+
+};
+
+//Only checking collision for one object
+void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager)
+{
+	PhysicsPair_Clear(physicsBroadPhase->PairList);
+
+	Engine_PhysicsBody* allBodies[3];
     for (int i = 0; i < entityManager->ActiveCount; i++)
     {
         Engine_EntityObject* tempEntity = ObjectManager_Get(entityManager, i)->Data;
         Engine_GameEntity* tempGameE;
         if (tempEntity->EntityType == 1)
         {
-            tempGameE = tempEntity->GetData(tempEntity);
-            physicsBody = &tempGameE->PhysicsBody;
-            physicsBody++;
+			tempGameE = EntityObject_GetData(tempEntity);
+            allBodies[i] = &tempGameE->PhysicsBody;
         }
     }
+	//PhysicsBody_GetList(*allBodies, entityManager);
+
+	physicsBroadPhase->count = 0;
+	int end = entityManager->ActiveCount-1;
+	for (int i = 0; i != end; ++i)
+	{
+		Engine_PhysicsBody* targetBox = allBodies[1];
+		Engine_PhysicsBody* checkBox = allBodies[i];
+
+		if (i == 1)
+		{
+			continue;
+		}
+
+		Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(targetBox->CollisionShape, targetBox->Transform2D.Position, checkBox->CollisionShape, checkBox->Transform2D.Position);
+		if (collisionData.Hit == true)
+		{
+			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = targetBox;
+			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody2 = checkBox;
+			physicsBroadPhase->count++;
+		}
+	}
 };

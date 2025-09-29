@@ -39,14 +39,32 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
         }
     }
 
-    
+    /*
     Engine_GameEntity* tempEntityObject1 = EntityObject_GetData(ObjectManager_Get(objectManager, 0)->Data);
     Engine_GameEntity* tempEntityObject2 = EntityObject_GetData(ObjectManager_Get(objectManager, 1)->Data);
-    Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempEntityObject1->PhysicsBody.CollisionShape, tempEntityObject1->PhysicsBody.Transform2D.Position, tempEntityObject2->PhysicsBody.CollisionShape, tempEntityObject2->PhysicsBody.Transform2D.Position);
+    Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempEntityObject2->PhysicsBody.CollisionShape, tempEntityObject2->PhysicsBody.Transform2D.Position, tempEntityObject1->PhysicsBody.CollisionShape, tempEntityObject1->PhysicsBody.Transform2D.Position);
     if (collisionData.Hit == true)
     {
         Physics_CollisionResolve(&tempEntityObject1->PhysicsBody, &tempEntityObject2->PhysicsBody, &collisionData);
+    }  
+    */
+    Engine_PhysicsBroadPhase broadPhase;
+    PhysicsBroadPhase_TEMPPairList(&broadPhase, objectManager);
+
+    if (broadPhase.count != 0)
+    {
+        printf("Contact!!!\n");
+        
+        for (int i = 0; i < broadPhase.count; i++)
+        {
+
+            Engine_PhysicsBody* tempBody1 = broadPhase.PairList[i].physicsBody1;
+            Engine_PhysicsBody* tempBody2 = broadPhase.PairList[i].physicsBody2;
+            Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempBody2->CollisionShape, tempBody2->Transform2D.Position, tempBody1->CollisionShape, tempBody1->Transform2D.Position);
+            Physics_CollisionResolve(tempBody1, tempBody2, &collisionData);
+        }
     }
+
 };
 
 void GameState_UpdateGameEntity(Engine_GameEntity* gameEntity)

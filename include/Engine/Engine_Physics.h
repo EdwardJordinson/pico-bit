@@ -68,6 +68,7 @@ typedef struct Engine_PhysicsBody
 
 
 Engine_PhysicsBody PhysicsBody_Initialise();
+
 void PhysicsBody_GetList(Engine_PhysicsBody* aabb, Engine_ObjectManager* entityManager);
 
 
@@ -79,33 +80,35 @@ typedef struct Engine_PhysicsPair
 } Engine_PhysicsPair;
 
 Engine_PhysicsPair PhysicsPair_Initialise();
-void PhysicsPair_SetPairBodies(Engine_PhysicsPair* physicsPair, Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2);
 void PhysicsPair_Clear(Engine_PhysicsPair* physicsPair);
-void PhysicsPair_GenerateList(Engine_PhysicsPair* physicsPair, Engine_ObjectManager* entityManager);
+void PhysicsPair_SetPairBodies(Engine_PhysicsPair* physicsPair, Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2);
 
 
 typedef struct Engine_PhysicsBroadPhase
 {
-    Engine_PhysicsPair PairList[3]; //Testing now: Need to implement pointer arith/stretchy array later.
+    int count;
+    Engine_PhysicsPair PairList[6]; //Testing now: Need to implement pointer arith/stretchy array later.
 
 
 } Engine_PhysicsBroadPhase;
 
 Engine_PhysicsBroadPhase PhysicsBroadPhase_Initialise();
+void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager);
+void PhysicsBroadPhase_CullDupicatesPairList(Engine_PhysicsBroadPhase* physicsBroadPhase);
 void PhysicsBroadPhase_AddPair(Engine_PhysicsBroadPhase* physicsBroadPhase);
 void PhysicsBroadPhase_Update(Engine_PhysicsBroadPhase* physicsBroadPhase);
 void PhysicsBroadPhase_Query(Engine_PhysicsBroadPhase* physicsBroadPhase);
-
+void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager);
 
 
 void Physics_InverseMass();
 void Physics_SetVelocity(Engine_PhysicsBody* physicsBody, float deltaTime);
 void Physics_Integration(Engine_PhysicsBody* physicsBody, float deltaTime);
+void Physics_ApplyImpulse(Engine_PhysicsBody* physicsBody, Vector2 impulseVector);
 void Physics_ApplyForce(Engine_PhysicsBody* physicsBody, Vector2 forceVector);
 void Physics_UpdateRigid(Engine_PhysicsBody* physicsBody, float deltaTime);
 void Physics_UpdateStatic(Engine_PhysicsBody* physicsBody, float deltaTime);
 void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2, Engine_PhysicsManifold* manifold);
 Engine_PhysicsManifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony);
-void Physics_BoardPhase();
 
 #endif //Engine_Physics_H
