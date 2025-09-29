@@ -236,7 +236,7 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 {
 	PhysicsPair_Clear(physicsBroadPhase->PairList);
 
-	Engine_PhysicsBody* allBodies[3];
+	Engine_PhysicsBody* allBodies[5];
     for (int i = 0; i < entityManager->ActiveCount; i++)
     {
         Engine_EntityObject* tempEntity = ObjectManager_Get(entityManager, i)->Data;
@@ -253,10 +253,10 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 	int end = entityManager->ActiveCount-1;
 	for (int i = 0; i != end; ++i)
 	{
-		Engine_PhysicsBody* targetBox = allBodies[1];
+		Engine_PhysicsBody* targetBox = allBodies[0];
 		Engine_PhysicsBody* checkBox = allBodies[i];
 
-		if (i == 1)
+		if (i == 0)
 		{
 			continue;
 		}
