@@ -6,7 +6,6 @@
 
 
 float Math_InterpolationLinear();
-
 void Math_Swap(float* num1, float* num2);
 
 

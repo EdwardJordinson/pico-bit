@@ -24,6 +24,11 @@ void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector)
     aabb->maxVector = maxVector; aabb->minVector = minVector;
 };
 
+void AABB_SetTransform(Engine_AABB* aabb, Engine_Matrix3x2 bodyTransform)
+{
+
+};
+
 float AABB_GetWidth(Engine_AABB* aabb)
 {
     return (float){aabb->maxVector.x - aabb->minVector.x};
@@ -42,14 +47,12 @@ Vector2 AABB_GetCenter(Engine_AABB* aabb)
 Engine_AABB AABB_GetUnion(Engine_AABB* aabb1, Engine_AABB* aabb2)
 {
     //Need to create a min/max method for vector positions in space itself
-    Engine_AABB aabb3;
-    //aabb3.minVector = fmin(aabb1->minVector);
 
 };
 
-Engine_AABB AABB_GetPosition(Engine_AABB* box2D, Vector2 newPosition)
+Engine_AABB AABB_GetPosition(Engine_AABB* box2D, Engine_Matrix3x2 bodyTransform)
 {
-    return (Engine_AABB){Vector2_AddVector(box2D->maxVector, newPosition), Vector2_AddVector(box2D->minVector, newPosition)};
+    return (Engine_AABB){Vector2_AddVector(box2D->maxVector, bodyTransform.Position), Vector2_AddVector(box2D->minVector, bodyTransform.Position)};
 };
 
 bool AABB_IntersectionLine()
@@ -57,10 +60,10 @@ bool AABB_IntersectionLine()
  
 };
 
-Engine_PhysicsManifold AABB_IntersectionAABB(Engine_AABB box1, Vector2 position1, Engine_AABB box2, Vector2 position2)
+Engine_PhysicsManifold AABB_IntersectionAABB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_AABB box2, Engine_Matrix3x2 bodyTransform2)
 {
-	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, position1);
-	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, position2);
+	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, bodyTransform1);
+	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, bodyTransform2);
 
 	Vector2 mid_1 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB1.minVector, objectAABB1.maxVector), 0.5);
 	Vector2 mid_2 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB2.minVector, objectAABB2.maxVector), 0.5);

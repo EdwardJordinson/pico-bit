@@ -62,9 +62,9 @@ typedef struct Engine_PhysicsBody
     Engine_PhysicsMaterial Material;
     Engine_Matrix3x2 Transform2D;
     Vector2 Velocity;
-    Vector2 Force;
+    Vector2 Force; //Acceleration
 
- } Engine_PhysicsBody;
+} Engine_PhysicsBody;
 
 
 Engine_PhysicsBody PhysicsBody_Initialise();

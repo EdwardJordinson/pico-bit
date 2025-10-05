@@ -33,6 +33,17 @@ void GameEntity_SetPositionVector(Engine_GameEntity* gameEntity, Vector2 vector)
     GameEntity_SetPositionXY(gameEntity, vector.x, vector.y);
 };
 
+void GameEntity_SetRotationRad(Engine_GameEntity* entityObject, float radians)
+{
+
+
+};
+
+void GameEntity_SetRotationVector(Engine_GameEntity* entityObject, Vector2 vector)
+{
+
+};
+
 void GameEntity_SetUpdateFunction(Engine_GameEntity* gameEntity, void* updateFunction)
 {
     gameEntity->Update = updateFunction;

@@ -41,6 +41,8 @@ void GameEntity_SetDefault(Engine_GameEntity* entityObject);
 void GameEntity_SetConfiguration(Engine_GameEntity* entityObject, Engine_GameEntity configObject);
 void GameEntity_SetPositionXY(Engine_GameEntity* entityObject, float xPosition, float yPosition);
 void GameEntity_SetPositionVector(Engine_GameEntity* entityObject, Vector2 vector);
+void GameEntity_SetRotationRad(Engine_GameEntity* entityObject, float radians);
+void GameEntity_SetRotationVector(Engine_GameEntity* entityObject, Vector2 vector);
 void GameEntity_SetUpdateFunction(Engine_GameEntity* entityObject, void* updateFunction);
 void GameEntity_SetMass(Engine_GameEntity* entityObject, float mass);
 

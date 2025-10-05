@@ -37,7 +37,7 @@ void EntityObject_SetConfiguration(Engine_EntityObject* entityObject, Engine_Ent
 
 void* EntityObject_GetData(Engine_EntityObject* entityObject)
 {
-	switch (entityObject->EntityType)
+	switch(entityObject->EntityType)
 	{
 	case 1:
 		return &entityObject->Data.GameEntity;

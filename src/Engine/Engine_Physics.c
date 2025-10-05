@@ -187,7 +187,7 @@ void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPh
 				continue;
 			}
 
-			Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(physicsBody1->CollisionShape, physicsBody1->Transform2D.Position, physicsBody2->CollisionShape, physicsBody2->Transform2D.Position);
+			Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(physicsBody1->CollisionShape, physicsBody1->Transform2D, physicsBody2->CollisionShape, physicsBody2->Transform2D);
 			if (collisionData.Hit == true)
 			{
 				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = physicsBody1;
@@ -261,7 +261,7 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 			continue;
 		}
 
-		Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(targetBox->CollisionShape, targetBox->Transform2D.Position, checkBox->CollisionShape, checkBox->Transform2D.Position);
+		Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(targetBox->CollisionShape, targetBox->Transform2D, checkBox->CollisionShape, checkBox->Transform2D);
 		if (collisionData.Hit == true)
 		{
 			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = targetBox;

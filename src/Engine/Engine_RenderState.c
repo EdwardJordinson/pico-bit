@@ -66,7 +66,11 @@ void RenderState_DrawObjects(Engine_RenderState* renderState, Engine_ObjectManag
 void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* gameEntity, Engine_RenderObject* renderObject)
 {
     SDL_SetRenderDrawColor(renderState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
-    Engine_AABB drawBox = AABB_GetPosition(&gameEntity->PhysicsBody.CollisionShape, RenderState_WorldToScreen(renderState->EngineWindow, gameEntity->PhysicsBody.Transform2D.Position));
+
+
+    Vector2 screenPos = RenderState_WorldToScreen(renderState->EngineWindow, gameEntity->PhysicsBody.Transform2D.Position);
+    Engine_AABB tempBox = gameEntity->PhysicsBody.CollisionShape;
+    Engine_AABB drawBox = (Engine_AABB){Vector2_AddVector(tempBox.maxVector, screenPos), Vector2_AddVector(tempBox.minVector, screenPos)};
     RenderState_DrawAABB(renderState->EngineWindow->SDLRenderer, drawBox);
 };
 

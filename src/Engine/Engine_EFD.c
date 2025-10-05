@@ -145,6 +145,12 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
             sscanf(token + 8  + 7  + 5, "{%f|%f}", &tempX, &tempY);
             GameEntity_SetPositionXY(gameEntity, tempX, tempY);
         }
+        if (strncmp(token, "Rotation", 8) == 0)
+        {
+            float tempX = 0.0; float tempY = 0.0;
+            sscanf(token + 8, "{%f|%f}", &tempX, &tempY);
+            //GameEntity_SetPositionXY(gameEntity, tempX, tempY);
+        }
         else if (strncmp(token, "Force", 5) == 0)
         {
             float tempX = 0.0; float tempY = 0.0;
