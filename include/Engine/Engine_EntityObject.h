@@ -9,7 +9,7 @@ The seperation was done because raw game data does not need to be rendered, only
 */
 
 #include <Engine/Engine_Coordinates.h>
-#include <Engine/Engine_Collision.h>
+#include <Engine/Engine_CollisionShape.h>
 #include <Engine/Engine_Physics.h>
 
 

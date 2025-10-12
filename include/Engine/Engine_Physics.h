@@ -2,7 +2,7 @@
 #define Engine_Physics_H
 
 #include <Engine/Engine_Coordinates.h>
-#include <Engine/Engine_Collision.h>
+#include <Engine/Engine_CollisionShape.h>
 #include <stdbool.h>
 
 //Forward declares
@@ -57,7 +57,7 @@ Engine_PhysicsMaterial PhysicsMaterial_Initialise();
 
 typedef struct Engine_PhysicsBody
 {
-    Engine_AABB CollisionShape;
+    Engine_CollisionShape CollisionShape;
     Engine_PhysicsMass MassData;
     Engine_PhysicsMaterial Material;
     Engine_Matrix3x2 Transform2D;
@@ -78,6 +78,7 @@ typedef struct Engine_PhysicsPair
 {
     Engine_PhysicsBody* physicsBody1;
     Engine_PhysicsBody* physicsBody2;
+    Engine_PhysicsManifold manifold;
 
 } Engine_PhysicsPair;
 
@@ -112,5 +113,6 @@ void Physics_UpdateRigid(Engine_PhysicsBody* physicsBody, float deltaTime);
 void Physics_UpdateStatic(Engine_PhysicsBody* physicsBody, float deltaTime);
 void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBody* physicsBody2, Engine_PhysicsManifold* manifold);
 Engine_PhysicsManifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony);
+//Engine_PhysicsManifold Physics_Intersection( bodyTransform1, Engine_Matrix3x2 bodyTransform2);
 
 #endif //Engine_Physics_H

@@ -53,25 +53,24 @@ void RenderState_DrawObjects(Engine_RenderState* renderState, Engine_ObjectManag
         default:
             break;
         }
-
-        //Engine_EntityObject* gameObject = ObjectManager_Get(entityManager, i)->Data;
-        //Engine_RenderObject* renderObject = ObjectManager_Get(rendererState->RenderManager, gameObject->RenderID)->Data;
-
-        //SDL_SetRenderDrawColor(rendererState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
-        //Engine_AABB drawBox = AABB_GetPosition(&gameObject->PhysicsBody.CollisionShape, RenderState_WorldToScreen(rendererState->EngineWindow, gameObject->PhysicsBody.Transform2D.Position));
-        //RenderState_DrawAABB(rendererState->EngineWindow->SDLRenderer, drawBox);
     }
 };
 
 void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* gameEntity, Engine_RenderObject* renderObject)
 {
     SDL_SetRenderDrawColor(renderState->EngineWindow->SDLRenderer, renderObject->Red, renderObject->Green, renderObject->Blue, renderObject->Alpha);
-
-
     Vector2 screenPos = RenderState_WorldToScreen(renderState->EngineWindow, gameEntity->PhysicsBody.Transform2D.Position);
-    Engine_AABB tempBox = gameEntity->PhysicsBody.CollisionShape;
-    Engine_AABB drawBox = (Engine_AABB){Vector2_AddVector(tempBox.maxVector, screenPos), Vector2_AddVector(tempBox.minVector, screenPos)};
-    RenderState_DrawAABB(renderState->EngineWindow->SDLRenderer, drawBox);
+    if (gameEntity->PhysicsBody.CollisionShape.CollisionType == 0)
+    {
+        Engine_AABB* tempBox = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
+        Engine_AABB drawBox = (Engine_AABB){Vector2_AddVector(tempBox->maxVector, screenPos), Vector2_AddVector(tempBox->minVector, screenPos)};
+        RenderState_DrawAABB(renderState->EngineWindow->SDLRenderer, drawBox);
+    }
+    else if (gameEntity->PhysicsBody.CollisionShape.CollisionType == 1)
+    {
+        Engine_OBB* tempBox = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
+        RenderState_DrawOBB(renderState->EngineWindow->SDLRenderer, *tempBox, screenPos);
+    }
 };
 
 void RenderState_DrawDisplay(Engine_RenderState* renderState, Engine_DisplayEntity* displayEntity, Engine_RenderObject* renderObject)
@@ -93,6 +92,18 @@ void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
     RenderState_DrawLine(renderer, Vector2_AddXY(drawBox.minVector, 0.0f, 1.0f), Vector2_AddXY(drawBox.minVector, 0.0f, height-1.0f));
     RenderState_DrawLine(renderer, drawBox.maxVector, Vector2_SubtractXY(drawBox.maxVector, width, 0.0));
     RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
+};
+
+void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 position)
+{
+    float width = drawBox.sizeVector.x + 1;
+    float height = drawBox.sizeVector.y + 1;
+    /*
+    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y - height}, Vector2_AddXY(drawBox.minVector, width, 0.0f));
+    RenderState_DrawLine(renderer, Vector2_AddXY(drawBox.minVector, 0.0f, 1.0f), Vector2_AddXY(drawBox.minVector, 0.0f, height-1.0f));
+    RenderState_DrawLine(renderer, drawBox.maxVector, Vector2_SubtractXY(drawBox.maxVector, width, 0.0));
+    RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
+    */
 };
 
 void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject) // Testing functionality, needs change

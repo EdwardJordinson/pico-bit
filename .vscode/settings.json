@@ -56,6 +56,7 @@
         "vector": "c",
         "cstdlib": "c",
         "engine_entityobject.h": "c",
-        "algorithm": "c"
+        "algorithm": "c",
+        "engine_collisionshape.h": "c"
     }
 }

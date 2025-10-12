@@ -35,8 +35,7 @@ void GameEntity_SetPositionVector(Engine_GameEntity* gameEntity, Vector2 vector)
 
 void GameEntity_SetRotationRad(Engine_GameEntity* entityObject, float radians)
 {
-
-
+    entityObject->PhysicsBody.Transform2D.RotationMatrix = Matrix2x2_Rotation(radians);
 };
 
 void GameEntity_SetRotationVector(Engine_GameEntity* entityObject, Vector2 vector)

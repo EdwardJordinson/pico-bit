@@ -11,6 +11,7 @@
 
 #define MAX_DUMPS 128
 
+//Utter crap, needs rebuild, proper tree parsing required for this
 
 void EFD_WriteFile(int argc, char** argv)
 {
@@ -147,9 +148,9 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
         }
         if (strncmp(token, "Rotation", 8) == 0)
         {
-            float tempX = 0.0; float tempY = 0.0;
-            sscanf(token + 8, "{%f|%f}", &tempX, &tempY);
-            //GameEntity_SetPositionXY(gameEntity, tempX, tempY);
+            float tempRot = 0.0;
+            sscanf(token + 8, "{%f}", &tempRot);
+            GameEntity_SetRotationRad(gameEntity, tempRot);
         }
         else if (strncmp(token, "Force", 5) == 0)
         {
@@ -177,14 +178,42 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
         }
         else if (strncmp(token, "CollisionShape", 14) == 0)
         {
-            //This will need to change...
-            Vector2 maxVector = Vector2_Initialise();
-            Vector2 minVector = Vector2_Initialise();
-            sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
-            AABB_SetMaxMin(&gameEntity->PhysicsBody.CollisionShape, maxVector, minVector);
+           EFD_ParseCollisionShape(&gameEntity->PhysicsBody.CollisionShape, token);
         }
         token = strtok_r(NULL, ",", &savePointer);
     }     
+};
+
+void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text)
+{
+    char* savePointer;
+    char lineCopy[1024];
+    strncpy(lineCopy, text, sizeof(lineCopy));
+    lineCopy[sizeof(lineCopy) - 1] = '\0';
+
+    char* token = strtok_r(lineCopy, ",", &savePointer);
+    while (token)
+    {
+        if (strncmp(token + 14 + 1, "AABB", 4) == 0)
+        {
+            CollisionShape_SetShape(collisionShape, 0);
+            Engine_AABB *newAABB = collisionShape->GetData(collisionShape);
+            Vector2 maxVector = Vector2_Initialise();
+            Vector2 minVector = Vector2_Initialise();
+            sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
+            AABB_SetMaxMin(newAABB, maxVector, minVector);
+        }
+        else if (strncmp(token  + 14 + 1, "OBB", 3) == 0)
+        {
+            CollisionShape_SetShape(collisionShape, 1);
+            Engine_OBB *newAABB = collisionShape->GetData(collisionShape);
+            float height = 0.0f; float width = 0.0f;
+            sscanf(token + 14, "{OBB{%f|%f}}", &height, &width);
+            OBB_SetWidthHeight(newAABB, height, width);
+        }
+        token = strtok_r(NULL, ",", &savePointer);
+    }
+    
 };
 
 void EFD_ParseDisplayEntity(Engine_DisplayEntity* displayEntity, char* text)

@@ -46,11 +46,9 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
         
         for (int i = 0; i < broadPhase.count; i++)
         {
-
             Engine_PhysicsBody* tempBody1 = broadPhase.PairList[i].physicsBody1;
             Engine_PhysicsBody* tempBody2 = broadPhase.PairList[i].physicsBody2;
-            Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(tempBody2->CollisionShape, tempBody2->Transform2D, tempBody1->CollisionShape, tempBody1->Transform2D);
-            Physics_CollisionResolve(tempBody1, tempBody2, &collisionData);
+            Physics_CollisionResolve(tempBody2, tempBody1, &broadPhase.PairList[i].manifold);
         }
     }
 

@@ -194,13 +194,18 @@ void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPh
 				continue;
 			}
 
-			Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(physicsBody1->CollisionShape, physicsBody1->Transform2D, physicsBody2->CollisionShape, physicsBody2->Transform2D);
+			//Engine_AABB* tempAABB1 = physicsBody1->CollisionShape.GetData(&physicsBody1->CollisionShape);
+			//Engine_AABB* tempAABB2 = physicsBody2->CollisionShape.GetData(&physicsBody1->CollisionShape);
+
+			//Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(*tempAABB1, physicsBody1->Transform2D, *tempAABB2, physicsBody2->Transform2D);
+			/*
 			if (collisionData.Hit == true)
 			{
 				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = physicsBody1;
 				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody2 = physicsBody2;
 				physicsBroadPhase->count++;
 			}
+			*/
 		}
 	}
 };
@@ -268,12 +273,14 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 			continue;
 		}
 
-		Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(targetBox->CollisionShape, targetBox->Transform2D, checkBox->CollisionShape, checkBox->Transform2D);
-		if (collisionData.Hit == true)
+		Engine_PhysicsManifold tempManifold = Manifold_Initialise();
+		if (CollisionShape_FindIntersection(&tempManifold, targetBox, checkBox) == true)
 		{
 			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = targetBox;
 			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody2 = checkBox;
+			physicsBroadPhase->PairList[physicsBroadPhase->count].manifold = tempManifold;
 			physicsBroadPhase->count++;
-		}
+		}	
+
 	}
 };
