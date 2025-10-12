@@ -35,6 +35,7 @@ void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vecto
 void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject);
 void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox);
 void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 position);
+void RenderState_DrawCircle(SDL_Renderer* renderer, float radius, Vector2 position);
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position);
 
 #endif //Engine_RenderState_H

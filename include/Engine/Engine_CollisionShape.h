@@ -56,8 +56,18 @@ typedef struct Engine_Circle
 Engine_Circle Circle_Initialise();
 void Circle_SetDefault(Engine_Circle* circle);
 void Circle_SetConfiguration(Engine_Circle* circle, Engine_Circle configCircle);
-void Circle_SetHeightWidth(Engine_Circle* circle, float rad);
+void Circle_SetRadius(Engine_Circle* circle, float rad);
 void Circle_SetTransform(Engine_Circle* circle, Engine_Matrix3x2 bodyTransform);
+
+
+typedef struct Engine_Polgygon
+{
+    int vertCount;
+    Vector2 vertexes[256];
+} Engine_Polgygon;
+
+Engine_Polgygon Polgygon_Initialise();
+void Polgygon_SetDefault(Engine_Polgygon* polygon);
 
 
 union CollisionData
@@ -65,7 +75,7 @@ union CollisionData
     Engine_AABB AABB;
     Engine_OBB OBB;
     Engine_Circle Circle;
-
+    Engine_Polgygon Polygon;
 };
 
 typedef struct Engine_CollisionShape
