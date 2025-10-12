@@ -40,7 +40,8 @@ Vector2 Vector2_MuliplyScalar(Vector2 vector, float scale);
 Vector2 Vector2_MultiplyXY(Vector2 vector, float x, float y);
 Vector2 Vector2_MultiplyVector(Vector2 vector1, Vector2 vector2);
 Vector2 Vector2_MultiplyRotation(Engine_Rotation radians, Vector2 vector);
-Vector2 Vector2_MultiplyMatrix(Engine_Matrix2x2 matrix, Vector2 vector);
+Vector2 Vector2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix, Vector2 vector);
+Vector2 Vector2_MultiplyMatrix3x2(Engine_Matrix3x2 matrix, Vector2 vector);
 Vector2 Vector2_DivideScalar(Vector2 vector, float scale);
 Vector2 Vector2_DivideXY(Vector2 vector, float x, float y);
 Vector2 Vector2_DivideVector(Vector2 vector1, Vector2 vector2);
@@ -67,8 +68,7 @@ typedef struct Engine_Matrix2x2
 
 
 Engine_Matrix2x2 Matrix2x2_Inititialise();
-Vector2 Matrix2x2_MultiplyVector(Engine_Matrix2x2 matrix, Vector2 vector);
-Engine_Matrix2x2 Matrix2x2_MultiplyMatrix(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2);
+Engine_Matrix2x2 Matrix2x2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2);
 Engine_Matrix2x2 Matrix2x2_Rotation(float radians);
 Engine_Matrix2x2 Matrix2x2_Scale(float xScale, float yScale);
 
@@ -92,7 +92,7 @@ Engine_Matrix3x2 Matrix3x2_TranslationXY(float x, float y);
 Engine_Matrix3x2 Matrix3x2_TranslationVector(Vector2 vector);
 Engine_Matrix3x2 Matrix3x2_Rotate(float radians);
 Engine_Matrix3x2 Matrix3x2_TSR(Vector2 position, Vector2 scale, float radians);
-Engine_Matrix3x2 Matrix3x2_MultiplyMatrix(Engine_Matrix3x2 matrix1, Engine_Matrix3x2 matrix2);
+Engine_Matrix3x2 Matrix3x2_MultiplyMatrix3x2(Engine_Matrix3x2 matrix1, Engine_Matrix3x2 matrix2);
 
 
 //#######################################################//

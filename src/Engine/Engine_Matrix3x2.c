@@ -39,10 +39,13 @@ Engine_Matrix3x2 Matrix3x2_Rotate(float radians)
 
 Engine_Matrix3x2 Matrix3x2_TSR(Vector2 position, Vector2 scale, float radians)
 {   
-
     Engine_Matrix3x2 newMatrix;
 
 
     //return (Engine_Matrix3x2){(Engine_Matrix)Matrix_Rotation2x2(radians), (Vector2)Vector2_Initialise(0.0,0.0)};
 };
 
+Engine_Matrix3x2 Matrix3x2_MultiplyMatrix3x2(Engine_Matrix3x2 matrix1, Engine_Matrix3x2 matrix2)
+{
+    return (Engine_Matrix3x2){Matrix2x2_MultiplyMatrix2x2(matrix1.RotationMatrix, matrix2.RotationMatrix), Vector2_MultiplyMatrix2x2(matrix1.RotationMatrix, matrix2.Position)};
+};

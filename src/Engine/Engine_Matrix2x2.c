@@ -7,14 +7,9 @@ Engine_Matrix2x2 Matrix2x2_Inititialise()
     return (Engine_Matrix2x2){(Vector2){1.0,0.0},(Vector2){0.0,1.0}}; // Is also the matrix identity
 };
 
-Vector2 Matrix2x2_MultiplyVector(Engine_Matrix2x2 matrix, Vector2 vector)
+Engine_Matrix2x2 Matrix2x2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2)
 {
-    return (Vector2){matrix.X.x * vector.x + matrix.Y.x * vector.y, matrix.X.y * vector.x + matrix.Y.y * vector.y};
-};
-
-Engine_Matrix2x2 Matrix2x2_MultiplyMatrix(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2)
-{
-    return (Engine_Matrix2x2){Matrix2x2_MultiplyVector(matrix1, matrix2.X), Matrix2x2_MultiplyVector(matrix1, matrix2.Y)};
+    return (Engine_Matrix2x2){Vector2_MultiplyMatrix2x2(matrix1, matrix2.X), Vector2_MultiplyMatrix2x2(matrix1, matrix2.Y)};
 };
 
 Engine_Matrix2x2 Matrix2x2_Rotation(float radians)

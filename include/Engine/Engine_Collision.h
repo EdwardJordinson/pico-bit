@@ -8,6 +8,13 @@
 typedef struct Engine_PhysicsManifold Engine_PhysicsManifold;
 //
 
+typedef enum CollisionType
+{
+    AABB,
+    OBB,
+    CIRCLE
+};
+
 //#######################################################//
 // -----------------------AABB-------------------------- //
 typedef struct Engine_AABB
@@ -46,5 +53,28 @@ Engine_OBB OBB_GetPosition(Engine_OBB* aabb, Engine_Matrix3x2 bodyTransform);
 Engine_OBB OBB_GetUnion(Engine_OBB* aabb1, Engine_OBB* aabb2);
 Engine_PhysicsManifold OBB_IntersectionOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
 Engine_PhysicsManifold OBB_IntersectionAABB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+
+
+union CollisionData
+{
+    Engine_AABB AABB;
+    Engine_OBB OBB;
+
+};
+
+typedef struct Engine_CollisionShape
+{
+    enum CollisionType CollisionType;
+    union CollisionData Data;
+
+    void* (*GetData)(struct Engine_CollisionShape*);
+
+} Engine_CollisionShape;
+
+Engine_CollisionShape CollisionShape_Initialise();
+void CollisionShape_SetShape(Engine_CollisionShape* collisionShape, int shapeType);
+void CollisionShape_SetDefault(Engine_CollisionShape* collisionShape);
+void CollisionShape_SetConfiguration(Engine_CollisionShape* collisionShape, Engine_CollisionShape configShape);
+void* CollisionShape_GetData(Engine_CollisionShape* collisionShape);
 
 #endif //Engine_Collision_H

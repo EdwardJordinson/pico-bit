@@ -65,6 +65,21 @@ Vector2 Vector2_MultiplyVector(Vector2 vector1, Vector2 vector2)
     return Vector2_MultiplyXY(vector1, vector2.x, vector2.y);
 };
 
+Vector2 Vector2_MultiplyRotation(Engine_Rotation radians, Vector2 vector)
+{
+    return (Vector2){radians.cos * vector.x - radians.sin * vector.y, radians.sin * vector.x + radians.cos * vector.y};
+};
+
+Vector2 Vector2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix, Vector2 vector)
+{
+    return (Vector2){matrix.X.x * vector.x + matrix.Y.x * vector.y, matrix.X.y * vector.x + matrix.Y.y * vector.y};
+};
+
+Vector2 Vector2_MultiplyMatrix3x2(Engine_Matrix3x2 matrix, Vector2 vector)
+{
+    return (Vector2)Vector2_AddVector(Vector2_MultiplyMatrix2x2(matrix.RotationMatrix, vector), matrix.Position);
+};
+
 Vector2 Vector2_DivideScalar(Vector2 vector, float scale)
 {
     return (Vector2){vector.x/scale, vector.y/scale};
