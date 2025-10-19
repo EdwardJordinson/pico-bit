@@ -52,7 +52,7 @@ void Initialise_Systems(Engine_Main *engine)
 
     Window_Initialise(engine->MainLoop->RenderState->EngineWindow);
     RenderState_Initialise(engine->MainLoop->RenderState); //Brevity: This should be called before Window init
-    ObjectManager_Initialise(engine->MainLoop->RenderState->RenderManager, sizeof(Engine_RenderObject), 8, RenderObject_Configure);
+    ObjectManager_Initialise(engine->MainLoop->RenderState->RenderManager, sizeof(Engine_RenderObject), 8, RenderObject_SetDefault);
 };
 
 EFD_File* Initialise_ReadEFD()

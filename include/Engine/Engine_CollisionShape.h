@@ -13,7 +13,8 @@ typedef enum CollisionType
 {
     AABB,
     OBB,
-    CIRCLE
+    CIRCLE,
+    POLYGON
 };
 
 //#######################################################//

@@ -54,6 +54,7 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
             SDL_Delay(delayTime - engineLoop->GameState->delta);
         } 
 
+        
         //Intergrate into entity types
         frameCount++;
         frameTime += engineLoop->GameState->delta;
@@ -62,12 +63,15 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
             frameRate = frameCount / frameTime;
             frameCount = 0;
             frameTime = 0.0f;
-
+            /*
             Engine_RenderObject* renderObject = ObjectManager_Get(engineLoop->RenderState->RenderManager, 2)->Data;
             char buffer[32];
             sprintf(buffer, "FPS_Counter: %f", frameRate);
             strcpy(renderObject->RenderData.TextData.Text, buffer);
+            */
         }
+        
+        
 
     }
 };

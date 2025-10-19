@@ -266,14 +266,46 @@ void EFD_ParseRender(Engine_ObjectManager* renderManager, char* text)
     }
     else if (strncmp(text + 7, "Text", 4) == 0)
     {
+        newRenderObject->RenderType = 4;
         EFD_ParseRenderText(newRenderObject, text);
     }
 };
 
 void EFD_ParseRenderShape(Engine_RenderObject* objectData, char* text)
 {
-    RenderObject_Shape* shapeData = &objectData->RenderData.ShapeData;
-    objectData->RenderType = 1;
+    char* savePointer;
+    char lineCopy[1024];
+    strncpy(lineCopy, text, sizeof(lineCopy));
+    lineCopy[sizeof(lineCopy) - 1] = '\0';
+
+    char* token = strtok_r(lineCopy, ",", &savePointer);
+    while (token)
+    {
+        if (strncmp(token + 7 + 6, "Square", 6) == 0)
+        {
+            float tempX = 0.0; float tempY = 0.0;
+            sscanf(token + 6  + 7, "{%f|%f}", &tempX, &tempY);
+            objectData->PositionX = tempX;
+            objectData->PositionY = tempY;
+            objectData->RenderType = 1;
+            EFD_ParseRenderSquare(objectData, text);
+        }
+        else if (strncmp(token + 7 + 6, "Circle", 6) == 0)
+        {
+            float tempX = 0.0; float tempY = 0.0;
+            sscanf(token + 6  + 7, "{%f|%f}", &tempX, &tempY);
+            objectData->PositionX = tempX;
+            objectData->PositionY = tempY;
+            objectData->RenderType = 2;
+            EFD_ParseRenderCircle(objectData, text);
+        }
+        token = strtok_r(NULL, ",", &savePointer);
+    }
+};
+
+void EFD_ParseRenderSquare(Engine_RenderObject* shapeData, char* text)
+{
+    RenderObject_Square *squareData = shapeData->GetData(shapeData);
 
     char* savePointer;
     char lineCopy[1024];
@@ -283,40 +315,60 @@ void EFD_ParseRenderShape(Engine_RenderObject* objectData, char* text)
     char* token = strtok_r(lineCopy, ",", &savePointer);
     while (token)
     {
-        if (strncmp(token + 7 + 6, "Position", 8) == 0)
-        {
-            float tempX = 0.0; float tempY = 0.0;
-            sscanf(token + 8  + 7, "{%f|%f}", &tempX, &tempY);
-            objectData->PositionX = tempX;
-            objectData->PositionY = tempY;
-        }
-        else if (strncmp(token, "Width", 5) == 0)
+        if (strncmp(token, "Width", 5) == 0)
         {
             float tempWidth = 0.0;
             sscanf(token + 5, "{%f}", &tempWidth);
-            shapeData->Width = tempWidth;
+            squareData->Width = tempWidth;
         }
         else if (strncmp(token, "Height", 6) == 0)
         {
             float tempHeight = 0.0;
             sscanf(token + 6, "{%f}", &tempHeight);
-            shapeData->Height = tempHeight;
+            squareData->Height = tempHeight;
         }
         else if (strncmp(token, "Colour", 6) == 0)
         {
             int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
             sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
-            RenderObject_SetColour(objectData, tempRed, tempBlue, tempGreen, tempAlpha);
+            RenderObject_SetColour(shapeData, tempRed, tempBlue, tempGreen, tempAlpha);
         }
-        token = strtok_r(NULL, ",", &savePointer);
+    token = strtok_r(NULL, ",", &savePointer);
+    }
+};
+
+void EFD_ParseRenderCircle(Engine_RenderObject* shapeData, char* text)
+{
+    RenderObject_Circle *circleData = shapeData->GetData(shapeData);
+
+    char* savePointer;
+    char lineCopy[1024];
+    strncpy(lineCopy, text, sizeof(lineCopy));
+    lineCopy[sizeof(lineCopy) - 1] = '\0';
+
+    char* token = strtok_r(lineCopy, ",", &savePointer);
+    while (token)
+    {
+        if (strncmp(token, "Radius", 6) == 0)
+        {
+            float tempRadius = 0.0;
+            sscanf(token + 6, "{%f}", &tempRadius);
+            circleData->Radius = tempRadius;
+        }
+        else if (strncmp(token, "Colour", 6) == 0)
+        {
+            int tempRed = 1; int tempGreen = 1; int tempBlue = 1; int tempAlpha = 1;
+            sscanf(token + 6, "{%x|%x|%x|%x}", &tempRed, &tempGreen, &tempBlue, &tempAlpha);
+            RenderObject_SetColour(shapeData, tempRed, tempBlue, tempGreen, tempAlpha);
+        }
+    token = strtok_r(NULL, ",", &savePointer);
     }
 };
 
 void EFD_ParseRenderText(Engine_RenderObject* objectData, char* text)
 {
-    RenderObject_Text* textData = &objectData->RenderData.TextData;
-    objectData->RenderType = 2;
-
+    RenderObject_Text* textData = objectData->GetData(objectData);
+    
     char* savePointer;
     char lineCopy[1024];
     strncpy(lineCopy, text, sizeof(lineCopy));

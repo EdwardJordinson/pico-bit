@@ -62,6 +62,8 @@ void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text);
 void EFD_ParseDisplayEntity(Engine_DisplayEntity* gameObject, char* text);
 void EFD_ParseRender(Engine_ObjectManager* renderManager, char* text);
 void EFD_ParseRenderShape(Engine_RenderObject* shapeData, char* text);
+void EFD_ParseRenderSquare(Engine_RenderObject* shapeData, char* text);
+void EFD_ParseRenderCircle(Engine_RenderObject* shapeData, char* text);
 void EFD_ParseRenderText(Engine_RenderObject* textData, char* text);
 
 #endif //Engine_EFD_H

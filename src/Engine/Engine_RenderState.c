@@ -80,6 +80,7 @@ void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* ga
     default:
         break;
     }
+    RenderState_DrawCircle(renderState->EngineWindow->SDLRenderer, 50.0, (Vector2){renderState->EngineWindow->width/2,renderState->EngineWindow->height/2});
 
 };
 
@@ -116,25 +117,26 @@ void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 pos
     */
 };
 
-void RenderState_DrawCircle(SDL_Renderer* renderer, float radius, Vector2 position)
+void RenderState_DrawCircle(SDL_Renderer* renderer, int radius, Vector2 position)
 {
-    /*
+    
     int x = radius-1;
     int y = 0;
     int dx = 1;
     int dy = 1;
     int err = dx - (radius << 1);
+    SDL_FPoint points[8];
 
     while (x >= y)
     {
-        putpixel(x0 + x, y0 + y);
-        putpixel(x0 + y, y0 + x);
-        putpixel(x0 - y, y0 + x);
-        putpixel(x0 - x, y0 + y);
-        putpixel(x0 - x, y0 - y);
-        putpixel(x0 - y, y0 - x);
-        putpixel(x0 + y, y0 - x);
-        putpixel(x0 + x, y0 - y);
+        points[0] = (SDL_FPoint){position.x + x, position.y + y};
+        points[1] = (SDL_FPoint){position.x + y, position.y + x};
+        points[2] = (SDL_FPoint){position.x - y, position.y + x};
+        points[3] = (SDL_FPoint){position.x - x, position.y + y};
+        points[4] = (SDL_FPoint){position.x - x, position.y - y};
+        points[5] = (SDL_FPoint){position.x - y, position.y - x};
+        points[6] = (SDL_FPoint){position.x + y, position.y - x};
+        points[7] = (SDL_FPoint){position.x + x, position.y - y};
 
         if (err <= 0)
         {
@@ -149,19 +151,19 @@ void RenderState_DrawCircle(SDL_Renderer* renderer, float radius, Vector2 positi
             dx += 2;
             err += dx - (radius << 1);
         }
+        SDL_RenderPoints(renderer, points, 8);
     }
-    */
 };
 
 void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject) // Testing functionality, needs change
 {
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, renderObject->RenderData.TextData.Text, 32, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, renderObject->Data.TextRender.Text, 32, (SDL_Color){0x00, 0x00, 0x00, 0x00}); 
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_DestroySurface(textSurface);
 
     SDL_FRect tempFRect = {
-        .h = renderObject->RenderData.TextData.Height, 
-        .w = renderObject->RenderData.TextData.Width, 
+        .h = renderObject->Data.TextRender.Height, 
+        .w = renderObject->Data.TextRender.Width, 
         .x = renderObject->PositionX,
         .y = renderObject->PositionY
     };

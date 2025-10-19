@@ -31,12 +31,18 @@ void* CollisionShape_GetData(Engine_CollisionShape* collisionShape)
 {
 	switch(collisionShape->CollisionType)
 	{
-	case 0:
+	case 0: //AABB
 		return &collisionShape->Data.AABB;
 		break;
-	case 1:
+	case 1: //OBB
 		return &collisionShape->Data.OBB;
 		break;
+    case 2: //Circle
+        return &collisionShape->Data.Circle;
+        break;
+    case 3: //Polygon
+        return &collisionShape->Data.Polygon;
+        break;
 	}
 };
 
