@@ -11,7 +11,14 @@
 
 #define MAX_DUMPS 128
 
-//Utter crap, needs rebuild, proper tree parsing required for this
+//Utter crap, needs rebuild, 
+//Proper tree parsing
+//Needs its own code folder
+//Render objects need seperation from eachother, like with entities
+
+//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{AABB{50.0|50.0|-50.0|-50.0}},Restitution{1.0},Mass{1.0}}
+//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{0.0|0.0},RenderID{1},CollisionShape{OBB{50.0|50.0}},Restitution{1.0},Mass{1.0}}
+//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{Circle{50.0}},Restitution{1.0},Mass{1.0}}
 
 void EFD_WriteFile(int argc, char** argv)
 {
@@ -206,10 +213,18 @@ void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text)
         else if (strncmp(token  + 14 + 1, "OBB", 3) == 0)
         {
             CollisionShape_SetShape(collisionShape, 1);
-            Engine_OBB *newAABB = collisionShape->GetData(collisionShape);
+            Engine_OBB *newOBB = collisionShape->GetData(collisionShape);
             float height = 0.0f; float width = 0.0f;
             sscanf(token + 14, "{OBB{%f|%f}}", &height, &width);
-            OBB_SetWidthHeight(newAABB, height, width);
+            OBB_SetWidthHeight(newOBB, height, width);
+        }
+        else if (strncmp(token  + 14 + 1, "Circle", 6) == 0)
+        {
+            CollisionShape_SetShape(collisionShape, 2);
+            Engine_Circle *newCircle = collisionShape->GetData(collisionShape);
+            float tempRadius = 0.0f;
+            sscanf(token + 14, "{Circle{%f}}", &tempRadius);
+            Circle_SetRadius(newCircle, tempRadius);
         }
         token = strtok_r(NULL, ",", &savePointer);
     }

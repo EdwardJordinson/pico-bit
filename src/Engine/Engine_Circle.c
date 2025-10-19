@@ -12,12 +12,12 @@ Engine_Circle Circle_Initialise()
 
 void Circle_SetDefault(Engine_Circle* circle)
 {
-
+    circle->radius = 50.0f;
 };
 
 void Circle_SetConfiguration(Engine_Circle* circle, Engine_Circle configCircle)
 {
-
+    *circle = configCircle;
 };
 
 void Circle_SetRadius(Engine_Circle* circle, float rad)

@@ -42,7 +42,7 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
 
     if (broadPhase.count != 0)
     {
-        //printf("Contact!!!\n");
+        printf("Contact!!!\n");
         
         for (int i = 0; i < broadPhase.count; i++)
         {

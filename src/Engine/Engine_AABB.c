@@ -58,24 +58,3 @@ bool AABB_IntersectionLine()
 {
  
 };
-
-Engine_PhysicsManifold AABB_IntersectionAABB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_AABB box2, Engine_Matrix3x2 bodyTransform2)
-{
-	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, bodyTransform1);
-	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, bodyTransform2);
-
-	Vector2 mid_1 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB1.minVector, objectAABB1.maxVector), 0.5);
-	Vector2 mid_2 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB2.minVector, objectAABB2.maxVector), 0.5);
-	
-	Vector2 e1 = Vector2_ABS(Vector2_MuliplyScalar(Vector2_SubtractVector(objectAABB1.maxVector, objectAABB1.minVector), 0.5));
-	Vector2 e2 = Vector2_ABS(Vector2_MuliplyScalar(Vector2_SubtractVector(objectAABB2.maxVector, objectAABB2.minVector), 0.5));
-	
-	Vector2 direction = Vector2_SubtractVector(mid_1, mid_2);
-
-	float directionx = e1.x + e2.x - abs(direction.x);
-	if (directionx < 0) return Manifold_Initialise(); 
-	float directiony = e1.y + e2.y - abs(direction.y);
-	if (directiony < 0) return Manifold_Initialise();
-
-    return Physics_CollisionNormal(mid_1, e1, direction, directionx, directiony);
-};

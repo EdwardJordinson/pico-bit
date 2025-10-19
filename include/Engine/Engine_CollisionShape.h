@@ -96,6 +96,9 @@ void* CollisionShape_GetData(Engine_CollisionShape* collisionShape);
 bool CollisionShape_FindIntersection(Engine_PhysicsManifold* manifold, Engine_PhysicsBody* body1, Engine_PhysicsBody* body2);
 Engine_PhysicsManifold CollisionShape_IntersectionAABBxAABB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_AABB box2, Engine_Matrix3x2 bodyTransform2);
 Engine_PhysicsManifold CollisionShape_IntersectionAABBxOBB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold CollisionShape_IntersectionAABBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
 Engine_PhysicsManifold CollisionShape_IntersectionOBBxOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold CollisionShape_IntersectionOBBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold CollisionShape_IntersectionCirclexCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
 
 #endif //Engine_Collision_H

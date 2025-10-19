@@ -1,5 +1,5 @@
 Objects
-Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{AABB{50.0|50.0|-50.0|-50.0}},Restitution{1.0},Mass{1.0}}
+Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{Circle{50.0}},Restitution{1.0},Mass{1.0}}
 Entity-Game{Position{0.0|-180.0},Rotation{0.0},Force{0.0|0.0},RenderID{0},CollisionShape{AABB{300.0|20.0|-300.0|-20.0}},Restitution{1.0},Mass{0.0}}
 Entity-Game{Position{0.0|180.0},Rotation{0.0},Force{0.0|0.0},RenderID{0},CollisionShape{AABB{300.0|20.0|-300.0|-20.0}},Restitution{1.0},Mass{0.0}}
 Entity-Game{Position{280.0|0.0},Rotation{0.0},Force{0.0|0.0},RenderID{0},CollisionShape{AABB{20.0|160.0|-20.0|-160.0}},Restitution{1.0},Mass{0.0}}

@@ -86,50 +86,6 @@ void Physics_CollisionResolve(Engine_PhysicsBody* physicsBody1, Engine_PhysicsBo
 	Vector2_SetVector(&physicsBody2->Velocity, Vector2_AddVector(physicsBody2->Velocity, Vector2_MuliplyScalar(impulse, ratio)));
 };
 
-Engine_PhysicsManifold Physics_CollisionNormal(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony)
-{
-    Engine_PhysicsManifold output = Manifold_Initialise();
-
-	Vector2 normal;
-	float depth;
-	Vector2 p;
-
-	if (directionx < directiony) 
-	{
-		depth = directionx;
-		if (direction.x < 0)
-		{
-			normal = (Vector2){-1.0f, 0};
-			p = Vector2_SubtractVector(mid_1, (Vector2){e1.x, 0.0});
-		}
-		else
-		{
-			normal = (Vector2){1.0f, 0};
-			p = Vector2_AddVector(mid_1, (Vector2){e1.x, 0.0});
-		}
-	}
-	else
-	{
-		depth = directiony;
-		if (direction.y < 0) 
-        {
-			normal = (Vector2){0, -1.0f};
-			p = Vector2_SubtractVector(mid_1, (Vector2){0, e1.y});
-		}
-		else
-		{
-			normal = (Vector2){0, 1.0f};
-			p = Vector2_AddVector(mid_1, (Vector2){0, e1.y});
-		}
-	}
-
-	output.Hit = true;
-	output.HitSpot = p;
-	output.Depth = depth;
-	output.Normal = normal;
-	return output;
-};
-
 //Forgot what this does
 void PhysicsBody_GetList(Engine_PhysicsBody* physicsBody, Engine_ObjectManager* entityManager)
 {
@@ -194,18 +150,6 @@ void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPh
 				continue;
 			}
 
-			//Engine_AABB* tempAABB1 = physicsBody1->CollisionShape.GetData(&physicsBody1->CollisionShape);
-			//Engine_AABB* tempAABB2 = physicsBody2->CollisionShape.GetData(&physicsBody1->CollisionShape);
-
-			//Engine_PhysicsManifold collisionData = AABB_IntersectionAABB(*tempAABB1, physicsBody1->Transform2D, *tempAABB2, physicsBody2->Transform2D);
-			/*
-			if (collisionData.Hit == true)
-			{
-				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = physicsBody1;
-				physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody2 = physicsBody2;
-				physicsBroadPhase->count++;
-			}
-			*/
 		}
 	}
 };
@@ -273,7 +217,7 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 			continue;
 		}
 
-		Engine_PhysicsManifold tempManifold = Manifold_Initialise();
+		Engine_PhysicsManifold tempManifold = PhysicsManifold_Initialise();
 		if (CollisionShape_FindIntersection(&tempManifold, targetBox, checkBox) == true)
 		{
 			physicsBroadPhase->PairList[physicsBroadPhase->count].physicsBody1 = targetBox;

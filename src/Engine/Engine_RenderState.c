@@ -72,7 +72,8 @@ void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* ga
         RenderState_DrawOBB(renderState->EngineWindow->SDLRenderer, *tempOBB, screenPos);
         break;
     case 2:
-        
+        Engine_Circle* drawCircle = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
+        RenderState_DrawCircle(renderState->EngineWindow->SDLRenderer, drawCircle->radius, screenPos);
         break;
     case 3:
         
@@ -80,7 +81,6 @@ void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* ga
     default:
         break;
     }
-    RenderState_DrawCircle(renderState->EngineWindow->SDLRenderer, 50.0, (Vector2){renderState->EngineWindow->width/2,renderState->EngineWindow->height/2});
 
 };
 
@@ -109,12 +109,11 @@ void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 pos
 {
     float width = drawBox.sizeVector.x + 1;
     float height = drawBox.sizeVector.y + 1;
-    /*
-    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y - height}, Vector2_AddXY(drawBox.minVector, width, 0.0f));
-    RenderState_DrawLine(renderer, Vector2_AddXY(drawBox.minVector, 0.0f, 1.0f), Vector2_AddXY(drawBox.minVector, 0.0f, height-1.0f));
-    RenderState_DrawLine(renderer, drawBox.maxVector, Vector2_SubtractXY(drawBox.maxVector, width, 0.0));
-    RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
-    */
+    
+    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y - height}, (Vector2){position.x + width, position.y - height});
+    RenderState_DrawLine(renderer, (Vector2){position.x + width, position.y - height}, (Vector2){position.x + width, position.y + height});
+    RenderState_DrawLine(renderer, (Vector2){position.x + width, position.y + height}, (Vector2){position.x - width, position.y + height});
+    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y + height}, (Vector2){position.x - width, position.y - height});
 };
 
 void RenderState_DrawCircle(SDL_Renderer* renderer, int radius, Vector2 position)

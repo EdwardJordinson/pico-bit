@@ -19,7 +19,21 @@ void CollisionShape_SetShape(Engine_CollisionShape* collisionShape, int shapeTyp
 
 void CollisionShape_SetDefault(Engine_CollisionShape* collisionShape)
 {
-
+	switch(collisionShape->CollisionType)
+	{
+	case 0: //AABB
+        AABB_SetDefault(&collisionShape->Data.AABB);
+		break;
+	case 1: //OBB
+        OBB_SetDefault(&collisionShape->Data.OBB);
+		break;
+    case 2: //Circle
+        Circle_SetDefault(&collisionShape->Data.Circle);
+        break;
+    case 3: //Polygon
+        //&collisionShape->Data.Polygon;
+        break;
+	}
 };
 
 void CollisionShape_SetConfiguration(Engine_CollisionShape* collisionShape, Engine_CollisionShape configShape)
@@ -91,11 +105,11 @@ Engine_PhysicsManifold CollisionShape_IntersectionAABBxAABB(Engine_AABB box1, En
 	Vector2 direction = Vector2_SubtractVector(mid_1, mid_2);
 
 	float directionx = e1.x + e2.x - abs(direction.x);
-	if (directionx < 0) return Manifold_Initialise(); 
+	if (directionx < 0) return PhysicsManifold_Initialise(); 
 	float directiony = e1.y + e2.y - abs(direction.y);
-	if (directiony < 0) return Manifold_Initialise();
+	if (directiony < 0) return PhysicsManifold_Initialise();
 
-    return Physics_CollisionNormal(mid_1, e1, direction, directionx, directiony);
+    return PhysicsManifold_AABBxAABB(mid_1, e1, direction, directionx, directiony);
 };
 
 Engine_PhysicsManifold CollisionShape_IntersectionAABBxOBB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
@@ -103,7 +117,30 @@ Engine_PhysicsManifold CollisionShape_IntersectionAABBxOBB(Engine_AABB box1, Eng
 
 };
 
+Engine_PhysicsManifold CollisionShape_IntersectionAABBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+{
+    //Next on the docet
+    /*
+	v2 L = clamp(a.p, b.min, b.max);
+	v2 ab = a.p - L;
+	float d2 = dot(ab, ab);
+	float r2 = a.r * a.r;
+	return d2 < r2;
+    
+    */
+};
+
 Engine_PhysicsManifold CollisionShape_IntersectionOBBxOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+{
+
+};
+
+Engine_PhysicsManifold CollisionShape_IntersectionOBBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+{
+
+};
+
+Engine_PhysicsManifold CollisionShape_IntersectionCirclexCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
 {
 
 };

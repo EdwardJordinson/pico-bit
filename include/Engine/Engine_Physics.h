@@ -20,8 +20,9 @@ typedef struct Engine_PhysicsManifold
 } Engine_PhysicsManifold;
 
 
-Engine_PhysicsManifold Manifold_Initialise();
-
+Engine_PhysicsManifold PhysicsManifold_Initialise();
+Engine_PhysicsManifold PhysicsManifold_AABBxAABB(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony);
+Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine_AABB* aabb);
 
 typedef struct Engine_PhysicsMass
 {
