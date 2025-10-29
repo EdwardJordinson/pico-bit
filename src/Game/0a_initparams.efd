@@ -13,3 +13,7 @@ Object
     Game{Position{0.0,0.0},Velocity{0.0,0.0},RenderID{0},CollisionShape{AABB{-50.0,-50.0,50.0,50.0}},Restitution{1.0},Mass{100.0}},
     Render{Width{100},Height{100}}
 }
+
+
+AABB{50.0|50.0|-50.0|-50.0}
+Circle{50.0}

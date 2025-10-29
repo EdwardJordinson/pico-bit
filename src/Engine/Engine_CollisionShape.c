@@ -1,7 +1,7 @@
 #include <Engine/Engine_CollisionShape.h>
 #include <Engine/Engine_Physics.h>
+#include <Engine/Engine_Math.h>
 #include <math.h>
-
 
 
 Engine_CollisionShape CollisionShape_Initialise()
@@ -60,6 +60,7 @@ void* CollisionShape_GetData(Engine_CollisionShape* collisionShape)
 	}
 };
 
+//This is completely awfull, basics first, better ideas later
 bool CollisionShape_FindIntersection(Engine_PhysicsManifold* manifold, Engine_PhysicsBody* body1, Engine_PhysicsBody* body2)
 {
     int shape1 = body1->CollisionShape.CollisionType;
@@ -87,6 +88,18 @@ bool CollisionShape_FindIntersection(Engine_PhysicsManifold* manifold, Engine_Ph
         Engine_OBB* box1 = body1->CollisionShape.GetData(&body1->CollisionShape);
         Engine_OBB* box2 = body2->CollisionShape.GetData(&body2->CollisionShape);
         *manifold = CollisionShape_IntersectionOBBxOBB(*box1, body1->Transform2D, *box2, body2->Transform2D);
+    }
+    else if (shape1 == 2 && shape2 == 0)
+    {
+        Engine_Circle* box1 = body1->CollisionShape.GetData(&body1->CollisionShape);
+        Engine_AABB* box2 = body2->CollisionShape.GetData(&body2->CollisionShape);
+        *manifold = CollisionShape_IntersectionAABBxCircle(*box2, body2->Transform2D, *box1, body1->Transform2D);
+    }
+    else if (shape1 == 0 && shape2 == 2)
+    {
+        Engine_AABB* box1 = body1->CollisionShape.GetData(&body1->CollisionShape);
+        Engine_Circle* box2 = body2->CollisionShape.GetData(&body2->CollisionShape);
+        *manifold = CollisionShape_IntersectionAABBxCircle(*box1, body1->Transform2D, *box2, body2->Transform2D);
     }
     return manifold->Hit;
 };
@@ -117,17 +130,17 @@ Engine_PhysicsManifold CollisionShape_IntersectionAABBxOBB(Engine_AABB box1, Eng
 
 };
 
-Engine_PhysicsManifold CollisionShape_IntersectionAABBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+Engine_PhysicsManifold CollisionShape_IntersectionAABBxCircle(Engine_AABB box, Engine_Matrix3x2 bodyTransform1, Engine_Circle circle, Engine_Matrix3x2 bodyTransform2)
 {
-    //Next on the docet
-    /*
-	v2 L = clamp(a.p, b.min, b.max);
-	v2 ab = a.p - L;
-	float d2 = dot(ab, ab);
-	float r2 = a.r * a.r;
-	return d2 < r2;
+    Engine_AABB boxPos = AABB_GetPosition(&box, bodyTransform1);
+	Vector2 distance = Math_ClampVector2(bodyTransform2.Position, boxPos.minVector, boxPos.maxVector);
+	Vector2 ab = Vector2_SubtractVector(bodyTransform2.Position, distance);
+	float d2 = Vector2_DotProduct(ab, ab);
+	float r2 = circle.radius * circle.radius;
+
+    if (d2 > r2) return PhysicsManifold_Initialise();
     
-    */
+    return PhysicsManifold_CirclexAABB(&circle, bodyTransform2, &box, bodyTransform1);
 };
 
 Engine_PhysicsManifold CollisionShape_IntersectionOBBxOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
@@ -135,12 +148,12 @@ Engine_PhysicsManifold CollisionShape_IntersectionOBBxOBB(Engine_OBB box1, Engin
 
 };
 
-Engine_PhysicsManifold CollisionShape_IntersectionOBBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+Engine_PhysicsManifold CollisionShape_IntersectionOBBxCircle(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_Circle box2, Engine_Matrix3x2 bodyTransform2)
 {
 
 };
 
-Engine_PhysicsManifold CollisionShape_IntersectionCirclexCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
+Engine_PhysicsManifold CollisionShape_IntersectionCirclexCircle(Engine_Circle box1, Engine_Matrix3x2 bodyTransform1, Engine_Circle box2, Engine_Matrix3x2 bodyTransform2)
 {
 
 };

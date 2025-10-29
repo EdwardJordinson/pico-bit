@@ -38,7 +38,7 @@ void GameState_EntityAllUpdate(Engine_ObjectManager* objectManager, float deltaT
     
 
     Engine_PhysicsBroadPhase broadPhase;
-    PhysicsBroadPhase_TEMPPairList(&broadPhase, objectManager);
+    PhysicsBroadPhase_GeneratePairList(&broadPhase, objectManager);
 
     if (broadPhase.count != 0)
     {

@@ -19,10 +19,15 @@ typedef struct Engine_PhysicsManifold
 
 } Engine_PhysicsManifold;
 
-
 Engine_PhysicsManifold PhysicsManifold_Initialise();
-Engine_PhysicsManifold PhysicsManifold_AABBxAABB(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony);
-Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine_AABB* aabb);
+Engine_PhysicsManifold PhysicsManifold_AABBxAABB(Vector2 mid_1, Vector2 e1, Vector2 direction, float directionx, float directiony); //Needs a rebuild
+
+Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine_Matrix3x2 bodyTransform1, Engine_AABB* aabb, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold PhysicsManifold_AABBxOBB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold PhysicsManifold_OBBxOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold PhysicsManifold_OBBxCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+Engine_PhysicsManifold PhysicsManifold_CirclexCircle(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2);
+
 
 typedef struct Engine_PhysicsMass
 {
@@ -102,7 +107,6 @@ void PhysicsBroadPhase_CullDupicatesPairList(Engine_PhysicsBroadPhase* physicsBr
 void PhysicsBroadPhase_AddPair(Engine_PhysicsBroadPhase* physicsBroadPhase);
 void PhysicsBroadPhase_Update(Engine_PhysicsBroadPhase* physicsBroadPhase);
 void PhysicsBroadPhase_Query(Engine_PhysicsBroadPhase* physicsBroadPhase);
-void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager);
 
 
 void Physics_InverseMass();

@@ -1,5 +1,5 @@
-#ifndef Engine_Corrdinates_H
-#define Engine_Corrdinates_H
+#ifndef Engine_Coordinates_H
+#define Engine_Coordinates_H
 
 //Forward declares
 typedef struct Vector2 Vector2;

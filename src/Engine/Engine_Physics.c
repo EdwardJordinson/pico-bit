@@ -127,68 +127,8 @@ Engine_PhysicsBroadPhase PhysicsBroadPhase_Initialise()
 	return(Engine_PhysicsBroadPhase){0, NULL};
 };
 
-void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager)
-{
-	PhysicsPair_Clear(physicsBroadPhase->PairList);
-
-	Engine_PhysicsBody* allBodies[3];
-	PhysicsBody_GetList(*allBodies, entityManager);
-
-	physicsBroadPhase->count = 0;
-	int end = 3;
-	for (int i = 0; i != end; ++i)
-	{
-		int jStart = i;
-		for (int j = ++jStart; j != end; ++j)
-		{
-
-			Engine_PhysicsBody* physicsBody1 = allBodies[i];
-			Engine_PhysicsBody* physicsBody2 = allBodies[j];
-
-			if (i == j)
-			{
-				continue;
-			}
-
-		}
-	}
-};
-
-void PhysicsBroadPhase_CullDupicatesPairList(Engine_PhysicsBroadPhase* physicsBroadPhase)
-{
-	//Sorted list
-	Engine_PhysicsPair PairList[6];
-
-
-	int count = 0;
-	while (count < physicsBroadPhase->count)
-	{
-		/* code */
-
-		int checkCount = count + 1;
-
-	}
-	
-
-};
-
-void PhysicsBroadPhase_AddPair(Engine_PhysicsBroadPhase* physicsBroadPhase)
-{
-
-};
-
-void PhysicsBroadPhase_Update(Engine_PhysicsBroadPhase* physicsBroadPhase)
-{
-
-};
-
-void PhysicsBroadPhase_Query(Engine_PhysicsBroadPhase* physicsBroadPhase)
-{
-
-};
-
 //Only checking collision for one object
-void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager)
+void PhysicsBroadPhase_GeneratePairList(Engine_PhysicsBroadPhase* physicsBroadPhase, Engine_ObjectManager* entityManager)
 {
 	PhysicsPair_Clear(physicsBroadPhase->PairList);
 
@@ -228,3 +168,37 @@ void PhysicsBroadPhase_TEMPPairList(Engine_PhysicsBroadPhase* physicsBroadPhase,
 
 	}
 };
+
+void PhysicsBroadPhase_CullDupicatesPairList(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+	//Sorted list
+	Engine_PhysicsPair PairList[6];
+
+
+	int count = 0;
+	while (count < physicsBroadPhase->count)
+	{
+		/* code */
+
+		int checkCount = count + 1;
+
+	}
+	
+
+};
+
+void PhysicsBroadPhase_AddPair(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+
+};
+
+void PhysicsBroadPhase_Update(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+
+};
+
+void PhysicsBroadPhase_Query(Engine_PhysicsBroadPhase* physicsBroadPhase)
+{
+
+};
+
