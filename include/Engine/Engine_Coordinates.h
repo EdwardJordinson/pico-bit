@@ -109,7 +109,9 @@ typedef struct HalfSpace
 
 
 HalfSpace HalfSpace_NewPosition(Vector2 normal, Vector2 position);
-HalfSpace HalfSpace_NewDistance(Vector2 normal, float distance);
+float HalfSpace_Distance(HalfSpace halfspace, Vector2 position);
+Vector2 HalfSpace_Project(HalfSpace halfspace, Vector2 position);
+Vector2 HalfSpace_Intersect(HalfSpace halfspace, Vector2 position, Vector2 qosition);
 
 
 #endif //Engine_Corrdinates_H

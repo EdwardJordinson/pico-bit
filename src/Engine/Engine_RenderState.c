@@ -108,7 +108,7 @@ void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
 // Draw Rotated Square Shapes
 void RenderState_DrawOBB(Engine_RenderState* renderState, Engine_OBB drawBox, Engine_Matrix3x2 transform)
 {
-    
+
     Vector2 localCorners[4] = {
         { -drawBox.sizeVector.x, drawBox.sizeVector.y },
         {  drawBox.sizeVector.x, drawBox.sizeVector.y },
@@ -121,16 +121,18 @@ void RenderState_DrawOBB(Engine_RenderState* renderState, Engine_OBB drawBox, En
         worldCorners[i] = Vector2_MultiplyMatrix3x2(transform, localCorners[i]);
     }
 
-    for (int i = 0; i < 4; i++)
-    {
-        Vector2 nextPoint;
-        if (i != 3) {nextPoint = RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[i+1]);}
-        else{nextPoint = RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[0]);}
-        
-        RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
-            RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[i]), 
-            nextPoint);
-    }
+    RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[0]), 
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[1]));
+    RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[1]), 
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[2]));
+    RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[2]), 
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[3]));
+    RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[3]), 
+        RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[0]));
 };
 
 void RenderState_DrawCircle(SDL_Renderer* renderer, int radius, Vector2 position)

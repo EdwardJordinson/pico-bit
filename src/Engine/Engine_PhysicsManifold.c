@@ -57,7 +57,6 @@ Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine
     Engine_PhysicsManifold output = PhysicsManifold_Initialise();
 
     Engine_AABB boxPos = AABB_GetPosition(aabb, bodyTransform2);
-	//Engine_AABB boxPos = *aabb;
 	Vector2 distance = Math_ClampVector2(bodyTransform1.Position, boxPos.minVector, boxPos.maxVector);
 	Vector2 ab = Vector2_SubtractVector(bodyTransform1.Position, distance);
 	float d2 = Vector2_DotProduct(ab, ab);
@@ -104,10 +103,10 @@ Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine
 	return output;
 };
 
-// Final Stretch GET THIS DONE
+// Final Stretch GET THIS and OBB to OBB DONE
 Engine_PhysicsManifold PhysicsManifold_AABBxOBB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
 {
-	
+
 };
 
 Engine_PhysicsManifold PhysicsManifold_OBBxOBB(Engine_OBB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
