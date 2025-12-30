@@ -65,6 +65,7 @@ Vector2 Vector2_MultiplyVector(Vector2 vector1, Vector2 vector2)
     return Vector2_MultiplyXY(vector1, vector2.x, vector2.y);
 };
 
+// Multiply Rotation
 Vector2 Vector2_MultiplyRotation(Engine_Rotation radians, Vector2 vector)
 {
     return (Vector2){radians.cos * vector.x - radians.sin * vector.y, radians.sin * vector.x + radians.cos * vector.y};

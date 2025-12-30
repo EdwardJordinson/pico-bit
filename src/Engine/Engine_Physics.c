@@ -20,31 +20,29 @@ void Physics_Integration(Engine_PhysicsBody* physicsBody, float deltaTime)
 	Engine_Matrix3x2 tempMatrix3x2 = Matrix3x2_Inititialise();
 
 	//Angular Velocity
-	physicsBody->AngularVelocity += physicsBody->Torque * (1.0f / physicsBody->MassData.Inertia) * deltaTime;
+	physicsBody->AngularVelocity += physicsBody->Torque * physicsBody->MassData.InverseInertia * deltaTime;
+
 	//Linear Velocity
-	Vector2_SetVector(&physicsBody->Velocity,
-		Vector2_AddVector(physicsBody->Velocity,
-			Vector2_MuliplyScalar(
-				Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass), deltaTime)));
+	physicsBody->Velocity = Vector2_AddVector(physicsBody->Velocity, 
+		Vector2_MuliplyScalar(
+			Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass), deltaTime));
 
 	//Orientation
-
-	//Matrix3x2_MultiplyMatrix3x2()
+	tempMatrix3x2.RotationMatrix = Matrix2x2_MultiplyMatrix2x2(physicsBody->Transform2D.RotationMatrix, 
+		Matrix2x2_Rotation(physicsBody->AngularVelocity * deltaTime));
+	physicsBody->Transform2D.RotationMatrix = tempMatrix3x2.RotationMatrix;
+	
 	//Position
-	tempMatrix3x2.Position = Vector2_AddVector(physicsBody->Velocity,Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime));
-	PhysicsBody_SetTransform(physicsBody, tempMatrix3x2);
-	/*
-	Vector2_SetVector(&physicsBody->Transform2D.Position, 
-		Vector2_AddVector(physicsBody->Transform2D.Position, 
-			Vector2_AddVector(physicsBody->Velocity, 
-				Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime))));
-	*/
-	
-	
+	tempMatrix3x2.Position = Vector2_AddVector(physicsBody->Transform2D.Position, 
+		Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime));
+    Vector2_SetVector(&physicsBody->Transform2D.Position, tempMatrix3x2.Position);
+
+	// Set values to body
+	//PhysicsBody_SetTransform(physicsBody, tempMatrix3x2);
 	
 	//Zero'ing forces
-	Vector2_SetVector(&physicsBody->Force, (Vector2){0.0,0.0});
-
+	physicsBody->Torque = 0;
+	physicsBody->Force = (Vector2){0.0,0.0};
 };
 
 //Applies Velocity

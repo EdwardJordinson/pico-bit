@@ -51,6 +51,13 @@ void GameEntity_SetUpdateFunction(Engine_GameEntity* gameEntity, void* updateFun
 void GameEntity_SetMass(Engine_GameEntity* gameEntity, float mass)
 {
     gameEntity->PhysicsBody.MassData.Mass = mass;
-	if (mass == 0.0) gameEntity->PhysicsBody.MassData.InverseMass = 0.0;
-	else gameEntity->PhysicsBody.MassData.InverseMass = 1/gameEntity->PhysicsBody.MassData.Mass;
+	if (mass == 0.0f) gameEntity->PhysicsBody.MassData.InverseMass = 0.0f;
+	else gameEntity->PhysicsBody.MassData.InverseMass = 1.0f/gameEntity->PhysicsBody.MassData.Mass;
+};
+
+void GameEntity_SetInertia(Engine_GameEntity* gameEntity, float inertia)
+{
+    gameEntity->PhysicsBody.MassData.Inertia = inertia;
+	if (inertia == 0.0f) gameEntity->PhysicsBody.MassData.InverseInertia = 0.0f;
+	else gameEntity->PhysicsBody.MassData.InverseInertia = 1.0f/gameEntity->PhysicsBody.MassData.Inertia;
 };

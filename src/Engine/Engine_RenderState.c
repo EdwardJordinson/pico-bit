@@ -105,11 +105,10 @@ void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
     RenderState_DrawLine(renderer, drawBox.maxVector, (Vector2){drawBox.maxVector.x, drawBox.maxVector.y - height});
 };
 
-// Cant draw rotated squares
+// Draw Rotated Square Shapes
 void RenderState_DrawOBB(Engine_RenderState* renderState, Engine_OBB drawBox, Engine_Matrix3x2 transform)
 {
-    Vector2 screenPos = RenderState_WorldToScreen(renderState->EngineWindow, transform.Position);
-
+    
     Vector2 localCorners[4] = {
         { -drawBox.sizeVector.x, drawBox.sizeVector.y },
         {  drawBox.sizeVector.x, drawBox.sizeVector.y },

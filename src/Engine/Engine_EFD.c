@@ -162,6 +162,12 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
             sscanf(token + 5, "{%f|%f}", &tempX, &tempY);
             Physics_ApplyForce(&gameEntity->PhysicsBody, (Vector2){tempX, tempY});
         }
+        else if (strncmp(token, "Torque", 6) == 0)
+        {
+            float tempTorque = 0.0;
+            sscanf(token + 6, "{%f|%f}", &tempTorque);
+            gameEntity->PhysicsBody.Torque = tempTorque;
+        }
         else if (strncmp(token, "RenderID", 8) == 0)
         {
             int renderID = 0;
@@ -179,6 +185,12 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
             float tempMass = 1.0;
             sscanf(token + 4, "{%f}", &tempMass);
             GameEntity_SetMass(gameEntity, tempMass);
+        }
+        else if (strncmp(token, "Inertia", 7) == 0)
+        {
+            float tempInertia = 1.0;
+            sscanf(token + 7, "{%f}", &tempInertia);
+            GameEntity_SetInertia(gameEntity, tempInertia);
         }
         else if (strncmp(token, "CollisionShape", 14) == 0)
         {
