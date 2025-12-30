@@ -7,6 +7,7 @@
 //Forward declares
 typedef struct Engine_PhysicsManifold Engine_PhysicsManifold;
 typedef struct Engine_PhysicsBody Engine_PhysicsBody;
+union CollisionData;
 //
 
 typedef enum CollisionType
@@ -30,7 +31,7 @@ Engine_AABB AABB_Initialise();
 void AABB_SetDefault(Engine_AABB* aabb);
 void AABB_SetConfiguration(Engine_AABB* aabb, Engine_AABB configAABB);
 void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector);
-void AABB_SetTransform(Engine_AABB* aabb, Engine_Matrix3x2 bodyTransform);
+void AABB_SetTransform(union CollisionData* srcCircle, Engine_Matrix3x2 bodyTransform);
 float AABB_GetWidth(Engine_AABB* aabb);
 float AABB_GetHeight(Engine_AABB* aabb);
 Engine_AABB AABB_GetPosition(Engine_AABB* aabb, Engine_Matrix3x2 bodyTransform);
@@ -43,10 +44,11 @@ typedef struct Engine_OBB
 } Engine_OBB;
 
 Engine_OBB OBB_Initialise();
-void OBB_SetDefault(Engine_OBB* aabb);
-void OBB_SetConfiguration(Engine_OBB* aabb, Engine_AABB configAABB);
-void OBB_SetWidthHeight(Engine_OBB* aabb, float width, float height);
-void OBB_SetTransform(Engine_OBB* aabb, Engine_Matrix3x2 bodyTransform);
+void OBB_SetDefault(Engine_OBB* obb);
+void OBB_SetConfiguration(Engine_OBB* obb, Engine_OBB configOBB);
+void OBB_SetWidthHeight(Engine_OBB* obb, float width, float height);
+void OBB_SetTransform(union CollisionData* srcCircle, Engine_Matrix3x2 bodyTransform);
+Engine_OBB OBB_GetPosition(Engine_OBB* obb, Engine_Matrix3x2 bodyTransform);
 
 
 typedef struct Engine_Circle
@@ -58,7 +60,8 @@ Engine_Circle Circle_Initialise();
 void Circle_SetDefault(Engine_Circle* circle);
 void Circle_SetConfiguration(Engine_Circle* circle, Engine_Circle configCircle);
 void Circle_SetRadius(Engine_Circle* circle, float rad);
-void Circle_SetTransform(Engine_Circle* circle, Engine_Matrix3x2 bodyTransform);
+void Circle_SetTransform(union CollisionData* srcCircle, Engine_Matrix3x2 bodyTransform);
+
 
 
 typedef struct Engine_Polgygon
@@ -85,6 +88,7 @@ typedef struct Engine_CollisionShape
     union CollisionData Data;
 
     void* (*GetData)(struct Engine_CollisionShape*);
+    void (*SetTransform)(union CollisionData*, struct Engine_Matrix3x2); //Shape, Position
 
 } Engine_CollisionShape;
 

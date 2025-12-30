@@ -57,6 +57,7 @@ Engine_PhysicsManifold PhysicsManifold_CirclexAABB(Engine_Circle* circle, Engine
     Engine_PhysicsManifold output = PhysicsManifold_Initialise();
 
     Engine_AABB boxPos = AABB_GetPosition(aabb, bodyTransform2);
+	//Engine_AABB boxPos = *aabb;
 	Vector2 distance = Math_ClampVector2(bodyTransform1.Position, boxPos.minVector, boxPos.maxVector);
 	Vector2 ab = Vector2_SubtractVector(bodyTransform1.Position, distance);
 	float d2 = Vector2_DotProduct(ab, ab);

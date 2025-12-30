@@ -14,6 +14,7 @@ typedef struct Engine_RenderObject Engine_RenderObject;
 typedef struct Engine_GameEntity Engine_GameEntity;
 typedef struct Engine_DisplayEntity Engine_DisplayEntity;
 typedef struct Engine_OBB Engine_OBB;
+typedef struct Engine_Matrix3x2 Engine_Matrix3x2;
 //
 
 typedef struct Engine_RenderState
@@ -34,7 +35,7 @@ void RenderState_DrawDisplay(Engine_RenderState* renderState, Engine_DisplayEnti
 void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vector2);
 void RenderState_DrawText(SDL_Renderer* renderer, TTF_Font* font, SDL_Texture* textTexture, Engine_RenderObject* renderObject);
 void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox);
-void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 position);
+void RenderState_DrawOBB(Engine_RenderState* renderer, Engine_OBB drawBox, Engine_Matrix3x2 screenPos);
 void RenderState_DrawCircle(SDL_Renderer* renderer, int radius, Vector2 position);
 Vector2 RenderState_WorldToScreen(Engine_Window* window, Vector2 position);
 

@@ -23,12 +23,15 @@ void CollisionShape_SetDefault(Engine_CollisionShape* collisionShape)
 	{
 	case 0: //AABB
         AABB_SetDefault(&collisionShape->Data.AABB);
+        collisionShape->SetTransform = AABB_SetTransform;
 		break;
 	case 1: //OBB
         OBB_SetDefault(&collisionShape->Data.OBB);
+        collisionShape->SetTransform = OBB_SetTransform;
 		break;
     case 2: //Circle
         Circle_SetDefault(&collisionShape->Data.Circle);
+        collisionShape->SetTransform = Circle_SetTransform;
         break;
     case 3: //Polygon
         //&collisionShape->Data.Polygon;
@@ -109,6 +112,10 @@ Engine_PhysicsManifold CollisionShape_IntersectionAABBxAABB(Engine_AABB box1, En
 	Engine_AABB objectAABB1 = AABB_GetPosition(&box1, bodyTransform1);
 	Engine_AABB objectAABB2 = AABB_GetPosition(&box2, bodyTransform2);
 
+    //Engine_AABB objectAABB1 = box1;
+	//Engine_AABB objectAABB2 = box2;
+    
+
 	Vector2 mid_1 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB1.minVector, objectAABB1.maxVector), 0.5);
 	Vector2 mid_2 = Vector2_MuliplyScalar(Vector2_AddVector(objectAABB2.minVector, objectAABB2.maxVector), 0.5);
 	
@@ -128,12 +135,15 @@ Engine_PhysicsManifold CollisionShape_IntersectionAABBxAABB(Engine_AABB box1, En
 Engine_PhysicsManifold CollisionShape_IntersectionAABBxOBB(Engine_AABB box1, Engine_Matrix3x2 bodyTransform1, Engine_OBB box2, Engine_Matrix3x2 bodyTransform2)
 {
 
+
+    return PhysicsManifold_Initialise();
 };
 
 Engine_PhysicsManifold CollisionShape_IntersectionAABBxCircle(Engine_AABB box, Engine_Matrix3x2 bodyTransform1, Engine_Circle circle, Engine_Matrix3x2 bodyTransform2)
 {
     Engine_AABB boxPos = AABB_GetPosition(&box, bodyTransform1);
-	Vector2 distance = Math_ClampVector2(bodyTransform2.Position, boxPos.minVector, boxPos.maxVector);
+	//Engine_AABB boxPos = box;
+    Vector2 distance = Math_ClampVector2(bodyTransform2.Position, boxPos.minVector, boxPos.maxVector);
 	Vector2 ab = Vector2_SubtractVector(bodyTransform2.Position, distance);
 	float d2 = Vector2_DotProduct(ab, ab);
 	float r2 = circle.radius * circle.radius;

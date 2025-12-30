@@ -18,9 +18,9 @@ void GameEntity_SetDefault(Engine_GameEntity* gameEntity)
 
 };
 
-void GameEntity_SetConfiguration(Engine_GameEntity* gameEntity, Engine_GameEntity configObject)
+void GameEntity_SetConfiguration(Engine_GameEntity* gameEntity, Engine_GameEntity configEntity)
 {
-    
+    *gameEntity = configEntity;
 };
 
 void GameEntity_SetPositionXY(Engine_GameEntity* gameEntity, float xPosition, float yPosition)
@@ -35,7 +35,7 @@ void GameEntity_SetPositionVector(Engine_GameEntity* gameEntity, Vector2 vector)
 
 void GameEntity_SetRotationRad(Engine_GameEntity* entityObject, float radians)
 {
-    entityObject->PhysicsBody.Transform2D.RotationMatrix = Matrix2x2_Rotation(radians);
+    Matrix2x2_SetMatrix2x2(&entityObject->PhysicsBody.Transform2D.RotationMatrix, Matrix2x2_Rotation(radians));
 };
 
 void GameEntity_SetRotationVector(Engine_GameEntity* entityObject, Vector2 vector)

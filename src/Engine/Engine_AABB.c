@@ -10,7 +10,7 @@ Engine_AABB AABB_Initialise()
 
 void AABB_SetDefault(Engine_AABB* aabb)
 {
-    *aabb = (Engine_AABB){(Vector2){50.0,50.0},(Vector2){-50.0,-50.0}};
+    *aabb = (Engine_AABB){(Vector2){0.0,0.0},(Vector2){0.0,0.0}};
 };
 
 void AABB_SetConfiguration(Engine_AABB* aabb, Engine_AABB configAABB)
@@ -20,11 +20,20 @@ void AABB_SetConfiguration(Engine_AABB* aabb, Engine_AABB configAABB)
 
 void AABB_SetMaxMin(Engine_AABB* aabb, Vector2 maxVector, Vector2 minVector)
 {
-    aabb->maxVector = maxVector; aabb->minVector = minVector;
+    /*
+    Vector2_SetVector(&aabb->maxVector,
+        Vector2_AddVector(aabb->maxVector, maxVector));
+    Vector2_SetVector(&aabb->minVector,
+        Vector2_AddVector(aabb->minVector, minVector));
+    */
+    aabb->maxVector = maxVector;
+    aabb->minVector = minVector;
+    
 };
 
-void AABB_SetTransform(Engine_AABB* aabb, Engine_Matrix3x2 bodyTransform)
+void AABB_SetTransform(union CollisionData* srcAABB, Engine_Matrix3x2 bodyTransform)
 {
+    //AABB_SetMaxMin(&srcAABB->AABB, bodyTransform.Position, bodyTransform.Position);
 
 };
 

@@ -14,6 +14,17 @@ Object
     Render{Width{100},Height{100}}
 }
 
+Force{10.0|-10.0}
 
 AABB{50.0|50.0|-50.0|-50.0}
+OBB{50.0|50.0}
 Circle{50.0}
+
+
+
+Need the collision shape offsets to be made into the structs, they cant be calc'd every time.
+
+OBB collision working
+Project refactor
+EFD rebuild, encoder, decoder
+Multi thread gamestate and renderstate

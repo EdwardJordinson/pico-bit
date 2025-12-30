@@ -77,6 +77,7 @@ typedef struct Engine_PhysicsBody
 
 Engine_PhysicsBody PhysicsBody_Initialise();
 
+void PhysicsBody_SetTransform(Engine_PhysicsBody* body, Engine_Matrix3x2 newTransform);
 void PhysicsBody_GetList(Engine_PhysicsBody* aabb, Engine_ObjectManager* entityManager);
 
 

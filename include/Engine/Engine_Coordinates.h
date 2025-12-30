@@ -68,6 +68,7 @@ typedef struct Engine_Matrix2x2
 
 
 Engine_Matrix2x2 Matrix2x2_Inititialise();
+void Matrix2x2_SetMatrix2x2(Engine_Matrix2x2 *srcMatrix, Engine_Matrix2x2 matrix);
 Engine_Matrix2x2 Matrix2x2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix1, Engine_Matrix2x2 matrix2);
 Engine_Matrix2x2 Matrix2x2_Rotation(float radians);
 Engine_Matrix2x2 Matrix2x2_Scale(float xScale, float yScale);
@@ -85,7 +86,10 @@ typedef struct Engine_Matrix3x2
 
 
 Engine_Matrix3x2 Matrix3x2_Inititialise();
-void Matrix3x2_SetTransform(Engine_Matrix3x2* matrix1, Engine_Matrix3x2 matrix2);
+void Matrix3x2_SetMatrix3x2(Engine_Matrix3x2* srcMatrix, Engine_Matrix3x2 matrix);
+void Matrix3x2_SetPosition(Engine_Matrix3x2* srcMatrix, Vector2 vector);
+void Matrix3x2_SetRotation(Engine_Matrix3x2* srcMatrix, float radians);
+void Matrix3x2_SetScale(Engine_Matrix3x2* srcMatrix, Vector2 scale);
 Engine_Matrix3x2 Matrix3x2_TransformVector(Engine_Matrix3x2 matrix1, Vector2 vectorPosition);
 Engine_Matrix3x2 Matrix3x2_TranslationMatrix(Engine_Matrix3x2 matrix1, Engine_Matrix3x2 matrix2);
 Engine_Matrix3x2 Matrix3x2_TranslationXY(float x, float y);

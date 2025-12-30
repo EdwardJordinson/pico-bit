@@ -14,3 +14,10 @@ Engine_PhysicsBody PhysicsBody_Initialise()
         Vector2_Initialise(),
         0.0f};
 };
+
+void PhysicsBody_SetTransform(Engine_PhysicsBody* body, Engine_Matrix3x2 newTransform)
+{
+    Vector2 newPos = Vector2_AddVector(body->Transform2D.Position, newTransform.Position);
+    Vector2_SetVector(&body->Transform2D.Position, newPos);
+    body->CollisionShape.SetTransform(&body->CollisionShape.Data, newTransform);
+};

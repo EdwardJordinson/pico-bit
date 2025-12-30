@@ -19,22 +19,29 @@ void Physics_Integration(Engine_PhysicsBody* physicsBody, float deltaTime)
 {
 	Engine_Matrix3x2 tempMatrix3x2 = Matrix3x2_Inititialise();
 
+	//Angular Velocity
+	physicsBody->AngularVelocity += physicsBody->Torque * (1.0f / physicsBody->MassData.Inertia) * deltaTime;
 	//Linear Velocity
 	Vector2_SetVector(&physicsBody->Velocity,
 		Vector2_AddVector(physicsBody->Velocity,
 			Vector2_MuliplyScalar(
 				Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass), deltaTime)));
-	//Angular Velocity
-	physicsBody->AngularVelocity += physicsBody->Torque * (1.0f / physicsBody->MassData.Inertia) * deltaTime;
 
+	//Orientation
+
+	//Matrix3x2_MultiplyMatrix3x2()
 	//Position
+	tempMatrix3x2.Position = Vector2_AddVector(physicsBody->Velocity,Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime));
+	PhysicsBody_SetTransform(physicsBody, tempMatrix3x2);
+	/*
 	Vector2_SetVector(&physicsBody->Transform2D.Position, 
 		Vector2_AddVector(physicsBody->Transform2D.Position, 
 			Vector2_AddVector(physicsBody->Velocity, 
 				Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime))));
-	//Orientation
+	*/
 	
-				
+	
+	
 	//Zero'ing forces
 	Vector2_SetVector(&physicsBody->Force, (Vector2){0.0,0.0});
 
@@ -57,6 +64,7 @@ void Physics_ApplyForce(Engine_PhysicsBody* physicsBody, Vector2 forceVector)
 void Physics_UpdateRigid(Engine_PhysicsBody* physicsBody, float deltaTime)
 {
 	Physics_Integration(physicsBody, deltaTime);
+
 
 };
 

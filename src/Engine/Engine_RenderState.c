@@ -64,12 +64,12 @@ void RenderState_DrawGame(Engine_RenderState* renderState, Engine_GameEntity* ga
     {
     case 0:
         Engine_AABB* tempAABB = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
-        Engine_AABB drawAABB = (Engine_AABB){Vector2_AddVector(tempAABB->maxVector, screenPos), Vector2_AddVector(tempAABB->minVector, screenPos)};
+        Engine_AABB drawAABB = (Engine_AABB){Vector2_AddVector(screenPos, tempAABB->maxVector), Vector2_AddVector(screenPos, tempAABB->minVector)};
         RenderState_DrawAABB(renderState->EngineWindow->SDLRenderer, drawAABB);
         break;
     case 1:
         Engine_OBB* tempOBB = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
-        RenderState_DrawOBB(renderState->EngineWindow->SDLRenderer, *tempOBB, screenPos);
+        RenderState_DrawOBB(renderState, *tempOBB, gameEntity->PhysicsBody.Transform2D);
         break;
     case 2:
         Engine_Circle* drawCircle = gameEntity->PhysicsBody.CollisionShape.GetData(&gameEntity->PhysicsBody.CollisionShape);
@@ -96,24 +96,42 @@ void RenderState_DrawLine(SDL_Renderer* renderer, Vector2 vector1, Vector2 vecto
 
 void RenderState_DrawAABB(SDL_Renderer* renderer, Engine_AABB drawBox)
 {
-    float width = AABB_GetWidth(&drawBox) + 1;
-    float height = AABB_GetHeight(&drawBox) + 1;
+    float width = AABB_GetWidth(&drawBox);
+    float height = AABB_GetHeight(&drawBox);
 
-    RenderState_DrawLine(renderer, drawBox.minVector, Vector2_AddXY(drawBox.minVector, width, 0.0f));
-    RenderState_DrawLine(renderer, Vector2_AddXY(drawBox.minVector, 0.0f, 1.0f), Vector2_AddXY(drawBox.minVector, 0.0f, height-1.0f));
-    RenderState_DrawLine(renderer, drawBox.maxVector, Vector2_SubtractXY(drawBox.maxVector, width, 0.0));
-    RenderState_DrawLine(renderer, Vector2_SubtractXY(drawBox.maxVector, 0.0f, 1.0f), Vector2_SubtractXY(drawBox.maxVector, 0.0f, height-1.0f));
+    RenderState_DrawLine(renderer, drawBox.minVector, (Vector2){drawBox.minVector.x + width, drawBox.minVector.y});
+    RenderState_DrawLine(renderer, drawBox.minVector, (Vector2){drawBox.minVector.x, drawBox.minVector.y + height});
+    RenderState_DrawLine(renderer, drawBox.maxVector, (Vector2){drawBox.maxVector.x - width, drawBox.maxVector.y});
+    RenderState_DrawLine(renderer, drawBox.maxVector, (Vector2){drawBox.maxVector.x, drawBox.maxVector.y - height});
 };
 
-void RenderState_DrawOBB(SDL_Renderer* renderer, Engine_OBB drawBox, Vector2 position)
+// Cant draw rotated squares
+void RenderState_DrawOBB(Engine_RenderState* renderState, Engine_OBB drawBox, Engine_Matrix3x2 transform)
 {
-    float width = drawBox.sizeVector.x + 1;
-    float height = drawBox.sizeVector.y + 1;
-    
-    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y - height}, (Vector2){position.x + width, position.y - height});
-    RenderState_DrawLine(renderer, (Vector2){position.x + width, position.y - height}, (Vector2){position.x + width, position.y + height});
-    RenderState_DrawLine(renderer, (Vector2){position.x + width, position.y + height}, (Vector2){position.x - width, position.y + height});
-    RenderState_DrawLine(renderer, (Vector2){position.x - width, position.y + height}, (Vector2){position.x - width, position.y - height});
+    Vector2 screenPos = RenderState_WorldToScreen(renderState->EngineWindow, transform.Position);
+
+    Vector2 localCorners[4] = {
+        { -drawBox.sizeVector.x, drawBox.sizeVector.y },
+        {  drawBox.sizeVector.x, drawBox.sizeVector.y },
+        {  drawBox.sizeVector.x,  -drawBox.sizeVector.y },
+        { -drawBox.sizeVector.x,  -drawBox.sizeVector.y }};
+
+    Vector2 worldCorners[4];
+    for (int i = 0; i < 4; i++)
+    {
+        worldCorners[i] = Vector2_MultiplyMatrix3x2(transform, localCorners[i]);
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        Vector2 nextPoint;
+        if (i != 3) {nextPoint = RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[i+1]);}
+        else{nextPoint = RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[0]);}
+        
+        RenderState_DrawLine(renderState->EngineWindow->SDLRenderer,
+            RenderState_WorldToScreen(renderState->EngineWindow, worldCorners[i]), 
+            nextPoint);
+    }
 };
 
 void RenderState_DrawCircle(SDL_Renderer* renderer, int radius, Vector2 position)

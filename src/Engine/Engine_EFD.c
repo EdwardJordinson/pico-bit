@@ -16,9 +16,6 @@
 //Needs its own code folder
 //Render objects need seperation from eachother, like with entities
 
-//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{AABB{50.0|50.0|-50.0|-50.0}},Restitution{1.0},Mass{1.0}}
-//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{0.0|0.0},RenderID{1},CollisionShape{OBB{50.0|50.0}},Restitution{1.0},Mass{1.0}}
-//Entity-Game{Position{0.0|0.0},Rotation{0.0},Force{10.0|-10.0},RenderID{1},CollisionShape{Circle{50.0}},Restitution{1.0},Mass{1.0}}
 
 void EFD_WriteFile(int argc, char** argv)
 {
@@ -185,13 +182,13 @@ void EFD_ParseGameEntity(Engine_GameEntity* gameEntity, char* text)
         }
         else if (strncmp(token, "CollisionShape", 14) == 0)
         {
-           EFD_ParseCollisionShape(&gameEntity->PhysicsBody.CollisionShape, token);
+           EFD_ParseCollisionShape(&gameEntity->PhysicsBody.CollisionShape, token, gameEntity->PhysicsBody.Transform2D);
         }
         token = strtok_r(NULL, ",", &savePointer);
     }     
 };
 
-void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text)
+void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text, Engine_Matrix3x2 transform)
 {
     char* savePointer;
     char lineCopy[1024];
@@ -204,23 +201,30 @@ void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text)
         if (strncmp(token + 14 + 1, "AABB", 4) == 0)
         {
             CollisionShape_SetShape(collisionShape, 0);
+            CollisionShape_SetDefault(collisionShape);
             Engine_AABB *newAABB = collisionShape->GetData(collisionShape);
             Vector2 maxVector = Vector2_Initialise();
             Vector2 minVector = Vector2_Initialise();
             sscanf(token + 14, "{AABB{%f|%f|%f|%f}}", &maxVector.x, &maxVector.y, &minVector.x, &minVector.y);
+            //AABB_SetMaxMin(newAABB, transform.Position, transform.Position); //This is awfull, not happy about this. 
             AABB_SetMaxMin(newAABB, maxVector, minVector);
         }
         else if (strncmp(token  + 14 + 1, "OBB", 3) == 0)
         {
             CollisionShape_SetShape(collisionShape, 1);
+            CollisionShape_SetDefault(collisionShape);
             Engine_OBB *newOBB = collisionShape->GetData(collisionShape);
-            float height = 0.0f; float width = 0.0f;
-            sscanf(token + 14, "{OBB{%f|%f}}", &height, &width);
-            OBB_SetWidthHeight(newOBB, height, width);
+            float height = 0.0f;
+            float width = 0.0f;
+            sscanf(token + 14, "{OBB{%f|%f}}", &width, &height);
+            //OBB_SetWidthHeight(newOBB, transform.Position.x, transform.Position.y);
+            //Vector2 tempRot = Vector2_MultiplyMatrix2x2(transform.RotationMatrix, (Vector2){width,height});
+            OBB_SetWidthHeight(newOBB, width, height);
         }
         else if (strncmp(token  + 14 + 1, "Circle", 6) == 0)
         {
             CollisionShape_SetShape(collisionShape, 2);
+            CollisionShape_SetDefault(collisionShape);
             Engine_Circle *newCircle = collisionShape->GetData(collisionShape);
             float tempRadius = 0.0f;
             sscanf(token + 14, "{Circle{%f}}", &tempRadius);

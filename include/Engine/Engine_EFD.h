@@ -13,6 +13,7 @@ typedef struct Engine_RenderObject Engine_RenderObject;
 typedef struct Engine_GameEntity Engine_GameEntity;
 typedef struct Engine_DisplayEntity Engine_DisplayEntity;
 typedef struct Engine_CollisionShape Engine_CollisionShape;
+typedef struct Engine_Matrix3x2 Engine_Matrix3x2;
 
 
 typedef struct EFD_Header
@@ -58,7 +59,7 @@ uint8_t* EFD_ReadDump(EFD_File* efdFile, EFD_Dump* dumpFile);
 void EFD_ParseData(Engine_Main* engine, char* text);
 void EFD_ParseEntity(Engine_ObjectManager* renderManager, char* text);
 void EFD_ParseGameEntity(Engine_GameEntity* gameObject, char* text);
-void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text);
+void EFD_ParseCollisionShape(Engine_CollisionShape* collisionShape, char* text, Engine_Matrix3x2 transform);
 void EFD_ParseDisplayEntity(Engine_DisplayEntity* gameObject, char* text);
 void EFD_ParseRender(Engine_ObjectManager* renderManager, char* text);
 void EFD_ParseRenderShape(Engine_RenderObject* shapeData, char* text);

@@ -75,6 +75,7 @@ Vector2 Vector2_MultiplyMatrix2x2(Engine_Matrix2x2 matrix, Vector2 vector)
     return (Vector2){matrix.X.x * vector.x + matrix.Y.x * vector.y, matrix.X.y * vector.x + matrix.Y.y * vector.y};
 };
 
+// Translate Around Point
 Vector2 Vector2_MultiplyMatrix3x2(Engine_Matrix3x2 matrix, Vector2 vector)
 {
     return (Vector2)Vector2_AddVector(Vector2_MultiplyMatrix2x2(matrix.RotationMatrix, vector), matrix.Position);
