@@ -23,9 +23,10 @@ void MainLoop_Run(Engine_MainLoop* engineLoop)
 
     const float targetFPS = 60.0f;
     const float delayTime = 1000.0f / targetFPS;
-    float accumulator, currentTime, lastTime, constantDelay;
-    constantDelay = 0.001;
-    lastTime = SDL_GetTicks();
+    float accumulator = 0.0f;;
+    float constantDelay = 0.001f;
+    float currentTime= SDL_GetTicks();
+    float lastTime = SDL_GetTicks();
     
     float frameTime = SDL_GetTicks();
     int frameCount = 0;

@@ -21,7 +21,7 @@ Vector2 HalfSpace_Project(HalfSpace halfspace, Vector2 position)
 
 Vector2 HalfSpace_Intersect(HalfSpace halfspace, Vector2 position, Vector2 qosition)
 {
-	float dq = distance(halfspace, position);
-	float dp = distance(halfspace, qosition);
+	float dq = HalfSpace_Distance(halfspace, position);
+	float dp = HalfSpace_Distance(halfspace, qosition);
 	return Vector2_AddVector(qosition, Vector2_MuliplyScalar(Vector2_SubtractVector(position, qosition), (dq / (dq - dp))));
 };

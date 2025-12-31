@@ -28,16 +28,18 @@ void Physics_Integration(Engine_PhysicsBody* physicsBody, float deltaTime)
 			Vector2_MuliplyScalar(physicsBody->Force, physicsBody->MassData.InverseMass), deltaTime));
 
 	//Orientation
-	tempMatrix3x2.RotationMatrix = Matrix2x2_MultiplyMatrix2x2(physicsBody->Transform2D.RotationMatrix, 
+	physicsBody->Transform2D.RotationMatrix = Matrix2x2_MultiplyMatrix2x2(physicsBody->Transform2D.RotationMatrix, 
 		Matrix2x2_Rotation(physicsBody->AngularVelocity * deltaTime));
-	physicsBody->Transform2D.RotationMatrix = tempMatrix3x2.RotationMatrix;
-	
+	// physicsBody->Force = Vector2_MuliplyScalar(forward, thrust);
+	// But if forward is derived from the rotation matrix, and you don’t normalize it, its length will drift over time.
+
 	//Position
-	tempMatrix3x2.Position = Vector2_AddVector(physicsBody->Transform2D.Position, 
+	physicsBody->Transform2D.Position = Vector2_AddVector(physicsBody->Transform2D.Position, 
 		Vector2_MuliplyScalar(physicsBody->Velocity, deltaTime));
-    Vector2_SetVector(&physicsBody->Transform2D.Position, tempMatrix3x2.Position);
 
 	// Set values to body
+	//physicsBody->Transform2D.RotationMatrix = tempMatrix3x2.RotationMatrix;
+	//physicsBody->Transform2D.Position = tempMatrix3x2.Position;
 	//PhysicsBody_SetTransform(physicsBody, tempMatrix3x2);
 	
 	//Zero'ing forces
